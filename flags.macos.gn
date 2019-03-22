@@ -1,0 +1,6 @@
+ffmpeg_branding="Chrome"
+is_clang=true
+proprietary_codecs=true
+use_gnome_keyring=false
+use_jumbo_build=true
+use_sysroot=false
