@@ -41,8 +41,7 @@ echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nf
 First, ensure the Xcode application is open. Then, run the following:
 
 ```sh
-# Run from inside the clone of the repository
-mkdir -p build/src/
+git clone --recurse-submodules https://github.com/ungoogled-software/ungoogled-chromium-macos.git
 ./build.sh
 ```
 
