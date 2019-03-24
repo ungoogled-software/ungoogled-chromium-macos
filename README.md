@@ -6,7 +6,7 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 
 [Download binaries from the Contributor Binaries website](//ungoogled-software.github.io/ungoogled-chromium-binaries/).
 
-**Source Code**: Use the tags. The branches are for development and may not be stable.
+**Source Code**: Use the tags via `git checkout` (see building instructions below). The branches are for development and may not be stable.
 
 ## Building
 
@@ -42,6 +42,8 @@ First, ensure the Xcode application is open. Then, run the following:
 
 ```sh
 git clone --recurse-submodules https://github.com/ungoogled-software/ungoogled-chromium-macos.git
+# Replace TAG_OR_BRANCH_HERE with a tag or branch name
+git checkout --recurse-submodules TAG_OR_BRANCH_HERE
 ./build.sh
 ```
 
