@@ -13,7 +13,7 @@ author: Michael Gilbert <mgilbert@debian.org>
      deps += [ "//third_party/swiftshader" ]
    }
 --- a/ui/gl/features.gni
-+++ b/bui/gl/features.gni
++++ b/ui/gl/features.gni
 @@ -9,5 +9,5 @@
 
    # Should EGL support be compiled. Can be overriden to test during bring up
