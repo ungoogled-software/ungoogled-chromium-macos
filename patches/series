@@ -4,11 +4,9 @@ debian_buster/arm/crashpad.patch
 debian_buster/arm/gcc_skcms_ice.patch
 debian_buster/arm/skia-aarch64-buildfix.patch
 debian_buster/fixes/mojo.patch
-debian_buster/fixes/include.patch
 debian_buster/fixes/alignof.patch
 debian_buster/fixes/as-needed.patch
 debian_buster/fixes/namespace.patch
-debian_buster/fixes/gpu-timeout.patch
 debian_buster/fixes/empty-array.patch
 debian_buster/fixes/widevine-locations.patch
 debian_buster/disable/installer.patch

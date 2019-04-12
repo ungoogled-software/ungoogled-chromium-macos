@@ -10,11 +10,11 @@ author: Michael Gilbert <mgilbert@debian.org>
 -  l->append(base::StringPrintf("(%d, %d)", p.usage, p.format));
 +  l->append(base::StringPrintf("(%d, %d)", (int)p.usage, (int)p.format));
  }
- 
+
  }  // namespace IPC
 --- a/content/browser/web_package/signed_exchange_handler.cc
 +++ b/content/browser/web_package/signed_exchange_handler.cc
-@@ -541,7 +541,7 @@ void SignedExchangeHandler::OnVerifyCert
+@@ -585,7 +585,7 @@
        error_message = base::StringPrintf(
            "CT verification failed. result: %s, policy compliance: %d",
            net::ErrorToShortString(error_code).c_str(),
