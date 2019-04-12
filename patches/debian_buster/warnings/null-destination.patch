@@ -3,8 +3,8 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/base/strings/stringprintf.cc
 +++ b/base/strings/stringprintf.cc
-@@ -59,14 +59,14 @@ static void StringAppendVT(StringType* d
-   int result = vsnprintfT(stack_buf, arraysize(stack_buf), format, ap_copy);
+@@ -59,14 +59,14 @@
+   int result = vsnprintfT(stack_buf, base::size(stack_buf), format, ap_copy);
    va_end(ap_copy);
 
 -  if (result >= 0 && result < static_cast<int>(base::size(stack_buf))) {

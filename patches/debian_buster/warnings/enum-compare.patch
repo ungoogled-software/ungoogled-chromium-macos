@@ -3,10 +3,10 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/chrome/browser/ui/views/passwords/password_generation_popup_view_views.cc
 +++ b/chrome/browser/ui/views/passwords/password_generation_popup_view_views.cc
-@@ -51,11 +51,11 @@ class PasswordGenerationPopupViewViews::
+@@ -50,11 +50,11 @@ class PasswordGenerationPopupViewViews::
      BuildColumnSet(layout);
      layout->StartRow(views::GridLayout::kFixedSize, 0);
- 
+
 +    int text_style = STYLE_SECONDARY;
 +    if (state == PasswordGenerationPopupController::kOfferGeneration)
 +      text_style = views::style::STYLE_PRIMARY;
@@ -16,14 +16,14 @@ author: Michael Gilbert <mgilbert@debian.org>
 -            ? views::style::STYLE_PRIMARY
 -            : STYLE_SECONDARY));
 +        suggestion, ChromeTextContext::CONTEXT_BODY_TEXT_LARGE, text_style));
- 
+
      DCHECK(!password_label_);
      password_label_ = autofill::CreateLabelWithColorReadabilityDisabled(
 --- a/components/viz/common/gl_helper.cc
 +++ b/components/viz/common/gl_helper.cc
 @@ -476,7 +476,7 @@ void GLHelper::CopyTextureToImpl::Cancel
  }
- 
+
  bool GLHelper::CopyTextureToImpl::IsBGRAReadbackSupported() {
 -  if (bgra_support_ == BGRA_PREFERENCE_UNKNOWN) {
 +  if (bgra_support_ == BGRA_SUPPORT_UNKNOWN) {
