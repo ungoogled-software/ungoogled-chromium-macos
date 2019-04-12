@@ -28,7 +28,7 @@
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
      "//chrome/common",
---- achrome/browser/ui/BUILD.gn
+--- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
 @@ -376,7 +376,6 @@
      "//chrome/browser/engagement:mojo_bindings",
