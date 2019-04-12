@@ -56,7 +56,30 @@ A `.dmg` should appear in `build/`
 
 ## Developer info
 
-TODO
+### Updating patches
+
+```sh
+./devutils/update_patches.sh merge
+source devutils/set_quilt_vars.sh
+
+# Setup Chromium source
+mkdir -p build/{src,download_cache}
+./ungoogled-chromium/utils/downloads.py retrieve -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache
+./ungoogled-chromium/utils/downloads.py unpack -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache build/src
+
+cd build/src
+# Use quilt to refresh patches. See ungoogled-chromium's docs/developing.md section "Updating patches" for more details
+quilt pop -a
+
+# Remove all patches introduced by ungoogled-chromium
+./devutils/update_patches.sh unmerge
+# Ensure patches/series is formatted correctly, e.g. blank lines
+
+# Sanity checking for consistency in series file
+./devutils/check_patch_files.sh
+
+# Use git to add changes and commit
+```
 
 ## License
 
