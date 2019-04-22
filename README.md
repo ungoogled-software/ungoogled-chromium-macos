@@ -42,6 +42,7 @@ First, ensure the Xcode application is open. Then, run the following:
 
 ```sh
 git clone --recurse-submodules https://github.com/ungoogled-software/ungoogled-chromium-macos.git
+cd ungoogled-chromium-macos
 # Replace TAG_OR_BRANCH_HERE with a tag or branch name
 git checkout --recurse-submodules TAG_OR_BRANCH_HERE
 ./build.sh
