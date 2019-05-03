@@ -73,11 +73,11 @@ cd build/src
 quilt pop -a
 
 # Remove all patches introduced by ungoogled-chromium
-./devutils/update_patches.sh unmerge
+../../devutils/update_patches.sh unmerge
 # Ensure patches/series is formatted correctly, e.g. blank lines
 
 # Sanity checking for consistency in series file
-./devutils/check_patch_files.sh
+../../devutils/check_patch_files.sh
 
 # Use git to add changes and commit
 ```
