@@ -20,4 +20,4 @@ author: Michael Gilbert <mgilbert@debian.org>
    # of EGL support on other platforms
 -  use_egl = is_win || is_android || is_linux || is_fuchsia || is_mac
 +  use_egl = is_win || is_android || is_linux || is_fuchsia
- }
+

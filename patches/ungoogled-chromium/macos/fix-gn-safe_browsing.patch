@@ -10,11 +10,12 @@
    ]
 
    public_deps = [
-@@ -1750,7 +1749,6 @@
+@@ -1750,8 +1749,7 @@
      "//chrome/browser/profiling_host",
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
 -    "//chrome/browser/safe_browsing",
+     "//chrome/browser/security_events",
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
