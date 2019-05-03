@@ -1,0 +1,23 @@
+--- a/tools/mac/dump-static-initializers.py
++++ b/tools/mac/dump-static-initializers.py	
+@@ -39,7 +39,7 @@
+   static initializers.
+   """
+ 
+-  child = subprocess.Popen(['tools/clang/dsymutil/bin/dsymutil', '-s', binary],
++  child = subprocess.Popen(['dsymutil', '-s', binary],
+      stdout=subprocess.PIPE)
+   for line in child.stdout:
+     file_match = dsymutil_file_re.search(line)
+--- a/build/toolchain/mac/BUILD.gn
++++ b/build/toolchain/mac/BUILD.gn
+@@ -188,8 +188,7 @@
+       dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
+       if (is_mac) {
+         dsym_switch += "-Wcrl,dsymutilpath," +
+-                          rebase_path("//tools/clang/dsymutil/bin/dsymutil",
+-                                      root_build_dir) + " "
++                          "dsymutil"
+       }
+ 
+       dsym_output_dir =
