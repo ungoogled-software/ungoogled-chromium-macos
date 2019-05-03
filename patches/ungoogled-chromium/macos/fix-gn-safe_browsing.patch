@@ -71,3 +71,92 @@
  }
 
  }  // namespace settings
+--- a/chrome/browser/extensions/BUILD.gn
++++ b/chrome/browser/extensions/BUILD.gn
+@@ -752,9 +752,6 @@
+   allow_circular_includes_from = [
+     # TODO(loyso): Remove this circular dependency. http://crbug.com/876576.
+     "//chrome/browser/web_applications/extensions",
+-
+-    # TODO(crbug/925153): Remove this circular dependency.
+-    "//chrome/browser/safe_browsing",
+   ]
+ 
+   # Since browser and browser_extensions actually depend on each other,
+@@ -765,8 +762,6 @@
+   public_deps = [
+     "//chrome/browser/extensions/api:api_registration",
+     "//chrome/common/extensions/api",
+-    "//components/safe_browsing:csd_proto",
+-    "//components/safe_browsing/db:util",
+     "//content/public/browser",
+   ]
+   deps = [
+@@ -789,7 +784,6 @@
+     "//chrome/browser/web_applications/extensions",
+     "//chrome/common",
+     "//chrome/common/extensions/api:extensions_features",
+-    "//chrome/common/safe_browsing:proto",
+     "//chrome/services/removable_storage_writer/public/mojom",
+     "//components/app_modal",
+     "//components/autofill/content/browser",
+@@ -828,10 +822,6 @@
+     "//components/proxy_config",
+     "//components/rappor",
+     "//components/resources",
+-    "//components/safe_browsing:csd_proto",
+-    "//components/safe_browsing:features",
+-    "//components/safe_browsing/common:safe_browsing_prefs",
+-    "//components/safe_browsing/db:database_manager",
+     "//components/search_engines",
+     "//components/services/unzip/public/cpp",
+     "//components/sessions",
+--- a/chrome/browser/ui/BUILD.gn
++++ b/chrome/browser/ui/BUILD.gn
+@@ -333,15 +333,9 @@
+     "webui/webui_util.h",
+   ]
+ 
+-  if (safe_browsing_mode == 1) {
+-    sources += [
+-      "webui/reset_password/reset_password_ui.cc",
+-      "webui/reset_password/reset_password_ui.h",
+-    ]
+-  }
+ 
+   # TODO(crbug/925153): Remove this circular dependency.
+-  allow_circular_includes_from = [ "//chrome/browser/safe_browsing" ]
++  allow_circular_includes_from = []
+   defines = []
+   libs = []
+ 
+@@ -454,13 +448,6 @@
+     "//components/rappor",
+     "//components/renderer_context_menu",
+     "//components/resources",
+-    "//components/safe_browsing:features",
+-    "//components/safe_browsing/common:common",
+-    "//components/safe_browsing/common:safe_browsing_prefs",
+-    "//components/safe_browsing/db:database_manager",
+-    "//components/safe_browsing/db:util",
+-    "//components/safe_browsing/password_protection",
+-    "//components/safe_browsing/web_ui",
+     "//components/search",
+     "//components/search_engines",
+     "//components/security_interstitials/content:security_interstitial_page",
+@@ -3587,15 +3574,6 @@
+     }
+   }
+ 
+-  if (safe_browsing_mode == 1) {
+-    deps += [
+-      "//chrome/browser/ui/webui/reset_password:mojo_bindings",
+-      "//chrome/common/safe_browsing:proto",
+-      "//components/safe_browsing:csd_proto",
+-      "//components/safe_browsing/password_protection:password_protection_metrics_util",
+-    ]
+-  }
+-
+   if (use_dbus) {
+     deps += [ "//dbus" ]
+   }  
