@@ -122,7 +122,7 @@
    defines = []
    libs = []
  
-@@ -454,13 +448,6 @@
+@@ -454,13 +448,7 @@
      "//components/rappor",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -132,7 +132,7 @@
 -    "//components/safe_browsing/db:database_manager",
 -    "//components/safe_browsing/db:util",
 -    "//components/safe_browsing/password_protection",
--    "//components/safe_browsing/web_ui",
+     "//components/safe_browsing/web_ui",
      "//components/search",
      "//components/search_engines",
      "//components/security_interstitials/content:security_interstitial_page",
@@ -152,3 +152,24 @@
    if (use_dbus) {
      deps += [ "//dbus" ]
    }  
+--- a/chrome/browser/ui/views/frame/browser_view.cc
++++ b/chrome/browser/ui/views/frame/browser_view.cc
+@@ -2236,7 +2236,7 @@
+ void BrowserView::OnWindowEndUserBoundsChange() {
+   if (!interactive_resize_)
+     return;
+-  safe_browsing::LogContentsSize(GetContentsSize());
++//  safe_browsing::LogContentsSize(GetContentsSize());
+   auto now = base::TimeTicks::Now();
+   DCHECK(!interactive_resize_->begin_timestamp.is_null());
+   UMA_HISTOGRAM_TIMES("BrowserWindow.Resize.Duration",
+--- a/chrome/browser/ui/views/frame/browser_window_factory.cc
++++ b/chrome/browser/ui/views/frame/browser_window_factory.cc
+@@ -33,6 +33,6 @@
+   view->GetWidget()->GetNativeWindow()->SetProperty(
+       aura::client::kCreatedByUserGesture, user_gesture);
+ #endif
+-  safe_browsing::LogContentsSize(view->GetContentsSize());
++  //safe_browsing::LogContentsSize(view->GetContentsSize());
+   return view;
+ }

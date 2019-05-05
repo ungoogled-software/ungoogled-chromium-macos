@@ -5,7 +5,7 @@
    """
  
 -  child = subprocess.Popen(['tools/clang/dsymutil/bin/dsymutil', '-s', binary],
-+  child = subprocess.Popen(['dsymutil', '-s', binary],
++  child = subprocess.Popen(['/usr/bin/dsymutil', '-s', binary],
       stdout=subprocess.PIPE)
    for line in child.stdout:
      file_match = dsymutil_file_re.search(line)
@@ -17,7 +17,7 @@
          dsym_switch += "-Wcrl,dsymutilpath," +
 -                          rebase_path("//tools/clang/dsymutil/bin/dsymutil",
 -                                      root_build_dir) + " "
-+                          "dsymutil"
++                          "/usr/bin/dsymutil "
        }
  
        dsym_output_dir =
