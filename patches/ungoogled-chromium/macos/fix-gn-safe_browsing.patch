@@ -92,14 +92,6 @@
      "//content/public/browser",
    ]
    deps = [
-@@ -789,7 +784,6 @@
-     "//chrome/browser/web_applications/extensions",
-     "//chrome/common",
-     "//chrome/common/extensions/api:extensions_features",
--    "//chrome/common/safe_browsing:proto",
-     "//chrome/services/removable_storage_writer/public/mojom",
-     "//components/app_modal",
-     "//components/autofill/content/browser",
 @@ -828,10 +822,6 @@
      "//components/proxy_config",
      "//components/rappor",
