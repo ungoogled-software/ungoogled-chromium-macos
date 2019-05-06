@@ -69,8 +69,11 @@ mkdir -p build/{src,download_cache}
 ./ungoogled-chromium/utils/downloads.py unpack -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache build/src
 
 cd build/src
-# Use quilt to refresh patches. See ungoogled-chromium's docs/developing.md section "Updating patches" for more details
+# Use quilt to refresh patches. See ungoogled-chromium's docs/developing.md section "Updating patches" for more details, up until "quilt pop -a"
 quilt pop -a
+cd ..
+# Validate that patches are applied correctly
+./ungoogled-chromium/devutils/validate_patches.py -l build/src -p patches -s patches/series
 
 # Remove all patches introduced by ungoogled-chromium
 ./devutils/update_patches.sh unmerge
