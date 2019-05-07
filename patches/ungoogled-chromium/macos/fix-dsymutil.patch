@@ -1,6 +1,6 @@
 --- a/tools/mac/dump-static-initializers.py
-+++ b/tools/mac/dump-static-initializers.py	
-@@ -39,7 +39,7 @@
++++ b/tools/mac/dump-static-initializers.py
+@@ -39,7 +39,7 @@ def ParseDsymutil(binary):
    static initializers.
    """
  
@@ -11,7 +11,7 @@
      file_match = dsymutil_file_re.search(line)
 --- a/build/toolchain/mac/BUILD.gn
 +++ b/build/toolchain/mac/BUILD.gn
-@@ -188,8 +188,7 @@
+@@ -188,8 +188,7 @@ template("mac_toolchain") {
        dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
        if (is_mac) {
          dsym_switch += "-Wcrl,dsymutilpath," +

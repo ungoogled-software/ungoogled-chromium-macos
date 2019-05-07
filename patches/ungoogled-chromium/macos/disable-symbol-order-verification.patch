@@ -2,10 +2,10 @@
 
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
-@@ -1289,7 +1289,7 @@ if (is_win) {
+@@ -1288,7 +1288,7 @@ if (is_win) {
    assert(_framework_binary_path != "",
           "Ignore configuration-dependent unused variable warning")
-
+ 
 -  if (!is_asan && !is_component_build) {
 +  if (false) {
      action("verify_chrome_framework_order") {

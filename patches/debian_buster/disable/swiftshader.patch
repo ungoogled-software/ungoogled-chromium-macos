@@ -3,10 +3,10 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -446,7 +446,7 @@ group("gn_all") {
+@@ -451,7 +451,7 @@ group("gn_all") {
      ]
    }
-
+ 
 -  if ((is_win || is_mac || is_linux || is_chromeos || is_fuchsia) &&
 +  if (false &&
        (target_cpu == "x86" || target_cpu == "x64")) {
@@ -14,10 +14,12 @@ author: Michael Gilbert <mgilbert@debian.org>
    }
 --- a/ui/gl/features.gni
 +++ b/ui/gl/features.gni
-@@ -9,5 +9,5 @@
-
+@@ -9,7 +9,7 @@ declare_args() {
+ 
    # Should EGL support be compiled. Can be overriden to test during bring up
    # of EGL support on other platforms
 -  use_egl = is_win || is_android || is_linux || is_fuchsia || is_mac
 +  use_egl = is_win || is_android || is_linux || is_fuchsia
-
+ 
+   # Should Dawn support be compiled to back the WebGPU implementation.
+   # Also controls linking Dawn depdencies in such as shaderc, SPIRV-Tools and

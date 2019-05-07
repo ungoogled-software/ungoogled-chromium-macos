@@ -3,16 +3,11 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/device/fido/hid/fido_hid_device.cc
 +++ b/device/fido/hid/fido_hid_device.cc
-@@ -49,11 +49,11 @@
-  // If device has not been connected or is already in error state, do nothing.
-  if (state_ != State::kBusy && state_ != State::kReady)
-    return;
-
-  state_ = State::kReady;
+@@ -51,7 +51,6 @@ void FidoHidDevice::Cancel() {
+     return;
+ 
+   state_ = State::kReady;
 -  pending_transactions_ = {};
-+  pending_transactions_ = base::queue<std::pair<std::vector<uint8_t>, DeviceCallback>>();
-  timeout_callback_.Cancel();
-
-  WriteMessage(
-      FidoHidMessage::Create(channel_id_,
-                             supported_protocol() == ProtocolVersion::kCtap
+   timeout_callback_.Cancel();
+ 
+   WriteMessage(
