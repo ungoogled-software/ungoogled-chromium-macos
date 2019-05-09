@@ -22,3 +22,4 @@ ungoogled-chromium/macos/fix-mapped_file.patch
 ungoogled-chromium/macos/fix-visibility.patch
 ungoogled-chromium/macos/fix-older-sdk-declarations.patch
 ungoogled-chromium/macos/fix-ignored-pragma-optimize.patch
+ungoogled-chromium/macos/fix-dsymutil.patch
