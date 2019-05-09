@@ -29,7 +29,8 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 6. Install Python's pyenv to manage python version: `brew install pyenv`
 7. Install Python 2.7.13: `pyenv install 2.7.13`
 **Note**: in some cases you might get `Build failed: "ERROR: The Python zlib extension was not compiled. Missing the zlib?"` during Python 2.7.13 installation, this can be fixed by running `CPPFLAGS="-I$(brew --prefix zlib)/include" pyenv install 2.7.13`. 
-8. Setup `pyenv`:
+8. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
+9. Setup `pyenv`:
 ```sh
 echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
 ```
@@ -97,7 +98,6 @@ cd ../..
 10. Sanity checking for consistency in series file: `./devutils/check_patch_files.sh`
 
 11. Use git to add changes and commit
-```
 
 ## License
 
