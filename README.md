@@ -60,31 +60,44 @@ A `.dmg` should appear in `build/`
 
 ### Updating patches
 
+1. Start the process and set the environment variables
 ```sh
 ./devutils/update_patches.sh merge
 source devutils/set_quilt_vars.sh
+```
 
-# Setup Chromium source
+2. Setup Chromium source
+```sh
 mkdir -p build/{src,download_cache}
 ./ungoogled-chromium/utils/downloads.py retrieve -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache
 ./ungoogled-chromium/utils/downloads.py unpack -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache build/src
-
 cd build/src
-# Use quilt to refresh patches. See ungoogled-chromium's docs/developing.md section "Updating patches" for more details, up until "quilt pop -a"
-quilt pop -a
-cd ..
-# Validate that patches are applied correctly
-./ungoogled-chromium/devutils/validate_patches.py -l build/src -p patches -s patches/series
-
-# Remove all patches introduced by ungoogled-chromium
-../../devutils/update_patches.sh unmerge
-# Ensure patches/series is formatted correctly, e.g. blank lines
-
-# Sanity checking for consistency in series file
-../../devutils/check_patch_files.sh
-
-# Use git to add changes and commit
 ```
+
+3. Use `quilt` to refresh all patches: `while quilt push; do quilt refresh; done`
+	* If an error occurs, go to the next step. Otherwise, skip to Step 5.
+4. Use `quilt` to fix the broken patch:
+    1. Run `quilt push -f`
+    2. Edit the broken files as necessary by adding (`quilt edit ...` or `quilt add ...`) or removing (`quilt remove ...`) files as necessary
+        * When removing large chunks of code, remove each line instead of using language features to hide or remove the code. This makes the patches less susceptible to breakages when using quilt's refresh command (e.g. quilt refresh updates the line numbers based on the patch context, so it's possible for new but desirable code in the middle of the block comment to be excluded.). It also helps with readability when someone wants to see the changes made based on the patch alone.
+    3. Refresh the patch: `quilt refresh`
+    4. Go back to Step 3.
+5. Run `../../ungoogled-chromium/devutils/validate_config.py`
+6. Run `quilt pop -a`
+
+7. Validate that patches are applied correctly
+```sh
+cd ../..
+./ungoogled-chromium/devutils/validate_patches.py -l build/src -s patches/series.merged
+```
+
+8. Remove all patches introduced by ungoogled-chromium: `./devutils/update_patches.sh unmerge`
+
+9. Ensure patches/series is formatted correctly, e.g. blank lines
+
+10. Sanity checking for consistency in series file: `./devutils/check_patch_files.sh`
+
+11. Use git to add changes and commit
 
 ## License
 
