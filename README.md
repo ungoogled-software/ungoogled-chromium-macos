@@ -88,7 +88,7 @@ cd build/src
 7. Validate that patches are applied correctly
 ```sh
 cd ../..
-./ungoogled-chromium/devutils/validate_patches.py -l build/src
+./ungoogled-chromium/devutils/validate_patches.py -l build/src -s patches/series.merged
 ```
 
 8. Remove all patches introduced by ungoogled-chromium: `./devutils/update_patches.sh unmerge`
