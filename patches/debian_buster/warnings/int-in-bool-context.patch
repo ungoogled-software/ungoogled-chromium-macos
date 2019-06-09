@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
          filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -15979,7 +15979,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16024,7 +16024,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
@@ -26,7 +26,7 @@ author: Michael Gilbert <mgilbert@debian.org>
    if (!result) {
 --- a/components/download/internal/common/download_item_impl.cc
 +++ b/components/download/internal/common/download_item_impl.cc
-@@ -818,7 +818,7 @@ const base::FilePath& DownloadItemImpl::
+@@ -856,7 +856,7 @@ const base::FilePath& DownloadItemImpl::
  }
  
  base::FilePath DownloadItemImpl::GetTemporaryFilePath() const {
@@ -37,7 +37,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -316,15 +316,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -317,15 +317,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  

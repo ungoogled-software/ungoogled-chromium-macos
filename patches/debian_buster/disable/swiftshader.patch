@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -451,7 +451,7 @@ group("gn_all") {
+@@ -449,7 +449,7 @@ group("gn_all") {
      ]
    }
  
@@ -22,4 +22,4 @@ author: Michael Gilbert <mgilbert@debian.org>
 +  use_egl = is_win || is_android || is_linux || is_fuchsia
  
    # Should Dawn support be compiled to back the WebGPU implementation.
-   # Also controls linking Dawn depdencies in such as shaderc, SPIRV-Tools and
+   # Also controls linking Dawn depedencies in such as SPIRV-Tools and
