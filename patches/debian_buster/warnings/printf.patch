@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }  // namespace IPC
 --- a/content/browser/web_package/signed_exchange_handler.cc
 +++ b/content/browser/web_package/signed_exchange_handler.cc
-@@ -601,7 +601,7 @@ void SignedExchangeHandler::OnVerifyCert
+@@ -645,7 +645,7 @@ void SignedExchangeHandler::OnVerifyCert
        error_message = base::StringPrintf(
            "CT verification failed. result: %s, policy compliance: %d",
            net::ErrorToShortString(error_code).c_str(),
@@ -25,7 +25,7 @@ author: Michael Gilbert <mgilbert@debian.org>
        error_message =
 --- a/third_party/blink/renderer/modules/cache_storage/inspector_cache_storage_agent.cc
 +++ b/third_party/blink/renderer/modules/cache_storage/inspector_cache_storage_agent.cc
-@@ -432,7 +432,7 @@ class CachedResponseFileReaderLoaderClie
+@@ -446,7 +446,7 @@ class CachedResponseFileReaderLoaderClie
  
    void DidFail(FileErrorCode error) override {
      callback_->sendFailure(ProtocolResponse::Error(String::Format(

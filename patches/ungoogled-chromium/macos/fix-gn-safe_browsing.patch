@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1791,7 +1791,6 @@ jumbo_split_static_library("browser") {
+@@ -1789,7 +1789,6 @@ jumbo_split_static_library("browser") {
    allow_circular_includes_from = [
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
@@ -11,17 +11,17 @@
  
    public_deps = [
 @@ -1829,7 +1828,6 @@ jumbo_split_static_library("browser") {
-     "//chrome/browser/profiling_host",
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
+     "//chrome/browser/resource_coordinator:tab_manager_features",
 -    "//chrome/browser/safe_browsing",
-     "//chrome/browser/security_events",
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui",
+     "//chrome/browser/ui/webui/bluetooth_internals",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -752,9 +752,6 @@ jumbo_static_library("extensions") {
-   allow_circular_includes_from = [
+@@ -759,9 +759,6 @@ jumbo_static_library("extensions") {
+ 
      # TODO(loyso): Remove this circular dependency. http://crbug.com/876576.
      "//chrome/browser/web_applications/extensions",
 -
@@ -30,7 +30,7 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -765,8 +762,6 @@ jumbo_static_library("extensions") {
+@@ -772,8 +769,6 @@ jumbo_static_library("extensions") {
    public_deps = [
      "//chrome/browser/extensions/api:api_registration",
      "//chrome/common/extensions/api",
@@ -39,7 +39,7 @@
      "//content/public/browser",
    ]
    deps = [
-@@ -785,7 +780,6 @@ jumbo_static_library("extensions") {
+@@ -792,7 +787,6 @@ jumbo_static_library("extensions") {
      "//chrome/browser/media/router",
      "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -47,7 +47,7 @@
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
      "//chrome/common",
-@@ -829,10 +823,6 @@ jumbo_static_library("extensions") {
+@@ -836,10 +830,6 @@ jumbo_static_library("extensions") {
      "//components/proxy_config",
      "//components/rappor",
      "//components/resources",
@@ -60,7 +60,7 @@
      "//components/sessions",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -333,15 +333,9 @@ jumbo_split_static_library("ui") {
+@@ -334,15 +334,9 @@ jumbo_split_static_library("ui") {
      "webui/webui_util.h",
    ]
  
@@ -77,7 +77,7 @@
    defines = []
    libs = []
  
-@@ -380,7 +374,6 @@ jumbo_split_static_library("ui") {
+@@ -382,7 +376,6 @@ jumbo_split_static_library("ui") {
      "//chrome/browser/engagement:mojo_bindings",
      "//chrome/browser/media:mojo_bindings",
      "//chrome/browser/profiling_host",
@@ -85,7 +85,7 @@
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -455,12 +448,6 @@ jumbo_split_static_library("ui") {
+@@ -458,12 +451,6 @@ jumbo_split_static_library("ui") {
      "//components/rappor",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -98,7 +98,7 @@
      "//components/safe_browsing/web_ui",
      "//components/search",
      "//components/search_engines",
-@@ -3588,15 +3575,6 @@ jumbo_split_static_library("ui") {
+@@ -3662,15 +3649,6 @@ jumbo_split_static_library("ui") {
      }
    }
  
@@ -148,7 +148,7 @@
  }  // namespace settings
 --- a/chrome/browser/ui/views/frame/browser_view.cc
 +++ b/chrome/browser/ui/views/frame/browser_view.cc
-@@ -2236,7 +2236,7 @@ void BrowserView::OnWindowBeginUserBound
+@@ -2222,7 +2222,7 @@ void BrowserView::OnWindowBeginUserBound
  void BrowserView::OnWindowEndUserBoundsChange() {
    if (!interactive_resize_)
      return;

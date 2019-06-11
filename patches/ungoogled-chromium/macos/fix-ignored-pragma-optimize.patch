@@ -2,7 +2,7 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1508,13 +1508,6 @@ config("default_warnings") {
+@@ -1491,13 +1491,6 @@ config("default_warnings") {
        }
  
        if (current_toolchain == host_toolchain || !use_xcode_clang) {

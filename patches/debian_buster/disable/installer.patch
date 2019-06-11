@@ -10,5 +10,5 @@ author: Michael Gilbert <mgilbert@debian.org>
 -    "//chrome/installer",
 -    "//chrome/updater",
      "//net:net_unittests",
-     "//skia:skia_unittests",
-     "//sql:sql_unittests",
+     "//services:services_unittests",
+     "//services/service_manager/public/cpp",
