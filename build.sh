@@ -35,3 +35,9 @@ chrome/installer/mac/pkg-dmg \
   --target "$_root_dir/build/ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg" \
   --volname Chromium --symlink /Applications:/Applications \
   --format UDBZ --verbosity 2
+
+# Fix issue where macOS requests permission for incoming network connections
+# See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/17
+xattr -cr out/Default/Chromium.app
+# Using ad-hoc signing
+codesign --force- --deep --sign - out/Default/Chromium.app
