@@ -40,4 +40,4 @@ chrome/installer/mac/pkg-dmg \
 # See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/17
 xattr -csr out/Default/Chromium.app
 # Using ad-hoc signing
-codesign --force- --deep --sign - out/Default/Chromium.app
+codesign --force --deep --sign - out/Default/Chromium.app
