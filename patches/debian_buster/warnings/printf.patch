@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }  // namespace IPC
 --- a/content/browser/web_package/signed_exchange_handler.cc
 +++ b/content/browser/web_package/signed_exchange_handler.cc
-@@ -645,7 +645,7 @@ void SignedExchangeHandler::OnVerifyCert
+@@ -649,7 +649,7 @@ void SignedExchangeHandler::OnVerifyCert
        error_message = base::StringPrintf(
            "CT verification failed. result: %s, policy compliance: %d",
            net::ErrorToShortString(error_code).c_str(),
@@ -36,7 +36,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  
 --- a/net/proxy_resolution/proxy_resolver_v8_tracing.cc
 +++ b/net/proxy_resolution/proxy_resolver_v8_tracing.cc
-@@ -829,7 +829,7 @@ void Job::SaveDnsToLocalCache(const std:
+@@ -836,7 +836,7 @@ void Job::SaveDnsToLocalCache(const std:
  
  std::string Job::MakeDnsCacheKey(const std::string& host,
                                   ProxyResolveDnsOperation op) {
