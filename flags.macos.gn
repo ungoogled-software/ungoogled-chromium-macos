@@ -1,6 +1,13 @@
+blink_symbol_level=0
+enable_ac3_eac3_audio_demuxing=true
+enable_iterator_debugging=false
+fatal_linker_warnings=false
 ffmpeg_branding="Chrome"
 is_clang=true
+is_debug=false
+is_official_build=true
 proprietary_codecs=true
+symbol_level=0
 use_gnome_keyring=false
 use_jumbo_build=true
 use_sysroot=false
