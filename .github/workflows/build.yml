@@ -1,0 +1,38 @@
+name: Ungoogled-chromium
+on: [push, pull_request]
+
+jobs:
+  build:
+    name: Build Chromium
+    runs-on: macos-latest
+
+    steps:
+      - uses: actions/checkout@v1
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Install dependencies
+        run: |
+          brew install ninja coreutils readline xz zlib python pyenv
+          pyenv install 2.7.13
+          echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
+      - name: Build
+        run: |
+          ./build.sh
+      - name: Move artifact
+        run: |
+          cd build
+          mkdir artifact
+          mv *chromium*.dmg artifact/
+
+          cd artifact
+          SUMS=checksums.txt
+          openssl md5 *chromium*.dmg > $SUMS
+          openssl sha1 *chromium*.dmg >> $SUMS
+          openssl sha256 *chromium*.dmg >> $SUMS
+          cat $SUMS
+      - uses: actions/upload-artifact@master
+        name: Upload artifact
+        with:
+          name: Ungoogled-chromium
+          path: build/artifact/
