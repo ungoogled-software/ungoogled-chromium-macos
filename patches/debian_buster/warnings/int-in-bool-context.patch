@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
          filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16038,7 +16038,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16021,7 +16021,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
@@ -37,7 +37,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -311,15 +311,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -308,15 +308,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  
