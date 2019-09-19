@@ -6,7 +6,6 @@ debian_buster/fixes/namespace.patch
 debian_buster/fixes/empty-array.patch
 debian_buster/fixes/widevine-locations.patch
 debian_buster/disable/installer.patch
-debian_buster/disable/swiftshader.patch
 debian_buster/warnings/printf.patch
 debian_buster/warnings/multichar.patch
 debian_buster/warnings/unused-typedefs.patch
@@ -14,7 +13,7 @@ debian_buster/warnings/null-destination.patch
 debian_buster/warnings/int-in-bool-context.patch
 ungoogled-chromium/macos/disable-symbol-order-verification.patch
 ungoogled-chromium/macos/disable-crashpad-handler.patch
-ungoogled-chromium/macos/fix-gn-safe_browsing.patch
+ungoogled-chromium/macos/fix-disabling-safebrowsing.patch
 ungoogled-chromium/macos/fix-visibility.patch
 ungoogled-chromium/macos/fix-older-sdk-declarations.patch
 ungoogled-chromium/macos/fix-ignored-pragma-optimize.patch

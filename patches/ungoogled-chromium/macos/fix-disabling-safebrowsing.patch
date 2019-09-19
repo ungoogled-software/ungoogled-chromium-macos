@@ -1,8 +1,8 @@
-# Fix GN safe_browsing on macOS
+# Fix GN safe_browsing and building with safebrowsing disabled on macOS
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1826,7 +1826,6 @@ jumbo_split_static_library("browser") {
+@@ -1863,7 +1863,6 @@ jumbo_split_static_library("browser") {
    allow_circular_includes_from = [
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
@@ -10,7 +10,7 @@
    ]
  
    public_deps = [
-@@ -1869,7 +1868,6 @@ jumbo_split_static_library("browser") {
+@@ -1910,7 +1909,6 @@ jumbo_split_static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -20,7 +20,7 @@
      "//chrome/browser/ui",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -754,9 +754,6 @@ jumbo_static_library("extensions") {
+@@ -749,9 +749,6 @@ jumbo_static_library("extensions") {
  
      # TODO(loyso): Remove this circular dependency. http://crbug.com/876576.
      "//chrome/browser/web_applications/extensions",
@@ -30,24 +30,24 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -767,8 +764,6 @@ jumbo_static_library("extensions") {
-   public_deps = [
+@@ -763,8 +760,6 @@ jumbo_static_library("extensions") {
      "//chrome/browser/extensions/api:api_registration",
+     "//chrome/common",
      "//chrome/common/extensions/api",
 -    "//components/safe_browsing:csd_proto",
 -    "//components/safe_browsing/db:util",
+     "//components/signin/core/browser",
      "//content/public/browser",
    ]
-   deps = [
-@@ -787,7 +782,6 @@ jumbo_static_library("extensions") {
+@@ -785,7 +780,6 @@ jumbo_static_library("extensions") {
      "//chrome/browser/media/router",
      "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:mojo_bindings",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
-     "//chrome/common",
-@@ -831,10 +825,6 @@ jumbo_static_library("extensions") {
+     "//chrome/common/extensions/api:extensions_features",
+@@ -830,10 +824,6 @@ jumbo_static_library("extensions") {
      "//components/proxy_config",
      "//components/rappor",
      "//components/resources",
@@ -60,7 +60,7 @@
      "//components/sessions",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -340,15 +340,9 @@ jumbo_split_static_library("ui") {
+@@ -351,15 +351,9 @@ jumbo_split_static_library("ui") {
      }
    }
  
@@ -77,15 +77,15 @@
    defines = []
    libs = []
  
-@@ -388,7 +382,6 @@ jumbo_split_static_library("ui") {
-     "//chrome/browser/engagement:mojo_bindings",
+@@ -400,7 +394,6 @@ jumbo_split_static_library("ui") {
      "//chrome/browser/media:mojo_bindings",
+     "//chrome/browser/notifications/scheduler/public",
      "//chrome/browser/profiling_host",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -465,12 +458,6 @@ jumbo_split_static_library("ui") {
+@@ -479,14 +472,6 @@ jumbo_split_static_library("ui") {
      "//components/rappor",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -95,10 +95,12 @@
 -    "//components/safe_browsing/db:database_manager",
 -    "//components/safe_browsing/db:util",
 -    "//components/safe_browsing/password_protection",
+-    "//components/safe_browsing/triggers:ad_popup_trigger",
+-    "//components/safe_browsing/triggers:ad_redirect_trigger",
      "//components/safe_browsing/web_ui",
      "//components/search",
      "//components/search_engines",
-@@ -3744,15 +3731,6 @@ jumbo_split_static_library("ui") {
+@@ -3823,15 +3808,6 @@ jumbo_split_static_library("ui") {
      }
    }
  
@@ -116,20 +118,18 @@
    }
 --- a/chrome/browser/ui/webui/settings/change_password_handler.cc
 +++ b/chrome/browser/ui/webui/settings/change_password_handler.cc
-@@ -53,19 +53,19 @@ void ChangePasswordHandler::HandleInitia
+@@ -55,18 +55,18 @@ void ChangePasswordHandler::HandleInitia
  }
  
  void ChangePasswordHandler::HandleChangePassword(const base::ListValue* args) {
 -  service_->OnUserAction(web_ui()->GetWebContents(),
--                         safe_browsing::LoginReputationClientRequest::
--                             PasswordReuseEvent::SIGN_IN_PASSWORD,
+-                         PasswordType::PRIMARY_ACCOUNT_PASSWORD,
 -                         safe_browsing::WarningUIType::CHROME_SETTINGS,
 -                         safe_browsing::WarningAction::CHANGE_PASSWORD);
-+//   service_->OnUserAction(web_ui()->GetWebContents(),
-+//                          safe_browsing::LoginReputationClientRequest::
-+//                              PasswordReuseEvent::SIGN_IN_PASSWORD,
-+//                          safe_browsing::WarningUIType::CHROME_SETTINGS,
-+//                          safe_browsing::WarningAction::CHANGE_PASSWORD);
++//  service_->OnUserAction(web_ui()->GetWebContents(),
++//                         PasswordType::PRIMARY_ACCOUNT_PASSWORD,
++//                         safe_browsing::WarningUIType::CHROME_SETTINGS,
++//                         safe_browsing::WarningAction::CHANGE_PASSWORD);
  }
  
  void ChangePasswordHandler::UpdateChangePasswordCardVisibility() {
@@ -138,11 +138,49 @@
 -      base::Value(service_->IsWarningEnabled() &&
 -                  safe_browsing::ChromePasswordProtectionService::
 -                      ShouldShowChangePasswordSettingUI(profile_)));
-+//   FireWebUIListener(
-+//       "change-password-visibility",
-+//       base::Value(service_->IsWarningEnabled() &&
-+//                   safe_browsing::ChromePasswordProtectionService::
-+//                       ShouldShowChangePasswordSettingUI(profile_)));
++//  FireWebUIListener(
++//      "change-password-visibility",
++//      base::Value(service_->IsWarningEnabled() &&
++//                  safe_browsing::ChromePasswordProtectionService::
++//                      ShouldShowChangePasswordSettingUI(profile_)));
  }
  
  }  // namespace settings
+--- a/chrome/browser/ui/blocked_content/popup_blocker.cc
++++ b/chrome/browser/ui/blocked_content/popup_blocker.cc
+@@ -92,12 +92,12 @@ bool MaybeBlockPopup(content::WebContent
+   auto* popup_blocker = PopupBlockerTabHelper::FromWebContents(web_contents);
+   if (popup_blocker && block_type != PopupBlockType::kNotBlocked) {
+     popup_blocker->AddBlockedPopup(params, window_features, block_type);
+-    if (safe_browsing::AdPopupTrigger::FromWebContents(web_contents)) {
+-      content::RenderFrameHost* source_frame =
+-          GetSourceFrameForPopup(params, open_url_params, web_contents);
+-      safe_browsing::AdPopupTrigger::FromWebContents(web_contents)
+-          ->PopupWasBlocked(source_frame);
+-    }
++//    if (safe_browsing::AdPopupTrigger::FromWebContents(web_contents)) {
++//      content::RenderFrameHost* source_frame =
++//          GetSourceFrameForPopup(params, open_url_params, web_contents);
++//      safe_browsing::AdPopupTrigger::FromWebContents(web_contents)
++//          ->PopupWasBlocked(source_frame);
++//    }
+     return true;
+   }
+   return false;
+--- a/chrome/browser/ui/browser.cc
++++ b/chrome/browser/ui/browser.cc
+@@ -1316,10 +1316,10 @@ void Browser::OnDidBlockNavigation(conte
+       framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
+     }
+   }
+-  if (auto* trigger =
+-          safe_browsing::AdRedirectTrigger::FromWebContents(web_contents)) {
+-    trigger->OnDidBlockNavigation(initiator_url);
+-  }
++//  if (auto* trigger =
++//          safe_browsing::AdRedirectTrigger::FromWebContents(web_contents)) {
++//    trigger->OnDidBlockNavigation(initiator_url);
++//  }
+ }
+ 
+ content::PictureInPictureResult Browser::EnterPictureInPicture(
