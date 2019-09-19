@@ -1,4 +1,4 @@
-# Fix GN safe_browsing on macOS
+# Fix GN safe_browsing and building with safebrowsing disabled on macOS
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
