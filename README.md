@@ -8,6 +8,8 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 
 **Source Code**: It is recommended to use a tag via `git checkout` (see building instructions below). You may also use `master`, but it is for development and may not be stable.
 
+Testing CI.
+
 ## Building
 
 ### Software requirements
