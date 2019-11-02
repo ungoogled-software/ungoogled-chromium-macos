@@ -9,6 +9,6 @@ author: Michael Gilbert <mgilbert@debian.org>
      "//base/util:base_util_unittests",
 -    "//chrome/installer",
 -    "//chrome/updater",
+     "//components/gwp_asan:gwp_asan_unittests",
      "//net:net_unittests",
      "//services:services_unittests",
-     "//services/service_manager/public/cpp",

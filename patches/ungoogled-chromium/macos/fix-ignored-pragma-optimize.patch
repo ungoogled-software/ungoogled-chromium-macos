@@ -2,17 +2,14 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1525,13 +1525,6 @@ config("default_warnings") {
-       }
- 
-       if (current_toolchain == host_toolchain || !use_xcode_clang) {
--        # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
--        # recognize.
--        cflags += [
+@@ -1497,10 +1497,6 @@ config("default_warnings") {
+         # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
+         # recognize.
+         cflags += [
 -          # Ignore warnings about MSVC optimization pragmas.
 -          # TODO(thakis): Only for no_chromium_code? http://crbug.com/912662
 -          "-Wno-ignored-pragma-optimize",
--        ]
-       }
-     }
-   }
+-
+           # TODO(https://crbug.com/989932): Evaluate and possibly enable.
+           "-Wno-implicit-int-float-conversion",
+ 
