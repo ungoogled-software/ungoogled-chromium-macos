@@ -63,6 +63,7 @@ A `.dmg` should appear in `build/`
 1. Start the process and set the environment variables
 ```sh
 ./devutils/update_patches.sh merge
+bash 
 source devutils/set_quilt_vars.sh
 ```
 
