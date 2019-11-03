@@ -30,7 +30,17 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -780,7 +777,6 @@ jumbo_static_library("extensions") {
+@@ -757,9 +754,6 @@ jumbo_static_library("extensions") {
+     "//chrome/browser/extensions/api:api_registration",
+     "//chrome/common",
+     "//chrome/common/extensions/api",
+-    "//components/safe_browsing:csd_proto",
+-    "//components/safe_browsing:webprotect_proto",
+-    "//components/safe_browsing/db:util",
+     "//components/signin/core/browser",
+     "//content/public/browser",
+   ]
+@@ -780,11 +774,9 @@ jumbo_static_library("extensions") {
      "//chrome/browser/media/router",
      "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -38,6 +48,22 @@
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
      "//chrome/common/extensions/api:extensions_features",
+-    "//chrome/common/safe_browsing:proto",
+     "//chrome/services/removable_storage_writer/public/mojom",
+     "//components/app_modal",
+     "//components/autofill/content/browser",
+@@ -825,11 +817,6 @@ jumbo_static_library("extensions") {
+     "//components/proxy_config",
+     "//components/rappor",
+     "//components/resources",
+-    "//components/safe_browsing:buildflags",
+-    "//components/safe_browsing:csd_proto",
+-    "//components/safe_browsing:features",
+-    "//components/safe_browsing/common:safe_browsing_prefs",
+-    "//components/safe_browsing/db:database_manager",
+     "//components/search_engines",
+     "//components/services/patch/content",
+     "//components/services/unzip/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
 @@ -353,15 +353,9 @@ jumbo_split_static_library("ui") {
@@ -57,7 +83,15 @@
    defines = []
    libs = []
  
-@@ -403,7 +397,6 @@ jumbo_split_static_library("ui") {
+@@ -377,7 +371,6 @@ jumbo_split_static_library("ui") {
+   # browser, then we can clean up these dependencies.
+   public_deps = [
+     "//components/dom_distiller/core",
+-    "//components/safe_browsing:buildflags",
+     "//components/sync",
+     "//components/sync_user_events",
+     "//components/translate/content/browser",
+@@ -403,7 +396,6 @@ jumbo_split_static_library("ui") {
      "//chrome/browser/media:mojo_bindings",
      "//chrome/browser/notifications/scheduler/public",
      "//chrome/browser/profiling_host",
@@ -65,7 +99,41 @@
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -3924,15 +3917,6 @@ jumbo_split_static_library("ui") {
+@@ -482,17 +474,6 @@ jumbo_split_static_library("ui") {
+     "//components/rappor",
+     "//components/renderer_context_menu",
+     "//components/resources",
+-    "//components/safe_browsing:csd_proto",
+-    "//components/safe_browsing:features",
+-    "//components/safe_browsing/common",
+-    "//components/safe_browsing/common:safe_browsing_prefs",
+-    "//components/safe_browsing/db:database_manager",
+-    "//components/safe_browsing/db:util",
+-    "//components/safe_browsing/password_protection",
+-    "//components/safe_browsing/password_protection:password_protection_metrics_util",
+-    "//components/safe_browsing/triggers:ad_popup_trigger",
+-    "//components/safe_browsing/triggers:ad_redirect_trigger",
+-    "//components/safe_browsing/web_ui",
+     "//components/search",
+     "//components/search_engines",
+     "//components/security_interstitials/content:security_interstitial_page",
+@@ -1359,7 +1340,6 @@ jumbo_split_static_library("ui") {
+       "//chrome/browser/profile_resetter:profile_reset_report_proto",
+       "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
+       "//chrome/browser/resource_coordinator/tab_ranker",
+-      "//chrome/browser/safe_browsing:advanced_protection",
+       "//chrome/browser/ui/webui/app_management:mojo_bindings",
+       "//chrome/common:buildflags",
+       "//chrome/common:search_mojom",
+@@ -2379,7 +2359,6 @@ jumbo_split_static_library("ui") {
+       "//ui/views/controls/webview",
+     ]
+     deps += [
+-      "//chrome/browser/safe_browsing/chrome_cleaner:public",
+       "//chrome/browser/ui/startup:buildflags",
+       "//chrome/browser/win/conflicts:module_info",
+       "//chrome/credential_provider/common:common_constants",
+@@ -3924,15 +3903,6 @@ jumbo_split_static_library("ui") {
      }
    }
  
@@ -81,6 +149,48 @@
    if (use_dbus) {
      deps += [ "//dbus" ]
    }
+--- a/chrome/browser/ui/webui/settings/change_password_handler.cc
++++ b/chrome/browser/ui/webui/settings/change_password_handler.cc
+@@ -58,24 +58,24 @@ void ChangePasswordHandler::HandleInitia
+ }
+ 
+ void ChangePasswordHandler::HandleChangePassword(const base::ListValue* args) {
+-  service_->OnUserAction(
+-      web_ui()->GetWebContents(),
+-      service_->reused_password_account_type_for_last_shown_warning(),
+-      RequestOutcome::UNKNOWN,
+-      LoginReputationClientResponse::VERDICT_TYPE_UNSPECIFIED, "unused_token",
+-      safe_browsing::WarningUIType::CHROME_SETTINGS,
+-      safe_browsing::WarningAction::CHANGE_PASSWORD);
++//  service_->OnUserAction(
++//      web_ui()->GetWebContents(),
++//      service_->reused_password_account_type_for_last_shown_warning(),
++//      RequestOutcome::UNKNOWN,
++//      LoginReputationClientResponse::VERDICT_TYPE_UNSPECIFIED, "unused_token",
++//      safe_browsing::WarningUIType::CHROME_SETTINGS,
++//      safe_browsing::WarningAction::CHANGE_PASSWORD);
+ }
+ 
+ void ChangePasswordHandler::UpdateChangePasswordCardVisibility() {
+-  FireWebUIListener(
+-      "change-password-visibility",
+-      base::Value(
+-          service_->IsWarningEnabled(
+-              service_
+-                  ->reused_password_account_type_for_last_shown_warning()) &&
+-          safe_browsing::ChromePasswordProtectionService::
+-              ShouldShowChangePasswordSettingUI(profile_)));
++//  FireWebUIListener(
++//      "change-password-visibility",
++//      base::Value(
++//          service_->IsWarningEnabled(
++//              service_
++//                  ->reused_password_account_type_for_last_shown_warning()) &&
++//          safe_browsing::ChromePasswordProtectionService::
++//              ShouldShowChangePasswordSettingUI(profile_)));
+ }
+ 
+ }  // namespace settings
 --- a/chrome/browser/ui/blocked_content/popup_blocker.cc
 +++ b/chrome/browser/ui/blocked_content/popup_blocker.cc
 @@ -92,12 +92,12 @@ bool MaybeBlockPopup(content::WebContent
