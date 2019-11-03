@@ -30,17 +30,17 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -757,9 +754,6 @@ jumbo_static_library("extensions") {
+@@ -757,9 +754,7 @@ jumbo_static_library("extensions") {
      "//chrome/browser/extensions/api:api_registration",
      "//chrome/common",
      "//chrome/common/extensions/api",
 -    "//components/safe_browsing:csd_proto",
--    "//components/safe_browsing:webprotect_proto",
+     "//components/safe_browsing:webprotect_proto",
 -    "//components/safe_browsing/db:util",
      "//components/signin/core/browser",
      "//content/public/browser",
    ]
-@@ -780,11 +774,9 @@ jumbo_static_library("extensions") {
+@@ -780,7 +775,6 @@ jumbo_static_library("extensions") {
      "//chrome/browser/media/router",
      "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -48,11 +48,7 @@
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
      "//chrome/common/extensions/api:extensions_features",
--    "//chrome/common/safe_browsing:proto",
-     "//chrome/services/removable_storage_writer/public/mojom",
-     "//components/app_modal",
-     "//components/autofill/content/browser",
-@@ -825,11 +817,6 @@ jumbo_static_library("extensions") {
+@@ -825,11 +819,6 @@ jumbo_static_library("extensions") {
      "//components/proxy_config",
      "//components/rappor",
      "//components/resources",
@@ -99,7 +95,7 @@
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -482,17 +474,6 @@ jumbo_split_static_library("ui") {
+@@ -482,16 +474,6 @@ jumbo_split_static_library("ui") {
      "//components/rappor",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -113,11 +109,10 @@
 -    "//components/safe_browsing/password_protection:password_protection_metrics_util",
 -    "//components/safe_browsing/triggers:ad_popup_trigger",
 -    "//components/safe_browsing/triggers:ad_redirect_trigger",
--    "//components/safe_browsing/web_ui",
+     "//components/safe_browsing/web_ui",
      "//components/search",
      "//components/search_engines",
-     "//components/security_interstitials/content:security_interstitial_page",
-@@ -1359,7 +1340,6 @@ jumbo_split_static_library("ui") {
+@@ -1359,7 +1341,6 @@ jumbo_split_static_library("ui") {
        "//chrome/browser/profile_resetter:profile_reset_report_proto",
        "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
        "//chrome/browser/resource_coordinator/tab_ranker",
@@ -125,7 +120,7 @@
        "//chrome/browser/ui/webui/app_management:mojo_bindings",
        "//chrome/common:buildflags",
        "//chrome/common:search_mojom",
-@@ -2379,7 +2359,6 @@ jumbo_split_static_library("ui") {
+@@ -2379,7 +2360,6 @@ jumbo_split_static_library("ui") {
        "//ui/views/controls/webview",
      ]
      deps += [
@@ -133,7 +128,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -3924,15 +3903,6 @@ jumbo_split_static_library("ui") {
+@@ -3924,15 +3904,6 @@ jumbo_split_static_library("ui") {
      }
    }
  
