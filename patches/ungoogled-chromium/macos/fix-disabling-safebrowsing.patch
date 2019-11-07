@@ -224,3 +224,115 @@
  }
  
  content::PictureInPictureResult Browser::EnterPictureInPicture(
+--- a/chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
++++ b/chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
+@@ -148,12 +148,20 @@ CheckClientDownloadRequestBase::CheckCli
+     is_incognito_ = browser_context->IsOffTheRecord();
+     is_under_advanced_protection_ =
+         profile &&
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+         AdvancedProtectionStatusManagerFactory::GetForProfile(profile)
+             ->is_under_advanced_protection();
++#else
++        false;
++#endif
+     requests_ap_verdicts_ =
+         profile &&
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+         AdvancedProtectionStatusManagerFactory::GetForProfile(profile)
+             ->RequestsAdvancedProtectionVerdicts();
++#else
++        false;
++#endif
+ 
+     int password_protected_allowed_policy =
+         g_browser_process->local_state()->GetInteger(
+--- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
++++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
+@@ -321,8 +321,12 @@ void DownloadProtectionService::ShowDeta
+   Profile* profile = Profile::FromBrowserContext(
+       content::DownloadItemUtils::GetBrowserContext(item));
+   if (profile &&
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+       AdvancedProtectionStatusManagerFactory::GetForProfile(profile)
+           ->RequestsAdvancedProtectionVerdicts() &&
++#else
++      false &&
++#endif
+       item->GetDangerType() ==
+           download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT) {
+     learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
+--- a/chrome/browser/download/notification/download_item_notification.cc
++++ b/chrome/browser/download/notification/download_item_notification.cc
+@@ -714,10 +714,12 @@ base::string16 DownloadItemNotification:
+                                         elided_filename);
+     }
+     case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
+-      bool requests_ap_verdicts =
++      bool request_ap_verdicts = false;
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+           safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+               profile())
+               ->RequestsAdvancedProtectionVerdicts();
++#endif
+       return l10n_util::GetStringFUTF16(
+           requests_ap_verdicts
+               ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
+--- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
++++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
+@@ -52,10 +52,12 @@ content::WebUIDataSource* CreateDownload
+   content::WebUIDataSource* source =
+       content::WebUIDataSource::Create(chrome::kChromeUIDownloadsHost);
+ 
+-  bool requests_ap_verdicts =
+-      safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
++  bool requests_ap_verdicts = false;
++  #if BUILDFLAG(FULL_SAFE_BROWSING)
++      requests_ap_verdicts = safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+           profile)
+           ->RequestsAdvancedProtectionVerdicts();
++  #endif
+   source->AddBoolean("requestsApVerdicts", requests_ap_verdicts);
+ 
+   static constexpr LocalizedString kStrings[] = {
+--- a/chrome/browser/ui/views/download/download_danger_prompt_views.cc
++++ b/chrome/browser/ui/views/download/download_danger_prompt_views.cc
+@@ -237,17 +237,18 @@ base::string16 DownloadDangerPromptViews
+             download_->GetFileNameToReportUser().LossyDisplayName());
+       }
+       case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+         if (safe_browsing::AdvancedProtectionStatusManagerFactory::
+                 GetForProfile(profile_)
+                     ->RequestsAdvancedProtectionVerdicts()) {
+           return l10n_util::GetStringFUTF16(
+               IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION,
+               download_->GetFileNameToReportUser().LossyDisplayName());
+-        } else {
++        } else 
++#endif
+           return l10n_util::GetStringFUTF16(
+               IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT,
+               download_->GetFileNameToReportUser().LossyDisplayName());
+-        }
+       }
+       case download::DOWNLOAD_DANGER_TYPE_POTENTIALLY_UNWANTED: {
+         return l10n_util::GetStringFUTF16(
+--- a/chrome/browser/ui/views/download/download_item_view.cc
++++ b/chrome/browser/ui/views/download/download_item_view.cc
+@@ -909,6 +909,7 @@ void DownloadItemView::ShowWarningDialog
+ gfx::ImageSkia DownloadItemView::GetWarningIcon() {
+   switch (model_->GetDangerType()) {
+     case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+       if (safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+               model()->profile())
+               ->RequestsAdvancedProtectionVerdicts()) {
+@@ -917,6 +918,7 @@ gfx::ImageSkia DownloadItemView::GetWarn
+             GetNativeTheme()->GetSystemColor(
+                 ui::NativeTheme::kColorId_AlertSeverityMedium));
+       }
++#endif
+       FALLTHROUGH;
+ 
+     case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_URL:
