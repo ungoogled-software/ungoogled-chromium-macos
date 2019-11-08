@@ -280,7 +280,15 @@
                ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
 --- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
 +++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
-@@ -52,10 +52,12 @@ content::WebUIDataSource* CreateDownload
+@@ -32,6 +32,7 @@
+ #include "chrome/grit/generated_resources.h"
+ #include "chrome/grit/theme_resources.h"
+ #include "components/prefs/pref_service.h"
++#include "components/safe_browsing/buildflags.h"
+ #include "content/public/browser/download_manager.h"
+ #include "content/public/browser/url_data_source.h"
+ #include "content/public/browser/web_contents.h"
+@@ -52,10 +53,12 @@ content::WebUIDataSource* CreateDownload
    content::WebUIDataSource* source =
        content::WebUIDataSource::Create(chrome::kChromeUIDownloadsHost);
  
