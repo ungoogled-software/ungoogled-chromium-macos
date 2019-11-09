@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1863,7 +1863,6 @@ jumbo_split_static_library("browser") {
+@@ -1909,7 +1909,6 @@ jumbo_split_static_library("browser") {
    allow_circular_includes_from = [
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
@@ -10,7 +10,7 @@
    ]
  
    public_deps = [
-@@ -1910,7 +1909,6 @@ jumbo_split_static_library("browser") {
+@@ -1959,7 +1958,6 @@ jumbo_split_static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -20,7 +20,7 @@
      "//chrome/browser/ui",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -749,9 +749,6 @@ jumbo_static_library("extensions") {
+@@ -743,9 +743,6 @@ jumbo_static_library("extensions") {
  
      # TODO(loyso): Remove this circular dependency. http://crbug.com/876576.
      "//chrome/browser/web_applications/extensions",
@@ -30,16 +30,17 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -763,8 +760,6 @@ jumbo_static_library("extensions") {
+@@ -757,9 +754,7 @@ jumbo_static_library("extensions") {
      "//chrome/browser/extensions/api:api_registration",
      "//chrome/common",
      "//chrome/common/extensions/api",
 -    "//components/safe_browsing:csd_proto",
+     "//components/safe_browsing:webprotect_proto",
 -    "//components/safe_browsing/db:util",
      "//components/signin/core/browser",
      "//content/public/browser",
    ]
-@@ -785,7 +780,6 @@ jumbo_static_library("extensions") {
+@@ -780,7 +775,6 @@ jumbo_static_library("extensions") {
      "//chrome/browser/media/router",
      "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -47,20 +48,21 @@
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
      "//chrome/common/extensions/api:extensions_features",
-@@ -830,10 +824,6 @@ jumbo_static_library("extensions") {
+@@ -825,11 +819,6 @@ jumbo_static_library("extensions") {
      "//components/proxy_config",
      "//components/rappor",
      "//components/resources",
+-    "//components/safe_browsing:buildflags",
 -    "//components/safe_browsing:csd_proto",
 -    "//components/safe_browsing:features",
 -    "//components/safe_browsing/common:safe_browsing_prefs",
 -    "//components/safe_browsing/db:database_manager",
      "//components/search_engines",
-     "//components/services/unzip/public/cpp",
-     "//components/sessions",
+     "//components/services/patch/content",
+     "//components/services/unzip/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -351,15 +351,9 @@ jumbo_split_static_library("ui") {
+@@ -353,15 +353,9 @@ jumbo_split_static_library("ui") {
      }
    }
  
@@ -77,7 +79,15 @@
    defines = []
    libs = []
  
-@@ -400,7 +394,6 @@ jumbo_split_static_library("ui") {
+@@ -377,7 +371,6 @@ jumbo_split_static_library("ui") {
+   # browser, then we can clean up these dependencies.
+   public_deps = [
+     "//components/dom_distiller/core",
+-    "//components/safe_browsing:buildflags",
+     "//components/sync",
+     "//components/sync_user_events",
+     "//components/translate/content/browser",
+@@ -403,7 +396,6 @@ jumbo_split_static_library("ui") {
      "//chrome/browser/media:mojo_bindings",
      "//chrome/browser/notifications/scheduler/public",
      "//chrome/browser/profiling_host",
@@ -85,22 +95,40 @@
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -479,14 +472,6 @@ jumbo_split_static_library("ui") {
+@@ -482,16 +474,6 @@ jumbo_split_static_library("ui") {
      "//components/rappor",
      "//components/renderer_context_menu",
      "//components/resources",
+-    "//components/safe_browsing:csd_proto",
 -    "//components/safe_browsing:features",
 -    "//components/safe_browsing/common",
 -    "//components/safe_browsing/common:safe_browsing_prefs",
 -    "//components/safe_browsing/db:database_manager",
 -    "//components/safe_browsing/db:util",
 -    "//components/safe_browsing/password_protection",
+-    "//components/safe_browsing/password_protection:password_protection_metrics_util",
 -    "//components/safe_browsing/triggers:ad_popup_trigger",
 -    "//components/safe_browsing/triggers:ad_redirect_trigger",
      "//components/safe_browsing/web_ui",
      "//components/search",
      "//components/search_engines",
-@@ -3823,15 +3808,6 @@ jumbo_split_static_library("ui") {
+@@ -1359,7 +1341,6 @@ jumbo_split_static_library("ui") {
+       "//chrome/browser/profile_resetter:profile_reset_report_proto",
+       "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
+       "//chrome/browser/resource_coordinator/tab_ranker",
+-      "//chrome/browser/safe_browsing:advanced_protection",
+       "//chrome/browser/ui/webui/app_management:mojo_bindings",
+       "//chrome/common:buildflags",
+       "//chrome/common:search_mojom",
+@@ -2379,7 +2360,6 @@ jumbo_split_static_library("ui") {
+       "//ui/views/controls/webview",
+     ]
+     deps += [
+-      "//chrome/browser/safe_browsing/chrome_cleaner:public",
+       "//chrome/browser/ui/startup:buildflags",
+       "//chrome/browser/win/conflicts:module_info",
+       "//chrome/credential_provider/common:common_constants",
+@@ -3924,15 +3904,6 @@ jumbo_split_static_library("ui") {
      }
    }
  
@@ -118,31 +146,43 @@
    }
 --- a/chrome/browser/ui/webui/settings/change_password_handler.cc
 +++ b/chrome/browser/ui/webui/settings/change_password_handler.cc
-@@ -55,18 +55,18 @@ void ChangePasswordHandler::HandleInitia
+@@ -58,24 +58,24 @@ void ChangePasswordHandler::HandleInitia
  }
  
  void ChangePasswordHandler::HandleChangePassword(const base::ListValue* args) {
--  service_->OnUserAction(web_ui()->GetWebContents(),
--                         PasswordType::PRIMARY_ACCOUNT_PASSWORD,
--                         safe_browsing::WarningUIType::CHROME_SETTINGS,
--                         safe_browsing::WarningAction::CHANGE_PASSWORD);
-+//  service_->OnUserAction(web_ui()->GetWebContents(),
-+//                         PasswordType::PRIMARY_ACCOUNT_PASSWORD,
-+//                         safe_browsing::WarningUIType::CHROME_SETTINGS,
-+//                         safe_browsing::WarningAction::CHANGE_PASSWORD);
+-  service_->OnUserAction(
+-      web_ui()->GetWebContents(),
+-      service_->reused_password_account_type_for_last_shown_warning(),
+-      RequestOutcome::UNKNOWN,
+-      LoginReputationClientResponse::VERDICT_TYPE_UNSPECIFIED, "unused_token",
+-      safe_browsing::WarningUIType::CHROME_SETTINGS,
+-      safe_browsing::WarningAction::CHANGE_PASSWORD);
++//  service_->OnUserAction(
++//      web_ui()->GetWebContents(),
++//      service_->reused_password_account_type_for_last_shown_warning(),
++//      RequestOutcome::UNKNOWN,
++//      LoginReputationClientResponse::VERDICT_TYPE_UNSPECIFIED, "unused_token",
++//      safe_browsing::WarningUIType::CHROME_SETTINGS,
++//      safe_browsing::WarningAction::CHANGE_PASSWORD);
  }
  
  void ChangePasswordHandler::UpdateChangePasswordCardVisibility() {
 -  FireWebUIListener(
 -      "change-password-visibility",
--      base::Value(service_->IsWarningEnabled() &&
--                  safe_browsing::ChromePasswordProtectionService::
--                      ShouldShowChangePasswordSettingUI(profile_)));
+-      base::Value(
+-          service_->IsWarningEnabled(
+-              service_
+-                  ->reused_password_account_type_for_last_shown_warning()) &&
+-          safe_browsing::ChromePasswordProtectionService::
+-              ShouldShowChangePasswordSettingUI(profile_)));
 +//  FireWebUIListener(
 +//      "change-password-visibility",
-+//      base::Value(service_->IsWarningEnabled() &&
-+//                  safe_browsing::ChromePasswordProtectionService::
-+//                      ShouldShowChangePasswordSettingUI(profile_)));
++//      base::Value(
++//          service_->IsWarningEnabled(
++//              service_
++//                  ->reused_password_account_type_for_last_shown_warning()) &&
++//          safe_browsing::ChromePasswordProtectionService::
++//              ShouldShowChangePasswordSettingUI(profile_)));
  }
  
  }  // namespace settings
@@ -169,7 +209,7 @@
    return false;
 --- a/chrome/browser/ui/browser.cc
 +++ b/chrome/browser/ui/browser.cc
-@@ -1316,10 +1316,10 @@ void Browser::OnDidBlockNavigation(conte
+@@ -1319,10 +1319,10 @@ void Browser::OnDidBlockNavigation(conte
        framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
      }
    }
@@ -184,3 +224,123 @@
  }
  
  content::PictureInPictureResult Browser::EnterPictureInPicture(
+--- a/chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
++++ b/chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
+@@ -148,12 +148,20 @@ CheckClientDownloadRequestBase::CheckCli
+     is_incognito_ = browser_context->IsOffTheRecord();
+     is_under_advanced_protection_ =
+         profile &&
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+         AdvancedProtectionStatusManagerFactory::GetForProfile(profile)
+             ->is_under_advanced_protection();
++#else
++        false;
++#endif
+     requests_ap_verdicts_ =
+         profile &&
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+         AdvancedProtectionStatusManagerFactory::GetForProfile(profile)
+             ->RequestsAdvancedProtectionVerdicts();
++#else
++        false;
++#endif
+ 
+     int password_protected_allowed_policy =
+         g_browser_process->local_state()->GetInteger(
+--- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
++++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
+@@ -321,8 +321,12 @@ void DownloadProtectionService::ShowDeta
+   Profile* profile = Profile::FromBrowserContext(
+       content::DownloadItemUtils::GetBrowserContext(item));
+   if (profile &&
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+       AdvancedProtectionStatusManagerFactory::GetForProfile(profile)
+           ->RequestsAdvancedProtectionVerdicts() &&
++#else
++      false &&
++#endif
+       item->GetDangerType() ==
+           download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT) {
+     learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
+--- a/chrome/browser/download/notification/download_item_notification.cc
++++ b/chrome/browser/download/notification/download_item_notification.cc
+@@ -714,10 +714,12 @@ base::string16 DownloadItemNotification:
+                                         elided_filename);
+     }
+     case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
+-      bool requests_ap_verdicts =
++      bool request_ap_verdicts = false;
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+           safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+               profile())
+               ->RequestsAdvancedProtectionVerdicts();
++#endif
+       return l10n_util::GetStringFUTF16(
+           requests_ap_verdicts
+               ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
+--- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
++++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
+@@ -32,6 +32,7 @@
+ #include "chrome/grit/generated_resources.h"
+ #include "chrome/grit/theme_resources.h"
+ #include "components/prefs/pref_service.h"
++#include "components/safe_browsing/buildflags.h"
+ #include "content/public/browser/download_manager.h"
+ #include "content/public/browser/url_data_source.h"
+ #include "content/public/browser/web_contents.h"
+@@ -52,10 +53,12 @@ content::WebUIDataSource* CreateDownload
+   content::WebUIDataSource* source =
+       content::WebUIDataSource::Create(chrome::kChromeUIDownloadsHost);
+ 
+-  bool requests_ap_verdicts =
+-      safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
++  bool requests_ap_verdicts = false;
++  #if BUILDFLAG(FULL_SAFE_BROWSING)
++      requests_ap_verdicts = safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+           profile)
+           ->RequestsAdvancedProtectionVerdicts();
++  #endif
+   source->AddBoolean("requestsApVerdicts", requests_ap_verdicts);
+ 
+   static constexpr LocalizedString kStrings[] = {
+--- a/chrome/browser/ui/views/download/download_danger_prompt_views.cc
++++ b/chrome/browser/ui/views/download/download_danger_prompt_views.cc
+@@ -237,17 +237,18 @@ base::string16 DownloadDangerPromptViews
+             download_->GetFileNameToReportUser().LossyDisplayName());
+       }
+       case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+         if (safe_browsing::AdvancedProtectionStatusManagerFactory::
+                 GetForProfile(profile_)
+                     ->RequestsAdvancedProtectionVerdicts()) {
+           return l10n_util::GetStringFUTF16(
+               IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION,
+               download_->GetFileNameToReportUser().LossyDisplayName());
+-        } else {
++        } else 
++#endif
+           return l10n_util::GetStringFUTF16(
+               IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT,
+               download_->GetFileNameToReportUser().LossyDisplayName());
+-        }
+       }
+       case download::DOWNLOAD_DANGER_TYPE_POTENTIALLY_UNWANTED: {
+         return l10n_util::GetStringFUTF16(
+--- a/chrome/browser/ui/views/download/download_item_view.cc
++++ b/chrome/browser/ui/views/download/download_item_view.cc
+@@ -909,6 +909,7 @@ void DownloadItemView::ShowWarningDialog
+ gfx::ImageSkia DownloadItemView::GetWarningIcon() {
+   switch (model_->GetDangerType()) {
+     case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
++#if BUILDFLAG(FULL_SAFE_BROWSING)
+       if (safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+               model()->profile())
+               ->RequestsAdvancedProtectionVerdicts()) {
+@@ -917,6 +918,7 @@ gfx::ImageSkia DownloadItemView::GetWarn
+             GetNativeTheme()->GetSystemColor(
+                 ui::NativeTheme::kColorId_AlertSeverityMedium));
+       }
++#endif
+       FALLTHROUGH;
+ 
+     case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_URL:
