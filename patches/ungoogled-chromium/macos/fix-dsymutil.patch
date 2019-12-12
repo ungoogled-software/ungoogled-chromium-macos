@@ -1,6 +1,6 @@
 --- a/tools/mac/dump-static-initializers.py
 +++ b/tools/mac/dump-static-initializers.py
-@@ -39,7 +39,7 @@ def ParseDsymutil(binary):
+@@ -41,7 +41,7 @@ def ParseDsymutil(binary):
    static initializers.
    """
  

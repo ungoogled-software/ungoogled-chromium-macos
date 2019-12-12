@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
          filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16031,7 +16031,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16052,7 +16052,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
@@ -24,17 +24,6 @@ author: Michael Gilbert <mgilbert@debian.org>
    }
    result = GetSharedMemoryAs<SizedResult<T>*>(shm_id, shm_offset, checked_size);
    if (!result) {
---- a/components/download/internal/common/download_item_impl.cc
-+++ b/components/download/internal/common/download_item_impl.cc
-@@ -867,7 +867,7 @@ const base::FilePath& DownloadItemImpl::
- }
- 
- base::FilePath DownloadItemImpl::GetTemporaryFilePath() const {
--  if (state_ == TARGET_PENDING_INTERNAL || INTERRUPTED_TARGET_PENDING_INTERNAL)
-+  if (state_ == TARGET_PENDING_INTERNAL || state_ == INTERRUPTED_TARGET_PENDING_INTERNAL)
-     return download_file_ ? download_file_->FullPath() : base::FilePath();
-   return base::FilePath();
- }
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
 @@ -308,15 +308,16 @@ void RenderWidgetHostViewBase::SetBackgr

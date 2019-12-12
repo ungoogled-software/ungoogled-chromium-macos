@@ -2,7 +2,7 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1496,28 +1496,6 @@ config("default_warnings") {
+@@ -1511,29 +1511,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
@@ -14,9 +14,6 @@
 -          # TODO(https://crbug.com/989932): Evaluate and possibly enable.
 -          "-Wno-implicit-int-float-conversion",
 -
--          # TODO(https://crbug.com/995200): Clean up and enable.
--          "-Wno-xor-used-as-pow",
--
 -          # TODO(https://crbug.com/999871): Decide if we want to clean up the
 -          # codebase or just disable this.  Doesn't seem super useful, but
 -          # also fires in only 4 files.
@@ -27,7 +24,11 @@
 -
 -          # TODO(https://crbug.com/999886): Clean up, enable.
 -          "-Wno-final-dtor-non-final-class",
+-
+-          # TODO(https://crbug.com/1002945): Evaluate and possibly enable.
+-          "-Wno-sizeof-array-div",
 -        ]
+-
          cflags_c += [
            # TODO(https://crbug.com/995993): Clean up and enable.
            "-Wno-implicit-fallthrough",

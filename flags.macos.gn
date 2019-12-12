@@ -1,5 +1,4 @@
 blink_symbol_level=0
-enable_ac3_eac3_audio_demuxing=true
 enable_iterator_debugging=false
 enable_swiftshader=true
 fatal_linker_warnings=false
