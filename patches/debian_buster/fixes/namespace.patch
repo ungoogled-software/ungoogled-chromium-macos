@@ -15,30 +15,3 @@ author: Michael Gilbert <mgilbert@debian.org>
 +}
  
  #endif  // CHROME_BROWSER_APPS_PLATFORM_APPS_API_SYNC_FILE_SYSTEM_EXTENSION_SYNC_EVENT_OBSERVER_H_
---- a/chrome/browser/ui/views/confirm_bubble_views.cc
-+++ b/chrome/browser/ui/views/confirm_bubble_views.cc
-@@ -25,6 +25,7 @@
- #include "ui/views/style/typography.h"
- #include "ui/views/widget/widget.h"
- 
-+namespace confirm_bubble_views {
- namespace {
- 
- std::unique_ptr<views::View> CreateExtraView(views::ButtonListener* listener) {
-@@ -36,6 +37,7 @@ std::unique_ptr<views::View> CreateExtra
- }
- 
- }  // namespace
-+}  // namespace confirm_bubble_views
- 
- ConfirmBubbleViews::ConfirmBubbleViews(
-     std::unique_ptr<ConfirmBubbleModel> model)
-@@ -46,7 +48,7 @@ ConfirmBubbleViews::ConfirmBubbleViews(
-   DialogDelegate::set_button_label(
-       ui::DIALOG_BUTTON_CANCEL,
-       model_->GetButtonLabel(ConfirmBubbleModel::BUTTON_CANCEL));
--  help_button_ = DialogDelegate::SetExtraView(::CreateExtraView(this));
-+  help_button_ = DialogDelegate::SetExtraView(confirm_bubble_views::CreateExtraView(this));
- 
-   set_margins(ChromeLayoutProvider::Get()->GetDialogInsetsForContentType(
-       views::TEXT, views::TEXT));

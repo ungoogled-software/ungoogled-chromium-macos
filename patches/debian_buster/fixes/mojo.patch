@@ -3,19 +3,18 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/content/shell/BUILD.gn
 +++ b/content/shell/BUILD.gn
-@@ -297,11 +297,7 @@ jumbo_static_library("content_shell_lib"
+@@ -300,10 +300,7 @@ jumbo_static_library("content_shell_lib"
      "//content/public/common",
      "//content/public/common:service_names",
      "//content/shell/test_runner:test_runner",
 -    "//content/test:content_test_mojo_bindings",
 -    "//content/test:mojo_web_test_bindings",
--    "//content/test:mojo_web_test_old_names_bindings",
      "//content/test:test_support",
 -    "//content/test:web_test_support",
      "//device/bluetooth",
      "//device/bluetooth:fake_bluetooth",
      "//device/bluetooth:mocks",
-@@ -361,7 +357,7 @@ jumbo_static_library("content_shell_lib"
+@@ -363,7 +360,7 @@ jumbo_static_library("content_shell_lib"
    }
  
    # Annoyingly, this target and web_test_support have circular includes.

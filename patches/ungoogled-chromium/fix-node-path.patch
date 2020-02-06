@@ -1,0 +1,20 @@
+--- a/third_party/node/node.py
++++ b/third_party/node/node.py
+@@ -10,11 +10,12 @@ import sys
+ 
+ 
+ def GetBinaryPath():
+-  return os_path.join(os_path.dirname(__file__), *{
+-    'Darwin': ('mac', 'node-darwin-x64', 'bin', 'node'),
+-    'Linux': ('linux', 'node-linux-x64', 'bin', 'node'),
+-    'Windows': ('win', 'node.exe'),
+-  }[platform.system()])
++  return subprocess.check_output(["which", "node"]).strip()
++#  return os_path.join(os_path.dirname(__file__), *{
++#    'Darwin': ('mac', 'node-darwin-x64', 'bin', 'node'),
++#    'Linux': ('linux', 'node-linux-x64', 'bin', 'node'),
++#    'Windows': ('win', 'node.exe'),
++#  }[platform.system()])
+ 
+ 
+ def RunNode(cmd_parts, stdout=None):
