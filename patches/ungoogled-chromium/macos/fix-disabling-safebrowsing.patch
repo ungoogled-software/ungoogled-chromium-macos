@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1850,7 +1850,6 @@ jumbo_static_library("browser") {
+@@ -1927,7 +1927,6 @@ jumbo_static_library("browser") {
    allow_circular_includes_from = [
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
@@ -10,15 +10,15 @@
    ]
  
    public_deps = [
-@@ -1900,7 +1899,6 @@ jumbo_static_library("browser") {
-     "//chrome/browser/push_messaging:budget_proto",
+@@ -1981,7 +1980,6 @@ jumbo_static_library("browser") {
+     "//chrome/browser/reputation:proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
 -    "//chrome/browser/safe_browsing",
-     "//chrome/browser/sharing/proto",
      "//chrome/browser/ssl:proto",
      "//chrome/browser/touch_to_fill",
-@@ -4085,13 +4083,6 @@ jumbo_static_library("browser") {
+     "//chrome/browser/ui",
+@@ -4223,13 +4221,6 @@ jumbo_static_library("browser") {
      ]
    }
  
@@ -34,7 +34,7 @@
        "crash_upload_list/crash_upload_list_crashpad.cc",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -747,9 +747,6 @@ jumbo_static_library("extensions") {
+@@ -752,9 +752,6 @@ jumbo_static_library("extensions") {
  
      # TODO(loyso): Remove this circular dependency. http://crbug.com/876576.
      "//chrome/browser/web_applications/extensions",
@@ -44,7 +44,7 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -761,9 +758,7 @@ jumbo_static_library("extensions") {
+@@ -766,9 +763,7 @@ jumbo_static_library("extensions") {
      "//chrome/browser/extensions/api:api_registration",
      "//chrome/common",
      "//chrome/common/extensions/api",
@@ -54,7 +54,7 @@
      "//components/signin/core/browser",
      "//content/public/browser",
      "//mojo/public/cpp/bindings",
-@@ -785,7 +780,6 @@ jumbo_static_library("extensions") {
+@@ -791,7 +786,6 @@ jumbo_static_library("extensions") {
      "//chrome/browser/media/router",
      "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -62,7 +62,7 @@
      "//chrome/browser/web_applications/components",
      "//chrome/browser/web_applications/extensions",
      "//chrome/common/extensions/api:extensions_features",
-@@ -831,11 +825,6 @@ jumbo_static_library("extensions") {
+@@ -837,11 +831,6 @@ jumbo_static_library("extensions") {
      "//components/proxy_config",
      "//components/rappor",
      "//components/resources",
@@ -76,7 +76,7 @@
      "//components/services/unzip/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -341,15 +341,9 @@ jumbo_static_library("ui") {
+@@ -338,15 +338,9 @@ jumbo_static_library("ui") {
      }
    }
  
@@ -93,23 +93,23 @@
    defines = []
    libs = []
  
-@@ -365,7 +359,6 @@ jumbo_static_library("ui") {
-   # browser, then we can clean up these dependencies.
+@@ -363,7 +357,6 @@ jumbo_static_library("ui") {
    public_deps = [
+     "//chrome/common/string_matching",
      "//components/dom_distiller/core",
 -    "//components/safe_browsing:buildflags",
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -395,7 +388,6 @@ jumbo_static_library("ui") {
-     "//chrome/browser/profiling_host",
+@@ -397,7 +390,6 @@ jumbo_static_library("ui") {
      "//chrome/browser/resources/omnibox:resources",
+     "//chrome/browser/resources/quota_internals:quota_internals_resources",
      "//chrome/browser/resources/usb_internals:resources",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/ssl:proto",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -474,16 +466,6 @@ jumbo_static_library("ui") {
+@@ -478,16 +470,6 @@ jumbo_static_library("ui") {
      "//components/rappor",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -126,7 +126,7 @@
      "//components/safe_browsing/web_ui",
      "//components/search",
      "//components/search_engines",
-@@ -1362,7 +1344,6 @@ jumbo_static_library("ui") {
+@@ -1393,7 +1375,6 @@ jumbo_static_library("ui") {
        "//chrome/browser/profile_resetter:profile_reset_report_proto",
        "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
        "//chrome/browser/resource_coordinator/tab_ranker",
@@ -134,7 +134,7 @@
        "//chrome/browser/ui/webui/app_management:mojo_bindings",
        "//chrome/common:buildflags",
        "//chrome/common:search_mojom",
-@@ -2409,7 +2390,6 @@ jumbo_static_library("ui") {
+@@ -2458,7 +2439,6 @@ jumbo_static_library("ui") {
        "//ui/views/controls/webview",
      ]
      deps += [
@@ -142,7 +142,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -3986,15 +3966,6 @@ jumbo_static_library("ui") {
+@@ -4022,15 +4002,6 @@ jumbo_static_library("ui") {
      }
    }
  
@@ -195,7 +195,7 @@
  }
 --- a/chrome/browser/ui/browser.cc
 +++ b/chrome/browser/ui/browser.cc
-@@ -1327,10 +1327,10 @@ void Browser::OnDidBlockNavigation(conte
+@@ -1355,10 +1355,10 @@ void Browser::OnDidBlockNavigation(conte
        framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
      }
    }
@@ -212,7 +212,7 @@
  content::PictureInPictureResult Browser::EnterPictureInPicture(
 --- a/chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
 +++ b/chrome/browser/safe_browsing/download_protection/check_client_download_request_base.cc
-@@ -153,12 +153,20 @@ CheckClientDownloadRequestBase::CheckCli
+@@ -159,12 +159,20 @@ CheckClientDownloadRequestBase::CheckCli
      is_incognito_ = browser_context->IsOffTheRecord();
      is_under_advanced_protection_ =
          profile &&
@@ -235,7 +235,7 @@
          g_browser_process->local_state()->GetInteger(
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -321,8 +321,12 @@ void DownloadProtectionService::ShowDeta
+@@ -323,8 +323,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -274,9 +274,9 @@
  #include "content/public/browser/download_manager.h"
  #include "content/public/browser/url_data_source.h"
  #include "content/public/browser/web_contents.h"
-@@ -56,10 +57,12 @@ content::WebUIDataSource* CreateDownload
-   content::WebUIDataSource* source =
-       content::WebUIDataSource::Create(chrome::kChromeUIDownloadsHost);
+@@ -70,10 +71,12 @@ content::WebUIDataSource* CreateDownload
+       kGeneratedPath, IDR_DOWNLOADS_DOWNLOADS_HTML);
+ #endif
  
 -  bool requests_ap_verdicts =
 -      safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
@@ -288,10 +288,10 @@
 +  #endif
    source->AddBoolean("requestsApVerdicts", requests_ap_verdicts);
  
-   static constexpr LocalizedString kStrings[] = {
+   static constexpr webui::LocalizedString kStrings[] = {
 --- a/chrome/browser/ui/views/download/download_danger_prompt_views.cc
 +++ b/chrome/browser/ui/views/download/download_danger_prompt_views.cc
-@@ -219,17 +219,18 @@ base::string16 DownloadDangerPromptViews
+@@ -218,17 +218,18 @@ base::string16 DownloadDangerPromptViews
              download_->GetFileNameToReportUser().LossyDisplayName());
        }
        case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
@@ -314,7 +314,7 @@
          return l10n_util::GetStringFUTF16(
 --- a/chrome/browser/ui/views/download/download_item_view.cc
 +++ b/chrome/browser/ui/views/download/download_item_view.cc
-@@ -999,6 +999,7 @@ void DownloadItemView::ShowWarningDialog
+@@ -1062,6 +1062,7 @@ void DownloadItemView::ShowWarningDialog
  gfx::ImageSkia DownloadItemView::GetWarningIcon() {
    switch (model_->GetDangerType()) {
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
@@ -322,7 +322,7 @@
        if (safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
                model()->profile())
                ->RequestsAdvancedProtectionVerdicts()) {
-@@ -1007,6 +1008,7 @@ gfx::ImageSkia DownloadItemView::GetWarn
+@@ -1070,6 +1071,7 @@ gfx::ImageSkia DownloadItemView::GetWarn
              GetNativeTheme()->GetSystemColor(
                  ui::NativeTheme::kColorId_AlertSeverityMedium));
        }

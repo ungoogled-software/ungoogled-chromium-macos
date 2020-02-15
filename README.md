@@ -18,6 +18,7 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 * Perl (for creating a `.dmg` package)
 * Python 2, specifically 2.7.13 or newer, as `python` in PATH
 * Python 3.5 or newer as `python3` in PATH
+* Node.js
 
 ### Setting up the build environment
 
@@ -35,7 +36,8 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
 ```
 8. Set global `python` command to use Python 2.7.13: `pyenv global 2.7.13`.
-9. Restart your Terminal
+9. Install Node.js: `brew install node`
+10. Restart your Terminal
 
 ### Build
 

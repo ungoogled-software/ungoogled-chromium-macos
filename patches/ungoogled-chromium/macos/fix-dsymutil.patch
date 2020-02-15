@@ -12,12 +12,12 @@
 --- a/build/toolchain/mac/BUILD.gn
 +++ b/build/toolchain/mac/BUILD.gn
 @@ -185,8 +185,7 @@ template("mac_toolchain") {
+     if (_enable_dsyms) {
        dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
-       if (is_mac) {
-         dsym_switch += "-Wcrl,dsymutilpath," +
--                       rebase_path("//tools/clang/dsymutil/bin/dsymutil",
--                                   root_build_dir) + " "
-+                           "/usr/bin/dsymutil "
-       }
+       dsym_switch += "-Wcrl,dsymutilpath," +
+-                     rebase_path("//tools/clang/dsymutil/bin/dsymutil",
+-                                 root_build_dir) + " "
++                        "/usr/bin/dsymutil "
  
        dsym_output_dir =
+           "{{root_out_dir}}/{{target_output_name}}{{output_extension}}.dSYM"

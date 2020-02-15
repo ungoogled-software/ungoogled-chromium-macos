@@ -9,5 +9,4 @@ is_official_build=true
 proprietary_codecs=true
 symbol_level=0
 use_gnome_keyring=false
-use_jumbo_build=true
 use_sysroot=false
