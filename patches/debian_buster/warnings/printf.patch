@@ -25,7 +25,7 @@ author: Michael Gilbert <mgilbert@debian.org>
        error_message =
 --- a/third_party/blink/renderer/modules/cache_storage/inspector_cache_storage_agent.cc
 +++ b/third_party/blink/renderer/modules/cache_storage/inspector_cache_storage_agent.cc
-@@ -453,7 +453,7 @@ class CachedResponseFileReaderLoaderClie
+@@ -455,7 +455,7 @@ class CachedResponseFileReaderLoaderClie
  
    void DidFail(FileErrorCode error) override {
      callback_->sendFailure(ProtocolResponse::Error(String::Format(

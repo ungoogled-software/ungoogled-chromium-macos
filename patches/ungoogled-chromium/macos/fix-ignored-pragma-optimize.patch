@@ -2,7 +2,7 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1516,27 +1516,6 @@ config("default_warnings") {
+@@ -1510,33 +1510,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
@@ -25,8 +25,14 @@
 -
 -          # TODO(https://crbug.com/1028110): Evaluate and possible enable.
 -          "-Wno-deprecated-copy",
+-
+-          # TODO(https://crbug.com/1031169): Clean up and enable.
+-          "-Wno-misleading-indentation",
+-
+-          # TODO(https://crbug.com/1039697): Evaluate and possibly enable.
+-          "-Wno-range-loop-analysis",
 -        ]
 -
-         if (is_fuchsia) {
-           cflags += [
-             # TODO(https://crbug.com/999871): Clean up, enable.
+         cflags_c += [
+           # TODO(https://crbug.com/995993): Clean up and enable.
+           "-Wno-implicit-fallthrough",

@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -68,8 +68,6 @@ group("gn_all") {
+@@ -70,8 +70,6 @@ group("gn_all") {
      "//base:base_perftests",
      "//base:base_unittests",
      "//base/util:base_util_unittests",
