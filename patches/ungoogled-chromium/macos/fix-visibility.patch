@@ -1,14 +1,25 @@
 # Fix compiling on macOS
 
---- a/tools/gn/tools/gn/visibility.h
-+++ b/tools/gn/tools/gn/visibility.h
+--- a/tools/gn/src/gn/visibility.cc
++++ b/tools/gn/src/gn/visibility.cc
+@@ -78,7 +78,7 @@ std::string Visibility::Describe(int ind
+   return result;
+ }
+ 
+-std::unique_ptr<base::Value> Visibility::AsValue() const {
++std::unique_ptr<base::ListValue> Visibility::AsValue() const {
+   auto res = std::make_unique<base::ListValue>();
+   for (const auto& pattern : patterns_)
+     res->AppendString(pattern.Describe());
+--- a/tools/gn/src/gn/visibility.h
++++ b/tools/gn/src/gn/visibility.h
 @@ -9,6 +9,7 @@
  #include <vector>
  
  #include "base/macros.h"
 +#include "base/values.h"
- #include "tools/gn/label_pattern.h"
- #include "tools/gn/source_dir.h"
+ #include "gn/label_pattern.h"
+ #include "gn/source_dir.h"
  
 @@ -49,7 +50,7 @@ class Visibility {
    std::string Describe(int indent, bool include_brackets) const;
@@ -19,14 +30,3 @@
  
    // Helper function to check visibility between the given two items. If
    // to is invisible to from, returns false and sets the error.
---- a/tools/gn/tools/gn/visibility.cc
-+++ b/tools/gn/tools/gn/visibility.cc
-@@ -78,7 +78,7 @@ std::string Visibility::Describe(int ind
-   return result;
- }
- 
--std::unique_ptr<base::Value> Visibility::AsValue() const {
-+std::unique_ptr<base::ListValue> Visibility::AsValue() const {
-   auto res = std::make_unique<base::ListValue>();
-   for (const auto& pattern : patterns_)
-     res->AppendString(pattern.Describe());
