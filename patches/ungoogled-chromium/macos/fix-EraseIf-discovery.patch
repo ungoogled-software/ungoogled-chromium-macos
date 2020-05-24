@@ -1,0 +1,30 @@
+--- a/base/stl_util.h
++++ b/base/stl_util.h
+@@ -579,6 +579,13 @@ size_t EraseIf(std::forward_list<T, Allo
+   return old_size - std::distance(container.begin(), container.end());
+ }
+ 
++template <class T, class Allocator, class Predicate>
++size_t EraseIf(std::list<T, Allocator>& container, Predicate pred) {
++  size_t old_size = container.size();
++  container.remove_if(pred);
++  return old_size - container.size();
++}
++
+ template <class T, class Allocator, class Value>
+ size_t Erase(std::list<T, Allocator>& container, const Value& value) {
+   // Unlike std::list::remove, this function template accepts heterogeneous
+@@ -587,13 +594,6 @@ size_t Erase(std::list<T, Allocator>& co
+   return EraseIf(container, [&](const T& cur) { return cur == value; });
+ }
+ 
+-template <class T, class Allocator, class Predicate>
+-size_t EraseIf(std::list<T, Allocator>& container, Predicate pred) {
+-  size_t old_size = container.size();
+-  container.remove_if(pred);
+-  return old_size - container.size();
+-}
+-
+ template <class Key, class T, class Compare, class Allocator, class Predicate>
+ size_t EraseIf(std::map<Key, T, Compare, Allocator>& container,
+                Predicate pred) {

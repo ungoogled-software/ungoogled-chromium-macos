@@ -2,7 +2,7 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1510,33 +1510,6 @@ config("default_warnings") {
+@@ -1491,30 +1491,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
@@ -17,22 +17,19 @@
 -          # TODO(https://crbug.com/999886): Clean up, enable.
 -          "-Wno-final-dtor-non-final-class",
 -
--          # TODO(https://crbug.com/1016947) Clean up, enable.
--          "-Wno-bitwise-conditional-parentheses",
--
 -          # TODO(https://crbug.com/1016945) Clean up, enable.
 -          "-Wno-builtin-assume-aligned-alignment",
 -
 -          # TODO(https://crbug.com/1028110): Evaluate and possible enable.
 -          "-Wno-deprecated-copy",
 -
--          # TODO(https://crbug.com/1031169): Clean up and enable.
--          "-Wno-misleading-indentation",
+-          # TODO(https://crbug.com/1050281): Clean up, enable.
+-          "-Wno-non-c-typedef-for-linkage",
 -
--          # TODO(https://crbug.com/1039697): Evaluate and possibly enable.
--          "-Wno-range-loop-analysis",
+-          # TODO(https://crbug.com/1059231): Clean up, enable.
+-          "-Wno-pointer-to-int-cast",
 -        ]
 -
-         cflags_c += [
-           # TODO(https://crbug.com/995993): Clean up and enable.
-           "-Wno-implicit-fallthrough",
+         if (is_android) {
+           cflags += [
+             # TODO(https://crbug.com/1016947) Clean up, enable.

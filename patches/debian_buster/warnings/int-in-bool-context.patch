@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
          filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16389,7 +16389,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16388,7 +16388,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
@@ -51,7 +51,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
 +++ b/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
-@@ -978,7 +978,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
+@@ -1020,7 +1020,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
    }
    if (token->GetName() == html_names::kColTag) {
      ProcessFakeStartTag(html_names::kColgroupTag);

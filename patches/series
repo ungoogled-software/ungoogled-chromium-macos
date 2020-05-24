@@ -16,4 +16,6 @@ ungoogled-chromium/macos/fix-disabling-safebrowsing.patch
 ungoogled-chromium/macos/fix-visibility.patch
 ungoogled-chromium/macos/fix-ignored-pragma-optimize.patch
 ungoogled-chromium/macos/fix-dsymutil.patch
+ungoogled-chromium/macos/fix-clang-format-path.patch
+ungoogled-chromium/macos/fix-EraseIf-discovery.patch
 ungoogled-chromium/fix-node-path.patch

@@ -1,0 +1,22 @@
+--- a/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
++++ b/third_party/blink/renderer/bindings/scripts/bind_gen/style_format.py
+@@ -34,9 +34,16 @@ def init(root_src_dir):
+     buildtools_platform_dir = os.path.join(root_src_dir, "buildtools",
+                                            platform)
+ 
+-    # //buildtools/<platform>/clang-format
+-    _clang_format_command_path = os.path.join(
+-        buildtools_platform_dir, "clang-format{}".format(exe_suffix))
++    _clang_format_command_path = ""
++    try:
++        # try to get system clang-format
++        _clang_format_command_path = subprocess.check_output(
++            ["which", "clang-format"]).strip()
++    except subprocess.CalledProcessError:
++        # otherwise, use the bundled clang-format
++        _clang_format_command_path = os.path.join(
++            root_src_dir, "third_party/llvm-build/Release+Asserts/bin",
++            "clang-format{}".format(exe_suffix))
+ 
+     # //buildtools/<platform>/gn
+     _gn_command_path = os.path.join(buildtools_platform_dir,
