@@ -2,7 +2,7 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1491,30 +1491,6 @@ config("default_warnings") {
+@@ -1506,30 +1506,6 @@ config("default_warnings") {
        if (current_toolchain == host_toolchain || !use_xcode_clang) {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
