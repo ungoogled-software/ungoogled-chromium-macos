@@ -2,34 +2,27 @@
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1506,30 +1506,6 @@ config("default_warnings") {
-       if (current_toolchain == host_toolchain || !use_xcode_clang) {
+@@ -1507,10 +1507,6 @@ config("default_warnings") {
          # Flags NaCl (Clang 3.7) and Xcode 9.2 (Clang clang-900.0.39.2) do not
          # recognize.
--        cflags += [
+         cflags += [
 -          # Ignore warnings about MSVC optimization pragmas.
 -          # TODO(thakis): Only for no_chromium_code? http://crbug.com/912662
 -          "-Wno-ignored-pragma-optimize",
 -
--          # TODO(https://crbug.com/989932): Evaluate and possibly enable.
--          "-Wno-implicit-int-float-conversion",
--
--          # TODO(https://crbug.com/999886): Clean up, enable.
--          "-Wno-final-dtor-non-final-class",
--
--          # TODO(https://crbug.com/1016945) Clean up, enable.
--          "-Wno-builtin-assume-aligned-alignment",
--
--          # TODO(https://crbug.com/1028110): Evaluate and possible enable.
--          "-Wno-deprecated-copy",
+           # TODO(https://crbug.com/989932): Evaluate and possibly enable.
+           "-Wno-implicit-int-float-conversion",
+ 
+@@ -1522,12 +1518,6 @@ config("default_warnings") {
+ 
+           # TODO(https://crbug.com/1028110): Evaluate and possible enable.
+           "-Wno-deprecated-copy",
 -
 -          # TODO(https://crbug.com/1050281): Clean up, enable.
 -          "-Wno-non-c-typedef-for-linkage",
 -
 -          # TODO(https://crbug.com/1059231): Clean up, enable.
 -          "-Wno-pointer-to-int-cast",
--        ]
--
+         ]
+ 
          if (is_android) {
-           cflags += [
-             # TODO(https://crbug.com/1016947) Clean up, enable.
