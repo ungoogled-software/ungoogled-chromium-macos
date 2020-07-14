@@ -1,38 +1,119 @@
-name: Ungoogled-chromium
-on: [push, pull_request]
+name: Build macOS binaries of Ungoogled Chromium
+on: 
+  push:
+    branches:
+      - release/*
 
 jobs:
-  build:
-    name: Build Chromium
+  build_job_01:
+    name: Start Building Ungoogled-Chromium for macOS
     runs-on: macos-latest
+    outputs:
+      status: ${{ steps.build1.outputs.status }}
 
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
         name: Clone repository
         with:
           submodules: true
+      - name: Get Env
+        run: ./github_get_env.sh | tee -a github_actions_env.log
       - name: Install dependencies
-        run: |
-          brew install ninja coreutils readline xz zlib python pyenv
-          pyenv install 2.7.13
-          echo -e 'if command -v pyenv 1>/dev/null 2>&1; then\n  eval "$(pyenv init -)"\nfi' >> ~/.bash_profile
+        run: brew install coreutils ninja zlib
+      - name: Download, unpack, and prepare for building
+        run: ./github_before_build.sh | tee -a github_actions_build.log
       - name: Build
-        run: |
-          ./build.sh
-      - name: Move artifact
-        run: |
-          cd build
-          mkdir artifact
-          mv *chromium*.dmg artifact/
-
-          cd artifact
-          SUMS=checksums.txt
-          openssl md5 *chromium*.dmg > $SUMS
-          openssl sha1 *chromium*.dmg >> $SUMS
-          openssl sha256 *chromium*.dmg >> $SUMS
-          cat $SUMS
-      - uses: actions/upload-artifact@master
-        name: Upload artifact
+        id: build1
+        run: ./github_build.sh 2>&1 | tee -a github_actions_build.log
+      - name: Prepare archive of build as artifact
+        run: ./github_prepare_artifacts.sh | tee -a github_actions_upload.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
         with:
-          name: Ungoogled-chromium
-          path: build/artifact/
+          name: github_build_artifact
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: github_build_logs
+          path: upload_logs/
+  
+  build_job_02:
+    continue-on-error: true
+    name: Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-latest
+    needs: build_job_01
+    if: ${{needs.build_job_01.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build2.outputs.status }}
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Download build
+        uses: actions/download-artifact@v2
+        with:
+            name: github_build_artifact
+      - name: Install dependencies
+        run: brew install coreutils ninja zlib
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build2
+        run: ./github_build.sh 2>&1 | tee -a github_actions_build.log
+      - name: Prepare archive of build as artifact
+        run: ./github_prepare_artifacts.sh | tee -a github_actions_upload.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: github_build_artifact
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: github_build_logs
+          path: upload_logs/
+
+  build_job_03:
+    continue-on-error: true
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-latest
+    needs: build_job_02
+    if: ${{needs.build_job_02.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build3.outputs.status }}
+
+    steps:
+      - uses: actions/checkout@v2
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Download resumed build
+        uses: actions/download-artifact@v2
+        with:
+            name: github_build_artifact
+      - name: Install dependencies
+        run: brew install coreutils ninja zlib
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build3
+        run: ./github_build.sh 2>&1 | tee -a github_actions_build.log
+      - name: Prepare archive of build as artifact
+        run: ./github_prepare_artifacts.sh | tee -a github_actions_upload.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: github_build_artifact
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v2
+        with:
+          name: github_build_logs
+          path: upload_logs/
