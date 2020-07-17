@@ -3,23 +3,12 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/content/shell/BUILD.gn
 +++ b/content/shell/BUILD.gn
-@@ -304,10 +304,7 @@ static_library("content_shell_lib") {
+@@ -435,8 +435,6 @@ static_library("content_shell_lib") {
+     "//content/public/common",
      "//content/public/common:service_names",
-     "//content/shell/test_runner:test_runner",
      "//content/test:blink_test_browser_support",
 -    "//content/test:content_test_mojo_bindings",
 -    "//content/test:mojo_web_test_bindings",
      "//content/test:test_support",
--    "//content/test:web_test_support",
+     "//content/test:web_test_support_browser",
      "//device/bluetooth",
-     "//device/bluetooth:fake_bluetooth",
-     "//device/bluetooth:mocks",
-@@ -368,7 +365,7 @@ static_library("content_shell_lib") {
-   }
- 
-   # Annoyingly, this target and web_test_support have circular includes.
--  allow_circular_includes_from = [ "//content/test:web_test_support" ]
-+  allow_circular_includes_from = [ ]
- 
-   if (enable_plugins) {
-     deps += [

@@ -2,7 +2,7 @@
 
 --- a/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
 +++ b/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
-@@ -123,61 +123,7 @@ class HandlerStarter final : public Noti
+@@ -124,61 +124,7 @@ class HandlerStarter final : public Noti
        const std::map<std::string, std::string>& annotations,
        const std::vector<std::string>& arguments,
        bool restartable) {
@@ -65,7 +65,7 @@
    }
  
    // NotifyServer::DefaultInterface:
-@@ -446,23 +392,7 @@ bool CrashpadClient::StartHandler(
+@@ -447,23 +393,7 @@ bool CrashpadClient::StartHandler(
      const std::vector<std::string>& arguments,
      bool restartable,
      bool asynchronous_start) {

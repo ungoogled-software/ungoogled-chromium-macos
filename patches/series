@@ -7,7 +7,6 @@ debian_buster/fixes/empty-array.patch
 debian_buster/disable/installer.patch
 debian_buster/warnings/printf.patch
 debian_buster/warnings/multichar.patch
-debian_buster/warnings/unused-typedefs.patch
 debian_buster/warnings/null-destination.patch
 debian_buster/warnings/int-in-bool-context.patch
 ungoogled-chromium/macos/disable-symbol-order-verification.patch
