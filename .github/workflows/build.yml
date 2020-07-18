@@ -9,7 +9,7 @@ on:
       - '!build.sh'
       - '!README.md'
       - '!LICENSE'
-      - 'devutils/**'
+      - '!devutils/**'
   pull_request:
     paths:
       - 'patches/**'
@@ -19,7 +19,7 @@ on:
       - '!build.sh'
       - '!README.md'
       - '!LICENSE'
-      - 'devutils/**'
+      - '!devutils/**'
 # alternatively use on.push.branches: release/*
 
 jobs:
