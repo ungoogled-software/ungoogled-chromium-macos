@@ -1,8 +1,26 @@
 name: Build macOS binaries of Ungoogled Chromium
 on: 
   push:
-    branches:
-      - release/*
+    paths:
+      - 'patches/**'
+      - 'downloads.ini'
+      - 'revision.txt'
+      - 'flags.macos.gn'
+      - '!build.sh'
+      - '!README.md'
+      - '!LICENSE'
+      - 'devutils/**'
+  pull_request:
+    paths:
+      - 'patches/**'
+      - 'downloads.ini'
+      - 'revision.txt'
+      - 'flags.macos.gn'
+      - '!build.sh'
+      - '!README.md'
+      - '!LICENSE'
+      - 'devutils/**'
+# alternatively use on.push.branches: release/*
 
 jobs:
   build_job_01:
