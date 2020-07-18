@@ -10,6 +10,7 @@ on:
       - '!README.md'
       - '!LICENSE'
       - '!devutils/**'
+      - '.github/scripts/force_build.txt'
   pull_request:
     paths:
       - 'patches/**'
@@ -57,6 +58,29 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.build.outputs.release_tag_version }}
+          release_name: ${{ steps.build.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./upload_part_build/${{ steps.build.outputs.file_name }}
+          asset_name: ${{ steps.build.outputs.file_name }}
+          asset_content_type: application/octet-stream
   
   build_job_02:
     continue-on-error: true
@@ -99,6 +123,29 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.build.outputs.release_tag_version }}
+          release_name: ${{ steps.build.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./upload_part_build/${{ steps.build.outputs.file_name }}
+          asset_name: ${{ steps.build.outputs.file_name }}
+          asset_content_type: application/octet-stream
 
   build_job_03:
     continue-on-error: true
@@ -141,3 +188,26 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ steps.build.outputs.release_tag_version }}
+          release_name: ${{ steps.build.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+      - name: Upload Release Asset
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        id: upload-release-asset 
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./upload_part_build/${{ steps.build.outputs.file_name }}
+          asset_name: ${{ steps.build.outputs.file_name }}
+          asset_content_type: application/octet-stream
