@@ -26,17 +26,16 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
     --format UDBZ --verbosity 2
 
   cd "$_root_dir"
-  sha256sum ./$_file_name | tee ./sums.txt
+  sha256sum ./"$_file_name" | tee ./sums.txt
   _sha256sum=$(awk '{print $1;exit 0}' ./sums.txt)
 
   echo "::set-output name=file_name::$_file_name"
   echo "::set-output name=release_tag_version::$_release_tag_version"
 
   _gh_run_href="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-  _gh_wf_href="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}/workflow"
-
+  
   printf '`sha256sum` for diskimage `%s`: \n\n```\n%s\n```\n\n' "$_file_name" "$_sha256sum" | tee -a ./github_release_text.md
-  printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s) used as well as the build logs and artifacts\n' $_gh_wf_href $_gh_run_href | tee -a ./github_release_text.md
+  printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s/workflow) used as well as the build logs and artifacts\n' "$_gh_run_href" "$_gh_run_href" | tee -a ./github_release_text.md
 else
 
   if ! hdiutil detach -verbose "$_src_dir" ; then

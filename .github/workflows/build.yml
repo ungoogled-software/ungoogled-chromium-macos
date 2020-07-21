@@ -36,7 +36,7 @@ jobs:
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -van ./.github/scripts/ ./
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
       - name: Get Env
         run: ./github_get_env.sh | tee -a github_actions_env.log
       - name: Install dependencies
@@ -98,7 +98,7 @@ jobs:
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -van ./.github/scripts/ ./
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Download build
@@ -164,7 +164,7 @@ jobs:
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -van ./.github/scripts/ ./
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Download resumed build
