@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/base/strings/stringprintf.cc
 +++ b/base/strings/stringprintf.cc
-@@ -66,14 +66,14 @@ static void StringAppendVT(std::basic_st
+@@ -67,14 +67,14 @@ static void StringAppendVT(std::basic_st
    int result = vsnprintfT(stack_buf, base::size(stack_buf), format, ap_copy);
    va_end(ap_copy);
  
