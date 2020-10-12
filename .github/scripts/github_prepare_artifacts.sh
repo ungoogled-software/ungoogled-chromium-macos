@@ -26,15 +26,18 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
     --format UDBZ --verbosity 2
 
   cd "$_root_dir"
-  sha256sum ./"$_file_name" | tee ./sums.txt
-  _sha256sum=$(awk '{print $1;exit 0}' ./sums.txt)
+  echo -e "md5: \nsha1: \nsha256: " | tee ./hash_types.txt
+  { md5sum "$_file_name" ; sha1sum "$_file_name" ; sha256sum "$_file_name" ; } | tee ./sums.txt
+  
+  _hash_md=$(paste ./hash_types.txt ./sums.txt | awk '{print $1 " " $2}')
 
   echo "::set-output name=file_name::$_file_name"
   echo "::set-output name=release_tag_version::$_release_tag_version"
 
   _gh_run_href="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
   
-  printf '`sha256sum` for diskimage `%s`: \n\n```\n%s\n```\n\n' "$_file_name" "$_sha256sum" | tee -a ./github_release_text.md
+  printf '[Hashes](https://en.wikipedia.org/wiki/Cryptographic_hash_function) for the disk image `%s`: \n' "$_file_name" | tee ./github_release_text.md
+  printf '\n```\n%s\n```\n' "$_hash_md" | tee -a ./github_release_text.md
   printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s/workflow) used as well as the build logs and artifacts\n' "$_gh_run_href" "$_gh_run_href" | tee -a ./github_release_text.md
 else
 
