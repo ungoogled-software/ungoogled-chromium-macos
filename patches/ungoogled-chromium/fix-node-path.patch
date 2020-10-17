@@ -1,6 +1,6 @@
 --- a/third_party/node/node.py
 +++ b/third_party/node/node.py
-@@ -10,11 +10,12 @@ import sys
+@@ -11,11 +11,12 @@ import os
  
  
  def GetBinaryPath():

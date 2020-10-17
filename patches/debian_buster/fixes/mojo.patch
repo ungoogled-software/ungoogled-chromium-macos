@@ -3,12 +3,19 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/content/shell/BUILD.gn
 +++ b/content/shell/BUILD.gn
-@@ -429,8 +429,6 @@ static_library("content_shell_lib") {
+@@ -185,7 +185,6 @@ if (support_web_tests) {
+       "//content/browser:for_content_tests",  # For non-component builds.
+       "//content/public/browser",  # For component builds.
+       "//content/test:blink_test_browser_support",
+-      "//content/test:mojo_web_test_bindings",
+       "//content/test:test_support",
+       "//device/bluetooth:fake_bluetooth",
+       "//device/bluetooth:mocks",
+@@ -505,7 +504,6 @@ static_library("content_shell_lib") {
+     "//content/app/resources",
      "//content/public/common",
      "//content/public/common:service_names",
-     "//content/test:blink_test_browser_support",
 -    "//content/test:content_test_mojo_bindings",
--    "//content/test:mojo_web_test_bindings",
      "//content/test:test_support",
-     "//content/test:web_test_support_browser",
      "//device/bluetooth",
+     "//media",
