@@ -1,5 +1,4 @@
 blink_symbol_level=0
-chrome_pgo_phase=0
 enable_iterator_debugging=false
 enable_swiftshader=true
 fatal_linker_warnings=false

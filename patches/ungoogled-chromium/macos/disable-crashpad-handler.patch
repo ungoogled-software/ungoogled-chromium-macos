@@ -2,7 +2,7 @@
 
 --- a/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
 +++ b/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
-@@ -124,61 +124,7 @@ class HandlerStarter final : public Noti
+@@ -125,61 +125,7 @@ class HandlerStarter final : public Noti
        const std::map<std::string, std::string>& annotations,
        const std::vector<std::string>& arguments,
        bool restartable) {
@@ -65,21 +65,22 @@
    }
  
    // NotifyServer::DefaultInterface:
-@@ -451,23 +397,7 @@ bool CrashpadClient::StartHandler(
+@@ -452,24 +398,7 @@ bool CrashpadClient::StartHandler(
    // Attachments are not implemented on MacOS yet.
    DCHECK(attachments.empty());
  
 -  // The “restartable” behavior can only be selected on OS X 10.10 and later. In
 -  // previous OS versions, if the initial client were to crash while attempting
 -  // to restart the handler, it would become an unkillable process.
--  base::mac::ScopedMachSendRight exception_port(
--      HandlerStarter::InitialStart(handler,
--                                   database,
--                                   metrics_dir,
--                                   url,
--                                   annotations,
--                                   arguments,
--                                   restartable && MacOSXMinorVersion() >= 10));
+-  base::mac::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
+-      handler,
+-      database,
+-      metrics_dir,
+-      url,
+-      annotations,
+-      arguments,
+-      restartable && (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10 ||
+-                      MacOSVersionNumber() >= 10'10'00)));
 -  if (!exception_port.is_valid()) {
 -    return false;
 -  }
