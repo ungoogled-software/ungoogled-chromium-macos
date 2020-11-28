@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1827,7 +1827,6 @@ static_library("browser") {
+@@ -1838,7 +1838,6 @@ static_library("browser") {
    allow_circular_includes_from = [
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
@@ -10,15 +10,15 @@
    ]
  
    public_deps = [
-@@ -1892,7 +1891,6 @@ static_library("browser") {
+@@ -1913,7 +1912,6 @@ static_library("browser") {
      "//chrome/browser/reputation:proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
 -    "//chrome/browser/safe_browsing",
-     "//chrome/browser/sharing:buildflags",
-     "//chrome/browser/sharing/proto",
-     "//chrome/browser/storage_access_api:permissions",
-@@ -4709,13 +4707,6 @@ static_library("browser") {
+     "//chrome/browser/safe_browsing:advanced_protection",
+     "//chrome/browser/safe_browsing:url_lookup_service_factory",
+     "//chrome/browser/search/shopping_tasks:mojo_bindings",
+@@ -5012,13 +5010,6 @@ static_library("browser") {
      ]
    }
  
@@ -34,7 +34,7 @@
        "crash_upload_list/crash_upload_list_crashpad.cc",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -733,9 +733,6 @@ static_library("extensions") {
+@@ -728,9 +728,6 @@ static_library("extensions") {
  
      # TODO(crbug.com/1065748): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
@@ -44,25 +44,25 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -747,9 +744,7 @@ static_library("extensions") {
-     "//chrome/browser/extensions/api:api_registration",
+@@ -743,9 +740,7 @@ static_library("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
+     "//components/omnibox/browser",
 -    "//components/safe_browsing/core:csd_proto",
      "//components/safe_browsing/core:webprotect_proto",
 -    "//components/safe_browsing/core/db:util",
      "//components/signin/core/browser",
+     "//components/translate/content/browser",
      "//content/public/browser",
-     "//mojo/public/cpp/bindings",
-@@ -777,7 +772,6 @@ static_library("extensions") {
-     "//chrome/browser/nearby_sharing/common",
+@@ -773,7 +768,6 @@ static_library("extensions") {
+     "//chrome/browser/media/router/discovery",
      "//chrome/browser/resource_coordinator:intervention_policy_database_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/web_applications",
      "//chrome/browser/web_applications/components",
  
-@@ -832,12 +826,6 @@ static_library("extensions") {
+@@ -827,12 +821,6 @@ static_library("extensions") {
      "//components/proxy_config",
      "//components/rappor",
      "//components/resources",
@@ -77,7 +77,7 @@
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -317,15 +317,9 @@ static_library("ui") {
+@@ -313,15 +313,9 @@ static_library("ui") {
      ]
    }
  
@@ -94,7 +94,7 @@
    defines = []
    libs = []
  
-@@ -342,7 +336,6 @@ static_library("ui") {
+@@ -338,7 +332,6 @@ static_library("ui") {
    public_deps = [
      "//chrome/services/machine_learning:machine_learning_tflite_buildflags",
      "//components/dom_distiller/core",
@@ -102,7 +102,7 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -380,7 +373,6 @@ static_library("ui") {
+@@ -375,7 +368,6 @@ static_library("ui") {
      "//chrome/browser/resources/omnibox:resources",
      "//chrome/browser/resources/quota_internals:quota_internals_resources",
      "//chrome/browser/resources/usb_internals:resources",
@@ -110,7 +110,7 @@
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
      "//chrome/browser/ui/webui/interventions_internals:mojo_bindings",
-@@ -482,17 +474,7 @@ static_library("ui") {
+@@ -477,17 +469,7 @@ static_library("ui") {
      "//components/reading_list/core",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -128,15 +128,15 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -1515,7 +1497,6 @@ static_library("ui") {
+@@ -1510,7 +1492,6 @@ static_library("ui") {
        "//chrome/browser/promo_browser_command:mojo_bindings",
        "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
        "//chrome/browser/resource_coordinator/tab_ranker",
 -      "//chrome/browser/safe_browsing:advanced_protection",
+       "//chrome/browser/search/shopping_tasks:mojo_bindings",
        "//chrome/browser/ui/color:color_headers",
        "//chrome/browser/ui/color:mixers",
-       "//chrome/browser/ui/webui/app_management:mojo_bindings",
-@@ -3067,7 +3048,6 @@ static_library("ui") {
+@@ -3142,7 +3123,6 @@ static_library("ui") {
        "//ui/views/controls/webview",
      ]
      deps += [
@@ -144,7 +144,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -4392,15 +4372,6 @@ static_library("ui") {
+@@ -4462,15 +4442,6 @@ static_library("ui") {
      }
    }
  
@@ -162,7 +162,7 @@
    }
 --- a/chrome/browser/ui/browser.cc
 +++ b/chrome/browser/ui/browser.cc
-@@ -1467,10 +1467,10 @@ void Browser::OnDidBlockNavigation(
+@@ -1475,10 +1475,10 @@ void Browser::OnDidBlockNavigation(
        framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
      }
    }
@@ -273,7 +273,7 @@
          return l10n_util::GetStringFUTF16(
 --- a/chrome/browser/ui/views/download/download_item_view.cc
 +++ b/chrome/browser/ui/views/download/download_item_view.cc
-@@ -998,11 +998,13 @@ ui::ImageModel DownloadItemView::GetIcon
+@@ -975,11 +975,13 @@ ui::ImageModel DownloadItemView::GetIcon
    const auto danger_type = model_->GetDangerType();
    switch (danger_type) {
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
@@ -289,7 +289,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -5177,10 +5177,12 @@ ChromeContentBrowserClient::GetUrlLookup
+@@ -5197,10 +5197,12 @@ ChromeContentBrowserClient::GetUrlLookup
    }
  #endif
  
