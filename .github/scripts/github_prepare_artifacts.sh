@@ -50,8 +50,8 @@ else
   sleep 2
 
   hdiutil compact ./build_src.sparsebundle
-  # Needs to be compressed to stay below GitHub's upload limit 5-8GB (?)
-  tar -c -f - build_src.sparsebundle/ | zstd -T0 -o build_src.sparsebundle.tar.zst
+  # Needs to be compressed to stay below GitHub's upload limit 2 GB (?!) 2020-11-24; used to be  5-8GB (?)
+  tar -c -f - build_src.sparsebundle/ | zstd -7 -T0 -o build_src.sparsebundle.tar.zst
 
   sha256sum ./build_src.sparsebundle.tar.zst | tee ./sums.txt
 fi

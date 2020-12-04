@@ -289,7 +289,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -5197,10 +5197,12 @@ ChromeContentBrowserClient::GetUrlLookup
+@@ -5207,10 +5207,12 @@ ChromeContentBrowserClient::GetUrlLookup
    }
  #endif
  
