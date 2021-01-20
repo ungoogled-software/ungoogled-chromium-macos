@@ -2,7 +2,7 @@
 
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
-@@ -1044,7 +1044,7 @@ if (is_win) {
+@@ -1057,7 +1057,7 @@ if (is_win) {
    assert(_framework_binary_path != "",
           "Ignore configuration-dependent unused variable warning")
  

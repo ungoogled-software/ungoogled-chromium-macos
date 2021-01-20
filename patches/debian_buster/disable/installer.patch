@@ -3,12 +3,12 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -71,8 +71,6 @@ group("gn_all") {
+@@ -72,8 +72,6 @@ group("gn_all") {
      "//base:base_perftests",
      "//base:base_unittests",
      "//base/util:base_util_unittests",
 -    "//chrome/installer",
 -    "//chrome/updater",
+     "//codelabs",
      "//components:components_unittests",
      "//components/gwp_asan:gwp_asan_unittests",
-     "//net:net_unittests",

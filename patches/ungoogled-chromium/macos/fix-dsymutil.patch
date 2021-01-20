@@ -11,7 +11,7 @@
      file_match = dsymutil_file_re.search(line)
 --- a/build/toolchain/mac/BUILD.gn
 +++ b/build/toolchain/mac/BUILD.gn
-@@ -198,8 +198,7 @@ template("mac_toolchain") {
+@@ -199,8 +199,7 @@ template("mac_toolchain") {
      if (_enable_dsyms) {
        dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
        dsym_switch += "-Wcrl,dsymutilpath," +
