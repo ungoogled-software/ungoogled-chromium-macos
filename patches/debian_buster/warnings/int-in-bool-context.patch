@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/third_party/webrtc/modules/video_processing/video_denoiser.cc
 +++ b/third_party/webrtc/modules/video_processing/video_denoiser.cc
-@@ -191,7 +191,7 @@ void VideoDenoiser::CopySrcOnMOB(const u
+@@ -180,7 +180,7 @@ void VideoDenoiser::CopySrcOnMOB(const u
        // artifacts.
        if (mb_filter_decision_[mb_index] != FILTER_BLOCK ||
            IsTrailingBlock(moving_edge_, mb_row, mb_col) ||
@@ -11,10 +11,10 @@ author: Michael Gilbert <mgilbert@debian.org>
 +          (x_density_[mb_col] * y_density_[mb_row] != 0 &&
             moving_object_[mb_row * mb_cols_ + mb_col])) {
          // Copy y source.
-         filter_->CopyMem16x16(mb_src, stride_src, mb_dst, stride_dst);
+         libyuv::CopyPlane(mb_src, stride_src, mb_dst, stride_dst, 16, 16);
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16511,7 +16511,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16543,7 +16543,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
@@ -26,7 +26,7 @@ author: Michael Gilbert <mgilbert@debian.org>
    if (!result) {
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -294,15 +294,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -295,15 +295,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  
@@ -51,7 +51,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
 +++ b/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
-@@ -1054,7 +1054,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
+@@ -1071,7 +1071,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
    }
    if (token->GetName() == html_names::kColTag) {
      ProcessFakeStartTag(html_names::kColgroupTag);

@@ -2,12 +2,12 @@
 
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
-@@ -1058,7 +1058,7 @@ if (is_win) {
-   assert(_framework_binary_path != "",
-          "Ignore configuration-dependent unused variable warning")
+@@ -1071,7 +1071,7 @@ if (is_win) {
  
--  if (!is_asan && !is_component_build) {
+   # TOOD(crbug/1163903#c8) - thakis@ look into why profile and coverage
+   # instrumentation adds these symbols in different orders
+-  if (!is_component_build && chrome_pgo_phase != 1) {
 +  if (false) {
      action("verify_chrome_framework_order") {
-       script = "//chrome/tools/build/mac/run_verify_order.py"
+       script = "//chrome/tools/build/mac/verify_order.py"
        stamp_file = "$target_out_dir/run_$target_name.stamp"
