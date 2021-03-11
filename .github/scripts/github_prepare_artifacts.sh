@@ -10,8 +10,9 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
   _ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
   _package_revision=$(cat $_root_dir/revision.txt)
 
-  _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg"
-  _release_tag_version="${_chromium_version}-${_ungoogled_revision}.${_package_revision}"
+  _cpu=x86-64; grep -qF arm64 "$_src_dir/out/Default/args.gn" && _cpu=arm64
+  _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_cpu}-macos.dmg"
+  _release_tag_version="${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_cpu}"
   
   cd "$_src_dir"
 
@@ -39,25 +40,31 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
   printf '[Hashes](https://en.wikipedia.org/wiki/Cryptographic_hash_function) for the disk image `%s`: \n' "$_file_name" | tee ./github_release_text.md
   printf '\n```\n%s\n```\n' "$_hash_md" | tee -a ./github_release_text.md
   printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s/workflow) used as well as the build logs and artifacts\n' "$_gh_run_href" "$_gh_run_href" | tee -a ./github_release_text.md
-else
 
-  if ! hdiutil detach -verbose "$_src_dir" ; then
-    sleep 1; umount "$_src_dir"
-    sleep 1; sudo umount "$_src_dir"
-    sleep 1; hdiutil detach -verbose "$_src_dir" -force
-    sleep 1; sudo hdiutil detach -verbose "$_src_dir" -force
-  fi
-  sleep 2
+  # Use separate folder for build product, so that it can be used as individual asset in case the release action fails
+  mkdir -p release_asset
+  mv -vn ./*.dmg release_asset/ || true
 
-  hdiutil compact ./build_src.sparsebundle
-  # Needs to be compressed to stay below GitHub's upload limit 2 GB (?!) 2020-11-24; used to be  5-8GB (?)
-  tar -c -f - build_src.sparsebundle/ | zstd -11 -T0 -o build_src.sparsebundle.tar.zst
-
-  sha256sum ./build_src.sparsebundle.tar.zst | tee ./sums.txt
+  ls -kahl release_asset/
+  du -hs release_asset/
 fi
 
+if ! hdiutil detach -verbose "$_src_dir" ; then
+  sleep 1; umount "$_src_dir"
+  sleep 1; sudo umount "$_src_dir"
+  sleep 1; hdiutil detach -verbose "$_src_dir" -force
+  sleep 1; sudo hdiutil detach -verbose "$_src_dir" -force
+fi
+sleep 2
+
+hdiutil compact ./build_src.sparsebundle
+# Needs to be compressed to stay below GitHub's upload limit 2 GB (?!) 2020-11-24; used to be  5-8GB (?)
+tar -c -f - build_src.sparsebundle/ | zstd -11 -T0 -o build_src.sparsebundle.tar.zst
+
+sha256sum ./build_src.sparsebundle.tar.zst | tee ./sums.txt
+
 mkdir -p upload_part_build
-mv -vn ./*.zst ./*.dmg ./sums.txt upload_part_build/ || true
+mv -vn ./*.zst ./sums.txt upload_part_build/ || true
 cp -va ./*.log upload_part_build/
 
 ls -kahl upload_part_build/
