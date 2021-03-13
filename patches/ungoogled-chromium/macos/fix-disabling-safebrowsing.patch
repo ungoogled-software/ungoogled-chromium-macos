@@ -10,7 +10,7 @@
    ]
  
    public_deps = [
-@@ -2000,7 +1999,6 @@ static_library("browser") {
+@@ -1999,7 +1998,6 @@ static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -259,7 +259,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -5335,10 +5335,12 @@ ChromeContentBrowserClient::GetUrlLookup
+@@ -5336,10 +5336,12 @@ ChromeContentBrowserClient::GetUrlLookup
    }
  #endif
  
