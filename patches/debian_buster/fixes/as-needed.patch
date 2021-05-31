@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -414,7 +414,7 @@ config("compiler") {
+@@ -431,7 +431,7 @@ config("compiler") {
      if (!using_sanitizer) {
        ldflags += [
          "-Wl,-z,defs",

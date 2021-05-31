@@ -2,25 +2,28 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1923,7 +1923,6 @@ static_library("browser") {
-   allow_circular_includes_from = [
+@@ -1858,10 +1858,6 @@ static_library("browser") {
+     "//chrome/browser/profiling_host",
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
 -    "//chrome/browser/safe_browsing",
-   ]
+-    "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
+-    "//chrome/browser/safe_browsing:advanced_protection",
+-    "//chrome/browser/safe_browsing:metrics_collector",
  
-   public_deps = [
-@@ -1999,7 +1998,6 @@ static_library("browser") {
+     # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
+     "//chrome/browser/media/router",
+@@ -1940,7 +1936,6 @@ static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/safe_browsing:advanced_protection",
-     "//chrome/browser/search/drive:mojo_bindings",
-     "//chrome/browser/search/task_module:mojo_bindings",
+     "//chrome/browser/safe_browsing:metrics_collector",
+     "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -741,9 +741,6 @@ static_library("extensions") {
+@@ -751,9 +751,6 @@ static_library("extensions") {
  
      # TODO(crbug.com/1065748): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
@@ -30,7 +33,7 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -756,8 +753,6 @@ static_library("extensions") {
+@@ -766,8 +763,6 @@ static_library("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -39,17 +42,17 @@
      "//components/signin/core/browser",
      "//components/translate/content/browser",
      "//content/public/browser",
-@@ -786,7 +781,6 @@ static_library("extensions") {
-     "//chrome/browser/media/router/discovery",
+@@ -799,7 +794,6 @@ static_library("extensions") {
+     "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:intervention_policy_database_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
 -    "//chrome/browser/safe_browsing",
+     "//chrome/browser/safe_browsing:metrics_collector",
      "//chrome/browser/web_applications",
      "//chrome/browser/web_applications/components",
-     "//components/site_engagement/core/mojom:mojo_bindings",
-@@ -842,12 +836,6 @@ static_library("extensions") {
+@@ -856,12 +850,6 @@ static_library("extensions") {
+     "//components/privacy_sandbox:privacy_sandbox_prefs",
      "//components/proxy_config",
-     "//components/rappor",
      "//components/resources",
 -    "//components/safe_browsing:buildflags",
 -    "//components/safe_browsing/content/web_ui:web_ui",
@@ -62,9 +65,9 @@
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -310,15 +310,9 @@ static_library("ui") {
-     "webui/webui_util.h",
-   ]
+@@ -320,13 +320,6 @@ static_library("ui") {
+     ]
+   }
  
 -  if (safe_browsing_mode == 1) {
 -    sources += [
@@ -72,30 +75,27 @@
 -      "webui/reset_password/reset_password_ui.h",
 -    ]
 -  }
- 
-   # TODO(crbug/925153): Remove this circular dependency.
--  allow_circular_includes_from = [ "//chrome/browser/safe_browsing" ]
-+  allow_circular_includes_from = []
+-
    defines = []
    libs = []
  
-@@ -336,7 +330,6 @@ static_library("ui") {
-     "//chrome/services/machine_learning:machine_learning_tflite_buildflags",
+@@ -343,7 +336,6 @@ static_library("ui") {
+   public_deps = [
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
 -    "//components/safe_browsing:buildflags",
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -374,7 +367,6 @@ static_library("ui") {
+@@ -385,7 +377,6 @@ static_library("ui") {
      "//chrome/browser/resources/omnibox:resources",
-     "//chrome/browser/resources/quota_internals:quota_internals_resources",
+     "//chrome/browser/resources/quota_internals:resources",
      "//chrome/browser/resources/usb_internals:resources",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/ui/webui/bluetooth_internals",
+     "//chrome/browser/ui/webui/download_shelf:mojo_bindings",
      "//chrome/browser/ui/webui/downloads:mojo_bindings",
-     "//chrome/browser/ui/webui/new_tab_page:mojo_bindings",
-@@ -476,17 +468,7 @@ static_library("ui") {
+@@ -492,17 +483,7 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -113,7 +113,15 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -1535,7 +1517,6 @@ static_library("ui") {
+@@ -609,7 +590,6 @@ static_library("ui") {
+   allow_circular_includes_from = [
+     # TODO(crbug.com/1158905): Remove this circular dependency.
+     "//chrome/browser/devtools",
+-    "//chrome/browser/safe_browsing",
+     "//chrome/browser/ui/webui/bluetooth_internals",
+     "//chrome/browser/profiling_host",
+   ]
+@@ -1588,7 +1568,6 @@ static_library("ui") {
        "//chrome/browser/promo_browser_command:mojo_bindings",
        "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
        "//chrome/browser/resource_coordinator/tab_ranker",
@@ -121,7 +129,7 @@
        "//chrome/browser/search/drive:mojo_bindings",
        "//chrome/browser/search/task_module:mojo_bindings",
        "//chrome/browser/ui/color:color_headers",
-@@ -3264,7 +3245,6 @@ static_library("ui") {
+@@ -3343,7 +3322,6 @@ static_library("ui") {
        "//ui/views/controls/webview",
      ]
      deps += [
@@ -129,7 +137,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -4616,15 +4596,6 @@ static_library("ui") {
+@@ -4766,15 +4744,6 @@ static_library("ui") {
      }
    }
  
@@ -147,7 +155,7 @@
    }
 --- a/chrome/browser/ui/browser.cc
 +++ b/chrome/browser/ui/browser.cc
-@@ -1448,10 +1448,10 @@ void Browser::OnDidBlockNavigation(
+@@ -1451,10 +1451,10 @@ void Browser::OnDidBlockNavigation(
        framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
      }
    }
@@ -164,7 +172,7 @@
  content::PictureInPictureResult Browser::EnterPictureInPicture(
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -358,8 +358,12 @@ void DownloadProtectionService::ShowDeta
+@@ -364,8 +364,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -179,7 +187,7 @@
      learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
 --- a/chrome/browser/download/notification/download_item_notification.cc
 +++ b/chrome/browser/download/notification/download_item_notification.cc
-@@ -841,9 +841,13 @@ base::string16 DownloadItemNotification:
+@@ -860,9 +860,13 @@ std::u16string DownloadItemNotification:
      }
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
        bool requests_ap_verdicts =
@@ -195,15 +203,15 @@
                ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
 --- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
 +++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
-@@ -34,6 +34,7 @@
- #include "chrome/grit/generated_resources.h"
+@@ -37,6 +37,7 @@
  #include "chrome/grit/theme_resources.h"
  #include "components/prefs/pref_service.h"
+ #include "components/profile_metrics/browser_profile_type.h"
 +#include "components/safe_browsing/buildflags.h"
  #include "content/public/browser/download_manager.h"
  #include "content/public/browser/url_data_source.h"
  #include "content/public/browser/web_contents.h"
-@@ -60,10 +61,12 @@ content::WebUIDataSource* CreateDownload
+@@ -63,10 +64,12 @@ content::WebUIDataSource* CreateDownload
        source, base::make_span(kDownloadsResources, kDownloadsResourcesSize),
        IDR_DOWNLOADS_DOWNLOADS_HTML);
  
@@ -220,7 +228,7 @@
    static constexpr webui::LocalizedString kStrings[] = {
 --- a/chrome/browser/ui/views/download/download_danger_prompt_views.cc
 +++ b/chrome/browser/ui/views/download/download_danger_prompt_views.cc
-@@ -199,17 +199,18 @@ base::string16 DownloadDangerPromptViews
+@@ -198,17 +198,18 @@ std::u16string DownloadDangerPromptViews
              download_->GetFileNameToReportUser().LossyDisplayName());
        }
        case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
@@ -243,7 +251,7 @@
          return l10n_util::GetStringFUTF16(
 --- a/chrome/browser/ui/views/download/download_item_view.cc
 +++ b/chrome/browser/ui/views/download/download_item_view.cc
-@@ -996,11 +996,13 @@ ui::ImageModel DownloadItemView::GetIcon
+@@ -1004,11 +1004,13 @@ ui::ImageModel DownloadItemView::GetIcon
    const auto danger_type = model_->GetDangerType();
    switch (danger_type) {
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
@@ -257,18 +265,3 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_URL:
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_CONTENT:
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
---- a/chrome/browser/chrome_content_browser_client.cc
-+++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -5336,10 +5336,12 @@ ChromeContentBrowserClient::GetUrlLookup
-   }
- #endif
- 
-+#if BUILDFLAG(FULL_SAFE_BROWSING)
-   if (is_consumer_lookup_enabled) {
-     return safe_browsing::RealTimeUrlLookupServiceFactory::GetForProfile(
-         profile);
-   }
-+#endif // BUILDFLAG(FULL_SAFE_BROWSING)
-   return nullptr;
- }
- 
