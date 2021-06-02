@@ -9,15 +9,17 @@
       stdout=subprocess.PIPE)
    for line in child.stdout:
      file_match = dsymutil_file_re.search(line)
---- a/build/toolchain/mac/BUILD.gn
-+++ b/build/toolchain/mac/BUILD.gn
-@@ -199,8 +199,7 @@ template("mac_toolchain") {
+--- a/build/toolchain/apple/toolchain.gni
++++ b/build/toolchain/apple/toolchain.gni
+@@ -185,8 +185,9 @@ template("apple_toolchain") {
      if (_enable_dsyms) {
        dsym_switch = " -Wcrl,dsym,{{root_out_dir}} "
        dsym_switch += "-Wcrl,dsymutilpath," +
 -                     rebase_path("//tools/clang/dsymutil/bin/dsymutil",
 -                                 root_build_dir) + " "
-+                        "/usr/bin/dsymutil "
++                     "/usr/bin/dsymutil "
++#                     rebase_path("//tools/clang/dsymutil/bin/dsymutil",
++#                                 root_build_dir) + " "
  
        dsym_output_dir =
            "{{root_out_dir}}/{{target_output_name}}{{output_extension}}.dSYM"

@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/chrome/browser/apps/platform_apps/api/sync_file_system/extension_sync_event_observer.h
 +++ b/chrome/browser/apps/platform_apps/api/sync_file_system/extension_sync_event_observer.h
-@@ -81,8 +81,10 @@ class ExtensionSyncEventObserver : publi
+@@ -82,8 +82,10 @@ class ExtensionSyncEventObserver : publi
  }  // namespace api
  }  // namespace chrome_apps
  
