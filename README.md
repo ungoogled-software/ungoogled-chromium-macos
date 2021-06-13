@@ -12,8 +12,8 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 
 ### Software requirements
 
-* macOS 10.12+
-* Xcode 8-9
+* macOS 10.15+
+* Xcode 12
 * Homebrew
 * Perl (for creating a `.dmg` package)
 * Python 2, specifically 2.7.13 or newer, as `python` in PATH
@@ -77,7 +77,7 @@ mkdir -p build/{src,download_cache}
 cd build/src
 ```
 
-3. Use `quilt` to refresh all patches: `while quilt push; do quilt refresh; done`
+3. Use `quilt` to refresh all patches: `quilt push -a --refresh`
 	* If an error occurs, go to the next step. Otherwise, skip to Step 5.
 4. Use `quilt` to fix the broken patch:
     1. Run `quilt push -f`
