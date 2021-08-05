@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
          libyuv::CopyPlane(mb_src, stride_src, mb_dst, stride_dst, 16, 16);
 --- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
 +++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16408,7 +16408,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
+@@ -16409,7 +16409,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
    }
    uint32_t checked_size = 0;
    if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
@@ -26,7 +26,7 @@ author: Michael Gilbert <mgilbert@debian.org>
    if (!result) {
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -295,15 +295,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -324,15 +324,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  
