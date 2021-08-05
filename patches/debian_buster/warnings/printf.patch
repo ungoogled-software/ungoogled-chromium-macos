@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/ui/gfx/ipc/buffer_types/gfx_param_traits.cc
 +++ b/ui/gfx/ipc/buffer_types/gfx_param_traits.cc
-@@ -30,7 +30,7 @@ bool ParamTraits<gfx::BufferUsageAndForm
+@@ -32,7 +32,7 @@ bool ParamTraits<gfx::BufferUsageAndForm
  void ParamTraits<gfx::BufferUsageAndFormat>::Log(
      const gfx::BufferUsageAndFormat& p,
      std::string* l) {
