@@ -1,0 +1,11 @@
+--- a/build/config/compiler/BUILD.gn
++++ b/build/config/compiler/BUILD.gn
+@@ -1531,7 +1531,7 @@ config("default_warnings") {
+             # "-Wno-unused-but-set-variable",
+ 
+             # TODO(https://crbug.com/1255745): Clean up, enable.
+-            "-Wno-bitwise-instead-of-logical",
++            # "-Wno-bitwise-instead-of-logical",
+           ]
+         }
+ 

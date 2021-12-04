@@ -13,15 +13,15 @@
      res->AppendString(pattern.Describe());
 --- a/tools/gn/src/gn/visibility.h
 +++ b/tools/gn/src/gn/visibility.h
-@@ -10,6 +10,7 @@
+@@ -9,6 +9,7 @@
+ #include <string_view>
  #include <vector>
  
- #include "base/macros.h"
 +#include "base/values.h"
  #include "gn/label_pattern.h"
  #include "gn/source_dir.h"
  
-@@ -53,7 +54,7 @@ class Visibility {
+@@ -52,7 +53,7 @@ class Visibility {
    std::string Describe(int indent, bool include_brackets) const;
  
    // Returns value representation of this visibility

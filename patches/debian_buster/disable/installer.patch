@@ -3,10 +3,10 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -75,8 +75,6 @@ group("gn_all") {
+@@ -79,8 +79,6 @@ group("gn_all") {
+     ":gn_visibility",
      "//base:base_perftests",
      "//base:base_unittests",
-     "//base/util:base_util_unittests",
 -    "//chrome/installer",
 -    "//chrome/updater",
      "//codelabs",

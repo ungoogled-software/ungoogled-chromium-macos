@@ -1,0 +1,13 @@
+--- a/build/config/compiler/BUILD.gn
++++ b/build/config/compiler/BUILD.gn
+@@ -1527,8 +1527,8 @@ config("default_warnings") {
+         if (!is_nacl) {
+           cflags += [
+             # TODO(https://crbug.com/1203071): Clean up and enable.
+-            "-Wno-unused-but-set-parameter",
+-            "-Wno-unused-but-set-variable",
++            # "-Wno-unused-but-set-parameter",
++            # "-Wno-unused-but-set-variable",
+ 
+             # TODO(https://crbug.com/1255745): Clean up, enable.
+             "-Wno-bitwise-instead-of-logical",
