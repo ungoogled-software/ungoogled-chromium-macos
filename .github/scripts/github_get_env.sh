@@ -4,6 +4,7 @@ set
 uname -a
 sw_vers
 xcodebuild -version
+xcodebuild -showsdks
 system_profiler -timeout 30 -detailLevel basic
 sudo launchctl list
 launchctl list

@@ -1,4 +1,6 @@
-#!/bin/bash -eux
+#!/usr/bin/env bash 
+
+set -eux
 
 # Simple build script for macOS
 
@@ -8,9 +10,12 @@ _src_dir="$_root_dir/build/src"
 _main_repo="$_root_dir/ungoogled-chromium"
 
 # For packaging
-_chromium_version=$(cat $_root_dir/ungoogled-chromium/chromium_version.txt)
-_ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
-_package_revision=$(cat $_root_dir/revision.txt)
+_chromium_version=$(cat "$_root_dir"/ungoogled-chromium/chromium_version.txt)
+_ungoogled_revision=$(cat "$_root_dir"/ungoogled-chromium/revision.txt)
+_package_revision=$(cat "$_root_dir"/revision.txt)
+
+# Add local clang and build tools to PATH
+# export PATH="$PATH:$_src_dir/third_party/llvm-build/Release+Asserts/bin"
 
 rm -rf "$_src_dir/out" || true
 mkdir -p "$_src_dir/out/Default"
@@ -21,8 +26,7 @@ mkdir -p "$_download_cache"
 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" -c "$_root_dir/build/domsubcache.tar.gz" "$_src_dir"
-cp "$_main_repo/flags.gn" "$_src_dir/out/Default/args.gn"
-cat "$_root_dir/flags.macos.gn" >> "$_src_dir/out/Default/args.gn"
+cat "$_main_repo/flags.gn" "$_root_dir/flags.macos.gn" > "$_src_dir/out/Default/args.gn"
 
 cd "$_src_dir"
 
@@ -38,6 +42,6 @@ chrome/installer/mac/pkg-dmg \
 
 # Fix issue where macOS requests permission for incoming network connections
 # See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/17
-xattr -csr out/Default/Chromium.app
+xattr -cs out/Default/Chromium.app
 # Using ad-hoc signing
 codesign --force --deep --sign - out/Default/Chromium.app

@@ -8,6 +8,6 @@ author: Michael Gilbert <mgilbert@debian.org>
  
  config("crashpad_config") {
 +  cflags = [ "-Wno-multichar" ]
-   include_dirs = [ "." ]
- }
- 
+   include_dirs = [
+     ".",
+     root_gen_dir,
