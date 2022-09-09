@@ -3,7 +3,7 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/ui/gfx/ipc/buffer_types/gfx_param_traits.cc
 +++ b/ui/gfx/ipc/buffer_types/gfx_param_traits.cc
-@@ -30,7 +30,7 @@ bool ParamTraits<gfx::BufferUsageAndForm
+@@ -32,7 +32,7 @@ bool ParamTraits<gfx::BufferUsageAndForm
  void ParamTraits<gfx::BufferUsageAndFormat>::Log(
      const gfx::BufferUsageAndFormat& p,
      std::string* l) {
@@ -14,7 +14,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }  // namespace IPC
 --- a/content/browser/web_package/signed_exchange_handler.cc
 +++ b/content/browser/web_package/signed_exchange_handler.cc
-@@ -613,7 +613,7 @@ void SignedExchangeHandler::OnVerifyCert
+@@ -619,7 +619,7 @@ void SignedExchangeHandler::OnVerifyCert
        error_message = base::StringPrintf(
            "CT verification failed. result: %s, policy compliance: %d",
            net::ErrorToShortString(error_code).c_str(),
@@ -23,14 +23,3 @@ author: Michael Gilbert <mgilbert@debian.org>
        result = SignedExchangeLoadResult::kCTVerificationError;
      } else {
        error_message =
---- a/third_party/blink/renderer/modules/cache_storage/inspector_cache_storage_agent.cc
-+++ b/third_party/blink/renderer/modules/cache_storage/inspector_cache_storage_agent.cc
-@@ -457,7 +457,7 @@ class CachedResponseFileReaderLoaderClie
-   void DidFail(FileErrorCode error) override {
-     callback_->sendFailure(ProtocolResponse::ServerError(
-         String::Format("Unable to read the cached response, error code: %d",
--                       error)
-+                       static_cast<int>(error))
-             .Utf8()));
-     dispose();
-   }

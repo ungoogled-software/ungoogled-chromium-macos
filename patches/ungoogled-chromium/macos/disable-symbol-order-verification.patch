@@ -2,11 +2,11 @@
 
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
-@@ -1153,7 +1153,7 @@ if (is_win) {
+@@ -1242,7 +1242,7 @@ if (is_win) {
  
    # TOOD(crbug/1163903#c8) - thakis@ look into why profile and coverage
    # instrumentation adds these symbols in different orders
--  if (!is_component_build && chrome_pgo_phase != 1) {
+-  if (!is_component_build && chrome_pgo_phase != 1 && !using_sanitizer) {
 +  if (false) {
      action("verify_chrome_framework_order") {
        script = "//chrome/tools/build/mac/verify_order.py"

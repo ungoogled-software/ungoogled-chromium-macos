@@ -12,21 +12,9 @@ author: Michael Gilbert <mgilbert@debian.org>
             moving_object_[mb_row * mb_cols_ + mb_col])) {
          // Copy y source.
          libyuv::CopyPlane(mb_src, stride_src, mb_dst, stride_dst, 16, 16);
---- a/gpu/command_buffer/service/gles2_cmd_decoder.cc
-+++ b/gpu/command_buffer/service/gles2_cmd_decoder.cc
-@@ -16408,7 +16408,8 @@ bool GLES2DecoderImpl::GetUniformSetup(G
-   }
-   uint32_t checked_size = 0;
-   if (!SizedResult<T>::ComputeSize(num_elements).AssignIfValid(&checked_size)) {
--    return error::kOutOfBounds;
-+    *error = error::kOutOfBounds;
-+    return false;
-   }
-   result = GetSharedMemoryAs<SizedResult<T>*>(shm_id, shm_offset, checked_size);
-   if (!result) {
 --- a/content/browser/renderer_host/render_widget_host_view_base.cc
 +++ b/content/browser/renderer_host/render_widget_host_view_base.cc
-@@ -295,15 +295,16 @@ void RenderWidgetHostViewBase::SetBackgr
+@@ -324,15 +324,16 @@ void RenderWidgetHostViewBase::SetBackgr
    if (default_background_color_ == color)
      return;
  
@@ -51,7 +39,7 @@ author: Michael Gilbert <mgilbert@debian.org>
  }
 --- a/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
 +++ b/third_party/blink/renderer/core/html/parser/html_tree_builder.cc
-@@ -1071,7 +1071,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
+@@ -1095,7 +1095,7 @@ void HTMLTreeBuilder::ProcessStartTagFor
    }
    if (token->GetName() == html_names::kColTag) {
      ProcessFakeStartTag(html_names::kColgroupTag);

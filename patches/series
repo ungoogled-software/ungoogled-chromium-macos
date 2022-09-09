@@ -1,13 +1,10 @@
-inox-patchset/chromium-skia-harmony.patch
 inox-patchset/fix-cfi-failures-with-unbundled-libxml.patch
 debian_buster/fixes/mojo.patch
-debian_buster/fixes/as-needed.patch
 debian_buster/fixes/namespace.patch
 debian_buster/fixes/empty-array.patch
 debian_buster/disable/installer.patch
 debian_buster/warnings/printf.patch
 debian_buster/warnings/multichar.patch
-debian_buster/warnings/null-destination.patch
 debian_buster/warnings/int-in-bool-context.patch
 ungoogled-chromium/macos/disable-symbol-order-verification.patch
 ungoogled-chromium/macos/disable-crashpad-handler.patch
@@ -15,4 +12,5 @@ ungoogled-chromium/macos/fix-disabling-safebrowsing.patch
 ungoogled-chromium/macos/fix-visibility.patch
 ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/fix-clang-format-path.patch
+ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/fix-node-path.patch

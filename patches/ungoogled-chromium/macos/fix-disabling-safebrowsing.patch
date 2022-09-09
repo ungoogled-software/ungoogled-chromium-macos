@@ -2,18 +2,19 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1858,10 +1858,6 @@ static_library("browser") {
-     "//chrome/browser/profiling_host",
+@@ -1900,11 +1900,6 @@ static_library("browser") {
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
+     "//chrome/browser/storage_access_api:permissions",
 -    "//chrome/browser/safe_browsing",
 -    "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 -    "//chrome/browser/safe_browsing:advanced_protection",
 -    "//chrome/browser/safe_browsing:metrics_collector",
- 
+-
      # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
      "//chrome/browser/media/router",
-@@ -1940,7 +1936,6 @@ static_library("browser") {
+   ]
+@@ -1992,7 +1987,6 @@ static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -23,7 +24,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -751,9 +751,6 @@ static_library("extensions") {
+@@ -734,9 +734,6 @@ static_library("extensions") {
  
      # TODO(crbug.com/1065748): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
@@ -33,53 +34,39 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -766,8 +763,6 @@ static_library("extensions") {
+@@ -749,8 +746,6 @@ static_library("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
--    "//components/safe_browsing/core:csd_proto",
--    "//components/safe_browsing/core/db:util",
+-    "//components/safe_browsing/core/browser/db:util",
+-    "//components/safe_browsing/core/common/proto:csd_proto",
      "//components/signin/core/browser",
      "//components/translate/content/browser",
      "//content/public/browser",
-@@ -799,7 +794,6 @@ static_library("extensions") {
+@@ -785,7 +780,6 @@ static_library("extensions") {
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:intervention_policy_database_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/safe_browsing:metrics_collector",
+     "//chrome/browser/ui/tabs:tab_enums",
      "//chrome/browser/web_applications",
-     "//chrome/browser/web_applications/components",
-@@ -856,12 +850,6 @@ static_library("extensions") {
+@@ -854,12 +848,6 @@ static_library("extensions") {
      "//components/privacy_sandbox:privacy_sandbox_prefs",
      "//components/proxy_config",
      "//components/resources",
 -    "//components/safe_browsing:buildflags",
--    "//components/safe_browsing/content/web_ui:web_ui",
--    "//components/safe_browsing/core:csd_proto",
--    "//components/safe_browsing/core:features",
+-    "//components/safe_browsing/content/browser/web_ui:web_ui",
+-    "//components/safe_browsing/core/browser/db:database_manager",
+-    "//components/safe_browsing/core/common",
 -    "//components/safe_browsing/core/common:safe_browsing_prefs",
--    "//components/safe_browsing/core/db:database_manager",
+-    "//components/safe_browsing/core/common/proto:csd_proto",
      "//components/search_engines",
-     "//components/services/app_service/public/mojom",
+     "//components/services/app_service/public/cpp:app_types",
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -320,13 +320,6 @@ static_library("ui") {
-     ]
-   }
- 
--  if (safe_browsing_mode == 1) {
--    sources += [
--      "webui/reset_password/reset_password_ui.cc",
--      "webui/reset_password/reset_password_ui.h",
--    ]
--  }
--
-   defines = []
-   libs = []
- 
-@@ -343,7 +336,6 @@ static_library("ui") {
+@@ -370,7 +370,6 @@ static_library("ui") {
    public_deps = [
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
@@ -87,92 +74,85 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -385,7 +377,6 @@ static_library("ui") {
+@@ -417,7 +416,6 @@ static_library("ui") {
+     "//chrome/browser/resources/net_internals:resources",
      "//chrome/browser/resources/omnibox:resources",
-     "//chrome/browser/resources/quota_internals:resources",
      "//chrome/browser/resources/usb_internals:resources",
 -    "//chrome/browser/safe_browsing",
+     "//chrome/browser/share",
+     "//chrome/browser/ui/webui:configs",
      "//chrome/browser/ui/webui/bluetooth_internals",
-     "//chrome/browser/ui/webui/download_shelf:mojo_bindings",
-     "//chrome/browser/ui/webui/downloads:mojo_bindings",
-@@ -492,17 +483,7 @@ static_library("ui") {
+@@ -543,15 +541,7 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
--    "//components/safe_browsing/content/password_protection",
--    "//components/safe_browsing/content/triggers:ad_popup_trigger",
--    "//components/safe_browsing/content/triggers:ad_redirect_trigger",
-     "//components/safe_browsing/content/web_ui",
--    "//components/safe_browsing/core:csd_proto",
--    "//components/safe_browsing/core:features",
+-    "//components/safe_browsing/content/browser",
+-    "//components/safe_browsing/content/browser/password_protection",
+     "//components/safe_browsing/content/browser/web_ui",
+-    "//components/safe_browsing/core/browser/db:database_manager",
+-    "//components/safe_browsing/core/browser/db:util",
+-    "//components/safe_browsing/core/browser/password_protection:password_protection_metrics_util",
 -    "//components/safe_browsing/core/common",
 -    "//components/safe_browsing/core/common:safe_browsing_prefs",
--    "//components/safe_browsing/core/db:database_manager",
--    "//components/safe_browsing/core/db:util",
--    "//components/safe_browsing/core/password_protection:password_protection_metrics_util",
+-    "//components/safe_browsing/core/common/proto:csd_proto",
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -609,7 +590,6 @@ static_library("ui") {
-   allow_circular_includes_from = [
+@@ -661,7 +651,6 @@ static_library("ui") {
      # TODO(crbug.com/1158905): Remove this circular dependency.
      "//chrome/browser/devtools",
+     "//chrome/browser/favicon",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/profiling_host",
-   ]
-@@ -1588,7 +1568,6 @@ static_library("ui") {
-       "//chrome/browser/promo_browser_command:mojo_bindings",
-       "//chrome/browser/resource_coordinator:tab_metrics_event_proto",
+     "//chrome/browser/ui/webui:configs",
+@@ -1755,8 +1744,6 @@ static_library("ui") {
        "//chrome/browser/resource_coordinator/tab_ranker",
+       "//chrome/browser/resources/identity_internals:resources",
+       "//chrome/browser/resources/support_tool:resources",
+-      "//chrome/browser/safe_browsing",
 -      "//chrome/browser/safe_browsing:advanced_protection",
-       "//chrome/browser/search/drive:mojo_bindings",
-       "//chrome/browser/search/task_module:mojo_bindings",
+       "//chrome/browser/support_tool:support_tool_proto",
        "//chrome/browser/ui/color:color_headers",
-@@ -3343,7 +3322,6 @@ static_library("ui") {
-       "//ui/views/controls/webview",
+       "//chrome/browser/ui/color:mixers",
+@@ -3863,7 +3850,6 @@ static_library("ui") {
      ]
      deps += [
+       "//chrome/browser:titlebar_config",
 -      "//chrome/browser/safe_browsing/chrome_cleaner:public",
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -4766,15 +4744,6 @@ static_library("ui") {
+@@ -5581,26 +5567,6 @@ static_library("ui") {
      }
    }
  
+-  if (safe_browsing_mode > 0) {
+-    deps += [
+-      "//components/safe_browsing/content/browser:safe_browsing_blocking_page",
+-    ]
+-  }
+-
 -  if (safe_browsing_mode == 1) {
+-    sources += [
+-      "webui/reset_password/reset_password_ui.cc",
+-      "webui/reset_password/reset_password_ui.h",
+-    ]
+-
 -    deps += [
 -      "//chrome/browser/ui/webui/reset_password:mojo_bindings",
 -      "//chrome/common/safe_browsing:proto",
--      "//components/safe_browsing/core:csd_proto",
--      "//components/safe_browsing/core/password_protection:password_protection_metrics_util",
+-      "//components/safe_browsing/core/browser/password_protection:password_protection_metrics_util",
+-      "//components/safe_browsing/core/common/proto:csd_proto",
 -    ]
 -  }
 -
    if (use_dbus) {
      deps += [ "//dbus" ]
    }
---- a/chrome/browser/ui/browser.cc
-+++ b/chrome/browser/ui/browser.cc
-@@ -1451,10 +1451,10 @@ void Browser::OnDidBlockNavigation(
-       framebust_helper->AddBlockedUrl(blocked_url, base::BindOnce(on_click));
-     }
-   }
--  if (auto* trigger =
--          safe_browsing::AdRedirectTrigger::FromWebContents(web_contents)) {
--    trigger->OnDidBlockNavigation(initiator_url);
--  }
-+//  if (auto* trigger =
-+//          safe_browsing::AdRedirectTrigger::FromWebContents(web_contents)) {
-+//    trigger->OnDidBlockNavigation(initiator_url);
-+//  }
- }
- 
- content::PictureInPictureResult Browser::EnterPictureInPicture(
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -364,8 +364,12 @@ void DownloadProtectionService::ShowDeta
+@@ -423,8 +423,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -187,7 +167,7 @@
      learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
 --- a/chrome/browser/download/notification/download_item_notification.cc
 +++ b/chrome/browser/download/notification/download_item_notification.cc
-@@ -860,9 +860,13 @@ std::u16string DownloadItemNotification:
+@@ -952,9 +952,13 @@ std::u16string DownloadItemNotification:
      }
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
        bool requests_ap_verdicts =
@@ -228,7 +208,7 @@
    static constexpr webui::LocalizedString kStrings[] = {
 --- a/chrome/browser/ui/views/download/download_danger_prompt_views.cc
 +++ b/chrome/browser/ui/views/download/download_danger_prompt_views.cc
-@@ -198,17 +198,18 @@ std::u16string DownloadDangerPromptViews
+@@ -199,17 +199,18 @@ std::u16string DownloadDangerPromptViews
              download_->GetFileNameToReportUser().LossyDisplayName());
        }
        case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
@@ -251,8 +231,8 @@
          return l10n_util::GetStringFUTF16(
 --- a/chrome/browser/ui/views/download/download_item_view.cc
 +++ b/chrome/browser/ui/views/download/download_item_view.cc
-@@ -1004,11 +1004,13 @@ ui::ImageModel DownloadItemView::GetIcon
-   const auto danger_type = model_->GetDangerType();
+@@ -1085,11 +1085,13 @@ ui::ImageModel DownloadItemView::GetIcon
+ 
    switch (danger_type) {
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
 +#if BUILDFLAG(FULL_SAFE_BROWSING)
@@ -265,3 +245,26 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_URL:
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_CONTENT:
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
+--- a/chrome/utility/safe_browsing/mac/BUILD.gn
++++ b/chrome/utility/safe_browsing/mac/BUILD.gn
+@@ -15,8 +15,6 @@ source_set("mac") {
+   deps = [
+     ":dmg_common",
+     "//base",
+-    "//chrome/common/safe_browsing:archive_analyzer_results",
+-    "//chrome/common/safe_browsing:binary_feature_extractor",
+     "//components/safe_browsing/core/common/proto:csd_proto",
+   ]
+ }
+--- a/chrome/test/BUILD.gn
++++ b/chrome/test/BUILD.gn
+@@ -6071,9 +6071,6 @@ test("unit_tests") {
+       "//chrome/app_shim",
+       "//chrome/browser/apps/app_shim",
+       "//chrome/common/notifications",
+-      "//chrome/common/safe_browsing:archive_analyzer_results",
+-      "//chrome/common/safe_browsing:disk_image_type_sniffer_mac",
+-      "//chrome/services/mac_notifications:unit_tests",
+       "//chrome/services/mac_notifications/public/mojom",
+       "//chrome/updater:browser_sources",
+       "//chrome/utility/safe_browsing/mac",
