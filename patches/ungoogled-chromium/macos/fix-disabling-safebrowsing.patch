@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1900,11 +1900,6 @@ static_library("browser") {
+@@ -1901,11 +1901,6 @@ static_library("browser") {
      "//chrome/browser/ui",
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/storage_access_api:permissions",
@@ -14,7 +14,7 @@
      # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
      "//chrome/browser/media/router",
    ]
-@@ -1992,7 +1987,6 @@ static_library("browser") {
+@@ -1994,7 +1989,6 @@ static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -51,7 +51,7 @@
      "//chrome/browser/safe_browsing:metrics_collector",
      "//chrome/browser/ui/tabs:tab_enums",
      "//chrome/browser/web_applications",
-@@ -854,12 +848,6 @@ static_library("extensions") {
+@@ -856,12 +850,6 @@ static_library("extensions") {
      "//components/privacy_sandbox:privacy_sandbox_prefs",
      "//components/proxy_config",
      "//components/resources",
@@ -66,7 +66,7 @@
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -370,7 +370,6 @@ static_library("ui") {
+@@ -369,7 +369,6 @@ static_library("ui") {
    public_deps = [
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
@@ -74,7 +74,7 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -417,7 +416,6 @@ static_library("ui") {
+@@ -415,7 +414,6 @@ static_library("ui") {
      "//chrome/browser/resources/net_internals:resources",
      "//chrome/browser/resources/omnibox:resources",
      "//chrome/browser/resources/usb_internals:resources",
@@ -82,7 +82,7 @@
      "//chrome/browser/share",
      "//chrome/browser/ui/webui:configs",
      "//chrome/browser/ui/webui/bluetooth_internals",
-@@ -543,15 +541,7 @@ static_library("ui") {
+@@ -544,16 +542,7 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -92,13 +92,14 @@
 -    "//components/safe_browsing/core/browser/db:database_manager",
 -    "//components/safe_browsing/core/browser/db:util",
 -    "//components/safe_browsing/core/browser/password_protection:password_protection_metrics_util",
+-    "//components/safe_browsing/core/browser/tailored_security_service",
 -    "//components/safe_browsing/core/common",
 -    "//components/safe_browsing/core/common:safe_browsing_prefs",
 -    "//components/safe_browsing/core/common/proto:csd_proto",
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -661,7 +651,6 @@ static_library("ui") {
+@@ -663,7 +652,6 @@ static_library("ui") {
      # TODO(crbug.com/1158905): Remove this circular dependency.
      "//chrome/browser/devtools",
      "//chrome/browser/favicon",
@@ -106,7 +107,7 @@
      "//chrome/browser/ui/webui/bluetooth_internals",
      "//chrome/browser/profiling_host",
      "//chrome/browser/ui/webui:configs",
-@@ -1755,8 +1744,6 @@ static_library("ui") {
+@@ -1765,8 +1753,6 @@ static_library("ui") {
        "//chrome/browser/resource_coordinator/tab_ranker",
        "//chrome/browser/resources/identity_internals:resources",
        "//chrome/browser/resources/support_tool:resources",
@@ -115,7 +116,7 @@
        "//chrome/browser/support_tool:support_tool_proto",
        "//chrome/browser/ui/color:color_headers",
        "//chrome/browser/ui/color:mixers",
-@@ -3863,7 +3850,6 @@ static_library("ui") {
+@@ -3899,7 +3885,6 @@ static_library("ui") {
      ]
      deps += [
        "//chrome/browser:titlebar_config",
@@ -123,7 +124,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -5581,26 +5567,6 @@ static_library("ui") {
+@@ -5642,26 +5627,6 @@ static_library("ui") {
      }
    }
  
@@ -258,7 +259,7 @@
  }
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -6071,9 +6071,6 @@ test("unit_tests") {
+@@ -6142,9 +6142,6 @@ test("unit_tests") {
        "//chrome/app_shim",
        "//chrome/browser/apps/app_shim",
        "//chrome/common/notifications",

@@ -3,12 +3,12 @@ author: Michael Gilbert <mgilbert@debian.org>
 
 --- a/BUILD.gn
 +++ b/BUILD.gn
-@@ -80,8 +80,6 @@ group("gn_all") {
-     ":gn_visibility",
-     "//base:base_perftests",
-     "//base:base_unittests",
--    "//chrome/installer",
--    "//chrome/updater",
-     "//codelabs",
-     "//components:components_unittests",
-     "//components/gwp_asan:gwp_asan_unittests",
+@@ -147,8 +147,6 @@ group("gn_all") {
+ 
+   if (!is_castos) {
+     deps += [
+-      "//chrome/installer",
+-      "//chrome/updater",
+     ]
+   }
+ 
