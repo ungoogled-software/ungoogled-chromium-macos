@@ -22,8 +22,6 @@ rm -rf "$_src_dir/out" || true
 mkdir -p "$_src_dir/out/Default"
 mkdir -p "$_download_cache"
 
-[[ $GITHUB_REF =~ arm || $(git log --pretty='%s' -1) =~ arm  ]] && echo 'ungoogled-chromium/macos/advance_mac_deployment_target_10_14_for_arm64.patch' >> patches/series
-
 "$_main_repo/utils/downloads.py" retrieve -i "$_main_repo/downloads.ini" "$_root_dir/downloads.ini" -c "$_download_cache"
 "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" "$_root_dir/downloads.ini" -c "$_download_cache" "$_src_dir"
 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"

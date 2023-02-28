@@ -1,0 +1,32 @@
+--- a/chrome/browser/apps/app_shim/app_shim_manager_mac.cc
++++ b/chrome/browser/apps/app_shim/app_shim_manager_mac.cc
+@@ -1391,24 +1391,24 @@ std::map<base::FilePath, int> AppShimMan
+   // URLs those profiles can handle.
+   std::map<base::FilePath, AppShimRegistry::HandlerInfo> handlers =
+       AppShimRegistry::Get()->GetHandlersForApp(params.app_id);
+-  for (const auto& [profile, handler_info] : handlers) {
++  for (const auto& handler : handlers) {
+     int count = base::ranges::count_if(
+-        files, [&handler_info](const base::FilePath& file_path) {
++        files, [&handler](const base::FilePath& file_path) {
+           std::string file_extension =
+               base::FilePath(file_path.Extension()).AsUTF8Unsafe();
+           return file_extension.length() > 1 &&
+-                 base::Contains(handler_info.file_handler_extensions,
++                 base::Contains(handler.second.file_handler_extensions,
+                                 file_extension);
+         });
+ 
+     if (protocol_handler_url.is_valid() &&
+-        base::Contains(handler_info.protocol_handlers,
++        base::Contains(handler.second.protocol_handlers,
+                        protocol_handler_url.scheme())) {
+       count++;
+     }
+ 
+     if (count > 0)
+-      result[profile] = count;
++      result[handler.first] = count;
+   }
+   return result;
+ }
