@@ -1,6 +1,7 @@
 blink_symbol_level=0
 enable_iterator_debugging=false
 enable_swiftshader=true
+enable_updater=false
 fatal_linker_warnings=false
 ffmpeg_branding="Chrome"
 is_clang=true
