@@ -66,7 +66,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -78,7 +78,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -138,7 +138,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -150,7 +150,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -210,7 +210,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -222,7 +222,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -282,7 +282,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -294,7 +294,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -354,7 +354,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -366,7 +366,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -426,7 +426,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -438,7 +438,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -498,7 +498,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -510,7 +510,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
@@ -570,7 +570,7 @@ jobs:
           name: ${{ steps.bake.outputs.file_name }}
           path: ./release_asset/${{ steps.bake.outputs.file_name }}
       - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: create_release
         uses: actions/create-release@v1
         env:
@@ -582,7 +582,7 @@ jobs:
           draft: false
           prerelease: false
       - name: Upload Release Asset
-        if: ${{ steps.build.outputs.status == 'finished' }}
+        if: ${{ steps.build.outputs.status == 'finished' }} && ${{ github.event_name != 'pull_request' }}
         id: upload-release-asset 
         uses: actions/upload-release-asset@v1
         env:
