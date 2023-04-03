@@ -14,9 +14,9 @@ fi
 cd build/src
 
 echo $(date +%s) | tee -a "$_root_dir/build_times.log"
-echo "::set-output name=status::running"
+echo "status=running" >> $GITHUB_OUTPUT
 
 timeout -k 7m -s SIGTERM ${_remaining_time:-19680}s ninja -C out/Default chrome chromedriver # 328 m as default $_remaining_time
 
 echo $(date +%s) | tee "$_root_dir/build_finished.log"
-echo "::set-output name=status::finished"
+echo "status=finished" >> $GITHUB_OUTPUT
