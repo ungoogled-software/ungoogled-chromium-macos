@@ -6,9 +6,9 @@
 _root_dir=$(dirname $(greadlink -f $0))
 if [[ -f "$_root_dir/epoch_job_start.txt" ]]; then
   epoch_job_start=$(cat "$_root_dir/epoch_job_start.txt")
-  # GitHub's hard time limit is 6 h per job, we want to spare 20 min for steps after the build, 
-  # To get the remaining time for building we subtract 360*60s - 20*60s - (epoch_now - epoch_job_start)
-  _remaining_time=$(( 360*60 - 20*60 - $(date +%s) + epoch_job_start ))
+  # GitHub's hard time limit is 6 h per job, we want to spare 40 min for steps after the build, 
+  # To get the remaining time for building we subtract 360*60s - 40*60s - (epoch_now - epoch_job_start)
+  _remaining_time=$(( 360*60 - 40*60 - $(date +%s) + epoch_job_start ))
 fi
 
 cd build/src
