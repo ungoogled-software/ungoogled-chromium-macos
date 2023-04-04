@@ -37,8 +37,8 @@ jobs:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
-      - name: Get Env
-        run: ./github_get_env.sh | tee -a github_actions_env.log
+      - name: Disable Spotlight
+        run: ./github_disable_spotlight.sh
       - name: Install dependencies
         run: brew install coreutils ninja
       - name: Download, unpack, and prepare for building
