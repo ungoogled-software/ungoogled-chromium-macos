@@ -26,7 +26,7 @@ mkdir -p "$_download_cache"
 "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" "$_root_dir/downloads.ini" -c "$_download_cache" "$_src_dir"
 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
-"$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" -c "$_root_dir/build/domsubcache.tar.gz" "$_src_dir"
+"$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
 
 shopt -s nocasematch
 if [[ $GITHUB_REF =~ arm || $(git log --pretty='%s' -1) =~ arm  ]]; then
@@ -42,4 +42,4 @@ cd "$_src_dir"
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
 
-rm -rvf "$_download_cache" "$_root_dir/build/domsubcache.tar.gz"
+rm -rvf "$_download_cache"
