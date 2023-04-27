@@ -7,4 +7,5 @@ ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/fix-clang-format-path.patch
 ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/fix-llvm-15-build.patch
+ungoogled-chromium/fix-missing-iterator-subtypes.patch
 ungoogled-chromium/fix-node-path.patch
