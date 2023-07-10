@@ -1,6 +1,6 @@
 --- a/chrome/browser/apps/app_shim/app_shim_manager_mac.cc
 +++ b/chrome/browser/apps/app_shim/app_shim_manager_mac.cc
-@@ -1540,24 +1540,24 @@ std::map<base::FilePath, int> AppShimMan
+@@ -1553,24 +1553,24 @@ std::map<base::FilePath, int> AppShimMan
    // URLs those profiles can handle.
    std::map<base::FilePath, AppShimRegistry::HandlerInfo> handlers =
        AppShimRegistry::Get()->GetHandlersForApp(params.app_id);
@@ -32,7 +32,7 @@
  }
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -726,14 +726,6 @@ config("compiler") {
+@@ -756,14 +756,6 @@ config("compiler") {
        }
  
        ldflags += [ "-Wl,-mllvm,-import-instr-limit=$import_instr_limit" ]
@@ -47,7 +47,7 @@
      }
  
      # TODO(https://crbug.com/1211155): investigate why this isn't effective on
-@@ -779,10 +771,6 @@ config("compiler") {
+@@ -814,10 +806,6 @@ config("compiler") {
      ldflags += [ "-Wl,--undefined-version" ]
    }
  
@@ -58,60 +58,6 @@
    # LLD does call-graph-sorted binary layout by default when profile data is
    # present. On Android this increases binary size due to more thinks for long
    # jumps. Turn it off by default and enable selectively for targets where it's
---- a/third_party/blink/renderer/core/layout/ng/grid/ng_grid_layout_algorithm.cc
-+++ b/third_party/blink/renderer/core/layout/ng/grid/ng_grid_layout_algorithm.cc
-@@ -520,8 +520,11 @@ wtf_size_t NGGridLayoutAlgorithm::BuildG
-                                 row_auto_repetitions);
- 
-   bool has_nested_subgrid = false;
--  auto& [grid_items, layout_data, subtree_size] =
-+  auto& sizing_data =
-       sizing_tree->CreateSizingData(opt_subgrid_data);
-+  auto& grid_items = sizing_data.grid_items;
-+  auto& layout_data = sizing_data.layout_data;
-+  auto& subtree_size = sizing_data.subtree_size;
- 
-   if (!must_ignore_children) {
-     // Construct grid items that are not subgridded.
-@@ -650,8 +653,11 @@ NGGridSizingTree NGGridLayoutAlgorithm::
-   NGGridSizingTree sizing_tree;
- 
-   if (const auto* layout_subtree = ConstraintSpace().GridLayoutSubtree()) {
--    auto& [grid_items, layout_data, subtree_size] =
-+    auto& sizing_data =
-         sizing_tree.CreateSizingData();
-+    auto& grid_items = sizing_data.grid_items;
-+    auto& layout_data = sizing_data.layout_data;
-+    auto& subtree_size = sizing_data.subtree_size;
- 
-     const auto& node = Node();
-     grid_items =
-@@ -1640,8 +1646,11 @@ void NGGridLayoutAlgorithm::InitializeTr
-     const absl::optional<GridTrackSizingDirection>& opt_track_direction) const {
-   DCHECK(sizing_subtree);
- 
--  auto& [grid_items, layout_data, subtree_size] =
-+  auto& sizing_data =
-       sizing_subtree.SubtreeRootData();
-+  auto& grid_items = sizing_data.grid_items;
-+  auto& layout_data = sizing_data.layout_data;
-+  auto& subtree_size = sizing_data.subtree_size;
- 
-   auto InitAndCacheTrackSizes = [&](GridTrackSizingDirection track_direction) {
-     InitializeTrackCollection(opt_subgrid_data, track_direction, &layout_data);
-@@ -1825,8 +1834,11 @@ void NGGridLayoutAlgorithm::CompleteTrac
-     bool* opt_needs_additional_pass) const {
-   DCHECK(sizing_subtree);
- 
--  auto& [grid_items, layout_data, subtree_size] =
-+  auto& sizing_data =
-       sizing_subtree.SubtreeRootData();
-+  auto& grid_items = sizing_data.grid_items;
-+  auto& layout_data = sizing_data.layout_data;
-+  auto& subtree_size = sizing_data.subtree_size;
- 
-   const bool is_for_columns = track_direction == kForColumns;
-   const bool has_non_definite_track =
 --- a/ui/native_theme/native_theme_aura.cc
 +++ b/ui/native_theme/native_theme_aura.cc
 @@ -117,7 +117,7 @@ SkColor4f NativeThemeAura::FocusRingColo
@@ -123,3 +69,65 @@
  #else
    return base_color;
  #endif  // BUILDFLAG(IS_APPLE)
+--- a/chrome/browser/signin/bound_session_credentials/bound_session_refresh_cookie_fetcher_impl.cc
++++ b/chrome/browser/signin/bound_session_credentials/bound_session_refresh_cookie_fetcher_impl.cc
+@@ -103,6 +103,6 @@ void BoundSessionRefreshCookieFetcherImp
+   net::Error net_error = static_cast<net::Error>(url_loader_->NetError());
+ 
+   std::move(callback_).Run(
+-      Result(net_error, headers ? absl::optional<int>(headers->response_code())
+-                                : absl::nullopt));
++      Result({net_error, headers ? absl::optional<int>(headers->response_code())
++                                : absl::nullopt}));
+ }
+--- a/chrome/test/chromedriver/capabilities.cc
++++ b/chrome/test/chromedriver/capabilities.cc
+@@ -355,7 +355,7 @@ Status ParseMobileEmulation(const base::
+                         "'version' field of type string");
+         }
+ 
+-        brands.emplace_back(*brand, *version);
++        brands.emplace_back(BrandVersion{*brand, *version});
+       }
+ 
+       client_hints.brands = std::move(brands);
+@@ -392,7 +392,7 @@ Status ParseMobileEmulation(const base::
+                         "a 'version' field of type string");
+         }
+ 
+-        full_version_list.emplace_back(*brand, *version);
++        full_version_list.emplace_back(BrandVersion{*brand, *version});
+       }
+ 
+       client_hints.full_version_list = std::move(full_version_list);
+--- a/third_party/blink/renderer/modules/canvas/canvas2d/canvas_style.cc
++++ b/third_party/blink/renderer/modules/canvas/canvas2d/canvas_style.cc
+@@ -91,12 +91,12 @@ void CanvasStyle::ApplyToFlags(cc::Paint
+     case kGradient:
+       GetCanvasGradient()->GetGradient()->ApplyToFlags(flags, SkMatrix::I(),
+                                                        ImageDrawOptions());
+-      flags.setColor(SkColor4f(0.0f, 0.0f, 0.0f, global_alpha));
++      flags.setColor(SkColor4f({0.0f, 0.0f, 0.0f, global_alpha}));
+       break;
+     case kImagePattern:
+       GetCanvasPattern()->GetPattern()->ApplyToFlags(
+           flags, AffineTransformToSkMatrix(GetCanvasPattern()->GetTransform()));
+-      flags.setColor(SkColor4f(0.0f, 0.0f, 0.0f, global_alpha));
++      flags.setColor(SkColor4f({0.0f, 0.0f, 0.0f, global_alpha}));
+       break;
+     default:
+       NOTREACHED();
+--- a/chrome/common/printing/printer_capabilities_mac.mm
++++ b/chrome/common/printing/printer_capabilities_mac.mm
+@@ -131,9 +131,9 @@ PrinterSemanticCapsAndDefaults::Papers G
+         ConvertUnit(printable_area_width, kPointsPerInch, kMicronsPerInch),
+         ConvertUnit(printable_area_height, kPointsPerInch, kMicronsPerInch));
+ 
+-    custom_paper_sizes.emplace_back(base::SysNSStringToUTF8(name),
++    custom_paper_sizes.emplace_back(PrinterSemanticCapsAndDefaults::Paper{base::SysNSStringToUTF8(name),
+                                     /*vendor_id=*/"", size_microns,
+-                                    printable_area_microns);
++                                    printable_area_microns});
+   }
+   std::sort(custom_paper_sizes.begin(), custom_paper_sizes.end(),
+             [](const PrinterSemanticCapsAndDefaults::Paper& a,

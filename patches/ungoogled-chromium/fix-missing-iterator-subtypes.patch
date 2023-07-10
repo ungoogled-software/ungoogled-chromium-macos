@@ -1,33 +1,32 @@
 --- a/chrome/browser/download/bubble/download_bubble_update_service.cc
 +++ b/chrome/browser/download/bubble/download_bubble_update_service.cc
-@@ -87,6 +87,7 @@ ItemSortKey GetSortKey(const Item& item)
+@@ -91,6 +91,7 @@ ItemSortKey GetSortKey(const Item& item)
  // Helper to get an iterator to the last element in the cache. The cache
  // must not be empty.
  template <typename Item>
 +typename
- SortedItems<Item>::iterator GetLastIter(SortedItems<Item>& cache) {
+ SortedItems<Item>::const_iterator GetLastIter(const SortedItems<Item>& cache) {
    CHECK(!cache.empty());
    auto it = cache.end();
-@@ -789,8 +790,10 @@ bool DownloadBubbleUpdateService::Remove
+@@ -967,8 +968,10 @@ bool DownloadBubbleUpdateService::CacheM
  }
  
  template <typename Id, typename Item>
 +typename
  SortedItems<Item>::iterator
- DownloadBubbleUpdateService::RemoveItemFromCacheByIter(
+ DownloadBubbleUpdateService::CacheManager::RemoveItemFromCacheByIter(
 +    typename
      SortedItems<Item>::iterator iter,
      SortedItems<Item>& cache,
      IterMap<Id, Item>& iter_map) {
---- a/chrome/browser/download/bubble/download_bubble_update_service.h
-+++ b/chrome/browser/download/bubble/download_bubble_update_service.h
-@@ -208,7 +208,9 @@ class DownloadBubbleUpdateService
- 
-   // Removes item if we already have the iterator to it. Returns next iterator.
-   template <typename Id, typename Item>
-+  typename
-   SortedItems<Item>::iterator RemoveItemFromCacheByIter(
-+      typename
-       SortedItems<Item>::iterator iter,
-       SortedItems<Item>& cache,
-       IterMap<Id, Item>& iter_map);
+--- a/third_party/blink/renderer/core/html/parser/html_document_parser_fastpath.cc
++++ b/third_party/blink/renderer/core/html/parser/html_document_parser_fastpath.cc
+@@ -169,7 +169,7 @@ class HTMLFastPathParser {
+   using Span = base::span<const Char>;
+   using USpan = base::span<const UChar>;
+   // 32 matches that used by HTMLToken::Attribute.
+-  typedef std::conditional<std::is_same_v<Char, UChar>,
++  typedef typename std::conditional<std::is_same_v<Char, UChar>,
+                            UCharLiteralBuffer<32>,
+                            LCharLiteralBuffer<32>>::type LiteralBufferType;
+   typedef UCharLiteralBuffer<32> UCharLiteralBufferType;
