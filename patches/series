@@ -1,4 +1,3 @@
-upstream/2914039316d4ed3f53c3393dc2ba48f637807689.patch
 ungoogled-chromium/macos/disable-symbol-order-verification.patch
 ungoogled-chromium/macos/disable-clang-version-check.patch
 ungoogled-chromium/macos/disable-crashpad-handler.patch

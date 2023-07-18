@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1866,11 +1866,6 @@ static_library("browser") {
+@@ -1888,11 +1888,6 @@ static_library("browser") {
      "//chrome/browser/ui",
      "//chrome/browser/storage_access_api:permissions",
      "//chrome/browser/top_level_storage_access_api:permissions",
@@ -14,7 +14,7 @@
      # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
      "//chrome/browser/media/router",
    ]
-@@ -1977,7 +1972,6 @@ static_library("browser") {
+@@ -1999,7 +1994,6 @@ static_library("browser") {
      "//chrome/browser/push_messaging:budget_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
@@ -24,7 +24,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -748,9 +748,6 @@ static_library("extensions") {
+@@ -744,9 +744,6 @@ static_library("extensions") {
  
      # TODO(crbug.com/1065748): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
@@ -34,7 +34,7 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -763,8 +760,6 @@ static_library("extensions") {
+@@ -759,8 +756,6 @@ static_library("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -43,7 +43,7 @@
      "//components/safe_browsing/core/common/proto:realtimeapi_proto",
      "//components/signin/core/browser",
      "//components/translate/content/browser",
-@@ -805,7 +800,6 @@ static_library("extensions") {
+@@ -801,7 +796,6 @@ static_library("extensions") {
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:intervention_policy_database_proto",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -51,7 +51,7 @@
      "//chrome/browser/safe_browsing:metrics_collector",
      "//chrome/browser/ui/tabs:tab_enums",
      "//chrome/browser/web_applications",
-@@ -882,12 +876,6 @@ static_library("extensions") {
+@@ -879,12 +873,6 @@ static_library("extensions") {
      "//components/privacy_sandbox:privacy_sandbox_prefs",
      "//components/proxy_config",
      "//components/resources",
@@ -66,7 +66,7 @@
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -377,7 +377,6 @@ static_library("ui") {
+@@ -475,7 +475,6 @@ static_library("ui") {
      "//chrome/browser/headless",
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
@@ -74,15 +74,15 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -428,7 +427,6 @@ static_library("ui") {
+@@ -526,7 +525,6 @@ static_library("ui") {
      "//chrome/browser/resources/net_internals:resources",
      "//chrome/browser/resources/omnibox:resources",
      "//chrome/browser/resources/usb_internals:resources",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/share",
+     "//chrome/browser/ui/side_panel:side_panel_enums",
      "//chrome/browser/ui/webui:configs",
-     "//chrome/browser/ui/webui/omnibox:mojo_bindings",
-@@ -564,16 +562,7 @@ static_library("ui") {
+@@ -662,16 +660,7 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -99,7 +99,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -683,7 +672,6 @@ static_library("ui") {
+@@ -781,7 +770,6 @@ static_library("ui") {
      # TODO(crbug.com/1158905): Remove this circular dependency.
      "//chrome/browser/devtools",
      "//chrome/browser/favicon",
@@ -107,7 +107,7 @@
      "//chrome/browser/profiling_host",
      "//chrome/browser/ui/webui:configs",
    ]
-@@ -1823,8 +1811,6 @@ static_library("ui") {
+@@ -1923,8 +1911,6 @@ static_library("ui") {
        "//chrome/browser/resources/identity_internals:resources",
        "//chrome/browser/resources/support_tool:resources",
        "//chrome/browser/resources/web_app_internals:resources",
@@ -116,7 +116,7 @@
        "//chrome/browser/support_tool:support_tool_proto",
        "//chrome/browser/ui/color:color_headers",
        "//chrome/browser/ui/color:mixers",
-@@ -4151,7 +4137,6 @@ static_library("ui") {
+@@ -4210,7 +4196,6 @@ static_library("ui") {
      ]
      deps += [
        "//chrome/browser:titlebar_config",
@@ -124,7 +124,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -6038,26 +6023,6 @@ static_library("ui") {
+@@ -6135,26 +6120,6 @@ static_library("ui") {
      }
    }
  
@@ -246,29 +246,18 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_URL:
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_CONTENT:
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
---- a/chrome/utility/safe_browsing/mac/BUILD.gn
-+++ b/chrome/utility/safe_browsing/mac/BUILD.gn
-@@ -15,8 +15,6 @@ source_set("mac") {
-   deps = [
-     ":dmg_common",
-     "//base",
--    "//chrome/common/safe_browsing:archive_analyzer_results",
--    "//chrome/common/safe_browsing:binary_feature_extractor",
-     "//components/safe_browsing/content/common:file_type_policies",
-     "//components/safe_browsing/core/common",
-     "//components/safe_browsing/core/common/proto:csd_proto",
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -6526,13 +6526,8 @@ test("unit_tests") {
-       "//chrome/browser/renderer_host:history_swiper",
+@@ -6681,13 +6681,9 @@ test("unit_tests") {
+       "//chrome/browser/ui:ui_arc",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
 -      "//chrome/common/safe_browsing:archive_analyzer_results",
 -      "//chrome/common/safe_browsing:disk_image_type_sniffer_mac",
--      "//chrome/services/mac_notifications:unit_tests",
+       "//chrome/services/mac_notifications:unit_tests",
        "//chrome/services/mac_notifications/public/mojom",
        "//chrome/updater:browser_sources",
--      "//chrome/utility/safe_browsing/mac",
+-      "//chrome/utility/safe_browsing",
 -      "//chrome/utility/safe_browsing/mac:dmg_common",
        "//components/power_metrics",
  
@@ -280,7 +269,7 @@
    }
  
 -  if (is_mac) {
--    deps += [ "//chrome/utility/safe_browsing/mac" ]
+-    deps += [ "//chrome/utility/safe_browsing" ]
 -  }
 -
    if (safe_browsing_mode == 1) {
