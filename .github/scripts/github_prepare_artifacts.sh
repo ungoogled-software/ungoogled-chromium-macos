@@ -50,12 +50,12 @@ if [[ -f "$_root_dir/build_finished.log" ]] ; then
   du -hs release_asset/
 fi
 
+gsync --file-system "$_src_dir"
+
 if ! hdiutil detach -verbose "$_src_dir" ; then
-  sleep 1; umount "$_src_dir"
-  sleep 1; sudo umount "$_src_dir"
-  sleep 1; hdiutil detach -verbose "$_src_dir" -force
-  sleep 1; sudo hdiutil detach -verbose "$_src_dir" -force
+  exit 1
 fi
+
 sleep 2
 
 hdiutil compact ./build_src.sparsebundle

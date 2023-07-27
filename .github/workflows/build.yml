@@ -81,7 +81,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
   
   build_job_02:
-    continue-on-error: true
     name: Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_01
@@ -144,7 +143,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_03:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_02
@@ -207,7 +205,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_04:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_03
@@ -270,7 +267,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_05:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_04
@@ -333,7 +329,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_06:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_05
@@ -396,7 +391,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_07:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_06
@@ -459,7 +453,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_08:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_07
@@ -522,7 +515,6 @@ jobs:
           files: ./release_asset/${{ steps.bake.outputs.file_name }}
 
   build_job_09:
-    continue-on-error: true
     name: Further Resuming Building Ungoogled-Chromium for macOS
     runs-on: macos-13
     needs: build_job_08
