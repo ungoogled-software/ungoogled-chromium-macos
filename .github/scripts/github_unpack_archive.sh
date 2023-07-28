@@ -6,16 +6,13 @@ echo "Checking sha256sum of archive:"
 sha256sum -c sums.txt
 
 _src_dir="$PWD/build/src"
-mkdir -p "$_src_dir"
 ls -lrt
 
-# zstd -d --rm ./build_src.sparsebundle.tar.zst
-zstd -vv -c -d ./build_src.sparsebundle.tar.zst | tar -x -f -
-rm -v ./build_src.sparsebundle.tar.zst
+mkdir build
+echo "Extracting build archive"
+tar -C build -xf build_src.tar.zst
 
-ls -lrt
-echo "Mounting build/src folder"
-hdiutil attach ./build_src.sparsebundle -mountpoint "$_src_dir" -nobrowse -noverify -noautoopen -noautofsck
+rm build_src.tar.zst
 
 sudo df -h
 sudo du -hs "$_src_dir"
