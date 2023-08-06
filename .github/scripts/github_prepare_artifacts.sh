@@ -52,17 +52,10 @@ fi
 
 gsync --file-system "$_src_dir"
 
-if ! hdiutil detach -verbose "$_src_dir" ; then
-  exit 1
-fi
-
-sleep 2
-
-hdiutil compact ./build_src.sparsebundle
 # Needs to be compressed to stay below GitHub's upload limit 2 GB (?!) 2020-11-24; used to be  5-8GB (?)
-tar -c -f - build_src.sparsebundle/ | zstd -vv -11 -T0 -o build_src.sparsebundle.tar.zst
+tar -C build -c -f - src | zstd -vv -11 -T0 -o build_src.tar.zst
 
-sha256sum ./build_src.sparsebundle.tar.zst | tee ./sums.txt
+sha256sum ./build_src.tar.zst | tee ./sums.txt
 
 mkdir -p upload_part_build
 mv -vn ./*.zst ./sums.txt upload_part_build/ || true
