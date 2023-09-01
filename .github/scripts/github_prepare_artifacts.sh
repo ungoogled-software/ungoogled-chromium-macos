@@ -52,22 +52,4 @@ fi
 
 gsync --file-system "$_src_dir"
 
-# Needs to be compressed to stay below GitHub's upload limit 2 GB (?!) 2020-11-24; used to be  5-8GB (?)
-tar -C build -c -f - src | zstd -vv -11 -T0 -o build_src.tar.zst
-
-sha256sum ./build_src.tar.zst | tee ./sums.txt
-
-mkdir -p upload_part_build
-mv -vn ./*.zst ./sums.txt upload_part_build/ || true
-cp -va ./*.log upload_part_build/
-
-ls -kahl upload_part_build/
-du -hs upload_part_build/
-
-mkdir upload_logs
-mv -vn ./*.log upload_logs/
-
-ls -kahl upload_logs/
-du -hs upload_logs/
-
 echo "ready for upload action"
