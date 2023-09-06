@@ -1,5 +1,8 @@
 container:
     dockerfile: .cirrus_Dockerfile
+    cpu: 5
+    memory: 20G
+    use_in_memory_disk: true
 
 validate_with_source_task:
     submodule_checkout_script:
