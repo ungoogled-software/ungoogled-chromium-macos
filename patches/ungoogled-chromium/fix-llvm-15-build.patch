@@ -1,6 +1,6 @@
 --- a/chrome/browser/apps/app_shim/app_shim_manager_mac.cc
 +++ b/chrome/browser/apps/app_shim/app_shim_manager_mac.cc
-@@ -1553,24 +1553,24 @@ std::map<base::FilePath, int> AppShimMan
+@@ -1557,24 +1557,24 @@ std::map<base::FilePath, int> AppShimMan
    // URLs those profiles can handle.
    std::map<base::FilePath, AppShimRegistry::HandlerInfo> handlers =
        AppShimRegistry::Get()->GetHandlersForApp(params.app_id);
@@ -32,11 +32,10 @@
  }
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -756,14 +756,6 @@ config("compiler") {
-       }
+@@ -760,13 +760,6 @@ config("compiler") {
  
        ldflags += [ "-Wl,-mllvm,-import-instr-limit=$import_instr_limit" ]
--
+ 
 -      if (!is_chromeos) {
 -        # TODO(https://crbug.com/972449): turn on for ChromeOS when that
 -        # toolchain has this flag.
@@ -47,7 +46,7 @@
      }
  
      # TODO(https://crbug.com/1211155): investigate why this isn't effective on
-@@ -814,10 +806,6 @@ config("compiler") {
+@@ -821,10 +814,6 @@ config("compiler") {
      ldflags += [ "-Wl,--undefined-version" ]
    }
  
@@ -60,7 +59,7 @@
    # jumps. Turn it off by default and enable selectively for targets where it's
 --- a/ui/native_theme/native_theme_aura.cc
 +++ b/ui/native_theme/native_theme_aura.cc
-@@ -117,7 +117,7 @@ SkColor4f NativeThemeAura::FocusRingColo
+@@ -116,7 +116,7 @@ SkColor4f NativeThemeAura::FocusRingColo
  #if BUILDFLAG(IS_APPLE)
    // On Mac OSX, the system Accent Color setting is darkened a bit
    // for better contrast.
@@ -69,17 +68,6 @@
  #else
    return base_color;
  #endif  // BUILDFLAG(IS_APPLE)
---- a/chrome/browser/signin/bound_session_credentials/bound_session_refresh_cookie_fetcher_impl.cc
-+++ b/chrome/browser/signin/bound_session_credentials/bound_session_refresh_cookie_fetcher_impl.cc
-@@ -103,6 +103,6 @@ void BoundSessionRefreshCookieFetcherImp
-   net::Error net_error = static_cast<net::Error>(url_loader_->NetError());
- 
-   std::move(callback_).Run(
--      Result(net_error, headers ? absl::optional<int>(headers->response_code())
--                                : absl::nullopt));
-+      Result({net_error, headers ? absl::optional<int>(headers->response_code())
-+                                : absl::nullopt}));
- }
 --- a/chrome/test/chromedriver/capabilities.cc
 +++ b/chrome/test/chromedriver/capabilities.cc
 @@ -355,7 +355,7 @@ Status ParseMobileEmulation(const base::
@@ -102,7 +90,7 @@
        client_hints.full_version_list = std::move(full_version_list);
 --- a/third_party/blink/renderer/modules/canvas/canvas2d/canvas_style.cc
 +++ b/third_party/blink/renderer/modules/canvas/canvas2d/canvas_style.cc
-@@ -91,12 +91,12 @@ void CanvasStyle::ApplyToFlags(cc::Paint
+@@ -83,12 +83,12 @@ void CanvasStyle::ApplyToFlags(cc::Paint
      case kGradient:
        GetCanvasGradient()->GetGradient()->ApplyToFlags(flags, SkMatrix::I(),
                                                         ImageDrawOptions());
@@ -131,3 +119,104 @@
    }
    std::sort(custom_paper_sizes.begin(), custom_paper_sizes.end(),
              [](const PrinterSemanticCapsAndDefaults::Paper& a,
+--- a/net/dns/host_resolver_cache.cc
++++ b/net/dns/host_resolver_cache.cc
+@@ -159,7 +159,7 @@ void HostResolverCache::Set(
+ 
+   std::string domain_name = result->domain_name();
+   entries_.emplace(
+-      Key(std::move(domain_name), network_anonymization_key),
++      Key({std::move(domain_name), network_anonymization_key}),
+       Entry(std::move(result), source, secure, staleness_generation_));
+ 
+   if (entries_.size() > max_entries_) {
+--- a/components/viz/service/display_embedder/skia_output_surface_impl_on_gpu.cc
++++ b/components/viz/service/display_embedder/skia_output_surface_impl_on_gpu.cc
+@@ -1496,7 +1496,7 @@ void SkiaOutputSurfaceImplOnGpu::CopyOut
+ 
+       // Issue readbacks from the surfaces:
+       for (size_t i = 0; i < CopyOutputResult::kNV12MaxPlanes; ++i) {
+-        SkISize size(plane_surfaces[i]->width(), plane_surfaces[i]->height());
++        SkISize size({plane_surfaces[i]->width(), plane_surfaces[i]->height()});
+         SkImageInfo dst_info = SkImageInfo::Make(
+             size, (i == 0) ? kAlpha_8_SkColorType : kR8G8_unorm_SkColorType,
+             kUnpremul_SkAlphaType);
+--- a/chrome/browser/ui/omnibox/chrome_omnibox_client.cc
++++ b/chrome/browser/ui/omnibox/chrome_omnibox_client.cc
+@@ -470,10 +470,10 @@ void ChromeOmniboxClient::OnAutocomplete
+               alternative_nav_match);
+ 
+   // Store the details necessary to open the omnibox match via browser commands.
+-  location_bar_->set_navigation_params(LocationBar::NavigationParams(
++  location_bar_->set_navigation_params(LocationBar::NavigationParams({
+       destination_url, disposition, transition, match_selection_timestamp,
+       destination_url_entered_without_scheme,
+-      destination_url_entered_with_http_scheme));
++      destination_url_entered_with_http_scheme}));
+ 
+   if (browser_) {
+     auto navigation = chrome::OpenCurrentURL(browser_);
+--- a/content/public/browser/web_ui_browser_interface_broker_registry.h
++++ b/content/public/browser/web_ui_browser_interface_broker_registry.h
+@@ -127,10 +127,11 @@ class CONTENT_EXPORT WebUIBrowserInterfa
+   //
+   // TODO(crbug.com/1407936): Point to WebUIJsBridge documentation.
+   template <typename ControllerType>
++  typename
+   JsBridgeTraits<ControllerType>::BinderInitializer& ForWebUIWithJsBridge() {
+     using Traits = JsBridgeTraits<ControllerType>;
+-    using Interface = Traits::Interface;
+-    using JsBridgeBinderInitializer = Traits::BinderInitializer;
++    using Interface = typename Traits::Interface;
++    using JsBridgeBinderInitializer = typename Traits::BinderInitializer;
+ 
+     // WebUIController::GetType() requires an instantiated WebUIController
+     // (because it's a virtual method and can't be static). Here we only have
+--- a/third_party/blink/renderer/core/paint/object_paint_properties_sparse.h
++++ b/third_party/blink/renderer/core/paint/object_paint_properties_sparse.h
+@@ -269,8 +269,8 @@ class CORE_EXPORT ObjectPaintPropertiesS
+       NodeList& nodes,
+       NodeId node_id,
+       const ParentType& parent,
+-      NodeType::State&& state,
+-      const NodeType::AnimationState& animation_state =
++      typename NodeType::State&& state,
++      const typename NodeType::AnimationState& animation_state =
+           NodeType::AnimationState()) {
+     // First, check if we need to add a new node.
+     if (!nodes.HasField(node_id)) {
+--- a/third_party/blink/renderer/platform/fonts/palette_interpolation.cc
++++ b/third_party/blink/renderer/platform/fonts/palette_interpolation.cc
+@@ -31,7 +31,7 @@ Vector<FontPalette::FontPaletteOverride>
+         color_interpolation_space, hue_interpolation_method, start_color,
+         end_color, percentage, alpha_multiplier);
+ 
+-    FontPalette::FontPaletteOverride result_color_record(i, result_color);
++    FontPalette::FontPaletteOverride result_color_record({static_cast<int>(i), result_color});
+     result_color_records.push_back(result_color_record);
+   }
+   return result_color_records;
+--- a/chrome/browser/content_settings/one_time_permission_provider.cc
++++ b/chrome/browser/content_settings/one_time_permission_provider.cc
+@@ -207,8 +207,8 @@ void OneTimePermissionProvider::OnSuspen
+ 
+       while (rule_iterator && rule_iterator->HasNext()) {
+         auto rule = rule_iterator->Next();
+-        patterns_to_delete.emplace_back(setting_type, rule->primary_pattern,
+-                                        rule->secondary_pattern);
++        patterns_to_delete.emplace_back(ContentSettingEntry{setting_type, rule->primary_pattern,
++                                        rule->secondary_pattern});
+         permissions::PermissionUmaUtil::RecordOneTimePermissionEvent(
+             setting_type,
+             permissions::OneTimePermissionEvent::EXPIRED_ON_SUSPEND);
+@@ -302,8 +302,8 @@ void OneTimePermissionProvider::DeleteEn
+     auto rule = rule_iterator->Next();
+     if (rule->primary_pattern.Matches(origin_gurl) &&
+         rule->secondary_pattern.Matches(origin_gurl)) {
+-      patterns_to_delete.emplace_back(
+-          content_setting_type, rule->primary_pattern, rule->secondary_pattern);
++      patterns_to_delete.emplace_back(ContentSettingEntry{
++          content_setting_type, rule->primary_pattern, rule->secondary_pattern});
+       permissions::PermissionUmaUtil::RecordOneTimePermissionEvent(
+           content_setting_type, trigger_event);
+     }

@@ -2,22 +2,21 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1888,11 +1888,6 @@ static_library("browser") {
+@@ -1900,10 +1900,6 @@ static_library("browser") {
      "//chrome/browser/ui",
-     "//chrome/browser/storage_access_api:permissions",
+     "//chrome/browser/storage_access_api",
      "//chrome/browser/top_level_storage_access_api:permissions",
 -    "//chrome/browser/safe_browsing",
 -    "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 -    "//chrome/browser/safe_browsing:advanced_protection",
 -    "//chrome/browser/safe_browsing:metrics_collector",
--
+ 
      # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
      "//chrome/browser/media/router",
-   ]
-@@ -1999,7 +1994,6 @@ static_library("browser") {
-     "//chrome/browser/push_messaging:budget_proto",
+@@ -2013,7 +2009,6 @@ static_library("browser") {
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
+     "//chrome/browser/resources/accessibility:resources",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/safe_browsing:advanced_protection",
      "//chrome/browser/safe_browsing:metrics_collector",
@@ -66,7 +65,7 @@
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -475,7 +475,6 @@ static_library("ui") {
+@@ -487,7 +487,6 @@ static_library("ui") {
      "//chrome/browser/headless",
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
@@ -74,15 +73,15 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -526,7 +525,6 @@ static_library("ui") {
-     "//chrome/browser/resources/net_internals:resources",
-     "//chrome/browser/resources/omnibox:resources",
-     "//chrome/browser/resources/usb_internals:resources",
+@@ -532,7 +531,6 @@ static_library("ui") {
+     "//chrome/browser/profiling_host",
+     "//chrome/browser/resources:dev_ui_resources",
+     "//chrome/browser/resources:resources",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/share",
+     "//chrome/browser/storage_access_api",
      "//chrome/browser/ui/side_panel:side_panel_enums",
-     "//chrome/browser/ui/webui:configs",
-@@ -662,16 +660,7 @@ static_library("ui") {
+@@ -664,16 +662,7 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -99,7 +98,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -781,7 +770,6 @@ static_library("ui") {
+@@ -782,7 +771,6 @@ static_library("ui") {
      # TODO(crbug.com/1158905): Remove this circular dependency.
      "//chrome/browser/devtools",
      "//chrome/browser/favicon",
@@ -107,16 +106,16 @@
      "//chrome/browser/profiling_host",
      "//chrome/browser/ui/webui:configs",
    ]
-@@ -1923,8 +1911,6 @@ static_library("ui") {
-       "//chrome/browser/resources/identity_internals:resources",
-       "//chrome/browser/resources/support_tool:resources",
-       "//chrome/browser/resources/web_app_internals:resources",
+@@ -1945,8 +1933,6 @@ static_library("ui") {
+       "//chrome/browser/new_tab_page/modules/photos:mojo_bindings",
+       "//chrome/browser/new_tab_page/modules/recipes:mojo_bindings",
+       "//chrome/browser/profile_resetter:profile_reset_report_proto",
 -      "//chrome/browser/safe_browsing",
 -      "//chrome/browser/safe_browsing:advanced_protection",
        "//chrome/browser/support_tool:support_tool_proto",
        "//chrome/browser/ui/color:color_headers",
        "//chrome/browser/ui/color:mixers",
-@@ -4210,7 +4196,6 @@ static_library("ui") {
+@@ -4227,7 +4213,6 @@ static_library("ui") {
      ]
      deps += [
        "//chrome/browser:titlebar_config",
@@ -124,7 +123,7 @@
        "//chrome/browser/ui/startup:buildflags",
        "//chrome/browser/win/conflicts:module_info",
        "//chrome/credential_provider/common:common_constants",
-@@ -6135,26 +6120,6 @@ static_library("ui") {
+@@ -6190,26 +6175,6 @@ static_library("ui") {
      }
    }
  
@@ -168,7 +167,7 @@
      learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
 --- a/chrome/browser/download/notification/download_item_notification.cc
 +++ b/chrome/browser/download/notification/download_item_notification.cc
-@@ -1034,9 +1034,13 @@ std::u16string DownloadItemNotification:
+@@ -1036,9 +1036,13 @@ std::u16string DownloadItemNotification:
      }
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
        bool requests_ap_verdicts =
@@ -248,8 +247,8 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -6681,13 +6681,9 @@ test("unit_tests") {
-       "//chrome/browser/ui:ui_arc",
+@@ -6696,13 +6696,9 @@ test("unit_tests") {
+       "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
 -      "//chrome/common/safe_browsing:archive_analyzer_results",
