@@ -6,10 +6,10 @@
        const std::map<std::string, std::string>& annotations,
        const std::vector<std::string>& arguments,
        bool restartable) {
--    base::mac::ScopedMachReceiveRight receive_right(
+-    base::apple::ScopedMachReceiveRight receive_right(
 -        NewMachPort(MACH_PORT_RIGHT_RECEIVE));
 -    if (!receive_right.is_valid()) {
--      return base::mac::ScopedMachSendRight();
+-      return base::apple::ScopedMachSendRight();
 -    }
 -
 -    mach_port_t port;
@@ -21,9 +21,9 @@
 -                                               &right_type);
 -    if (kr != KERN_SUCCESS) {
 -      MACH_LOG(ERROR, kr) << "mach_port_extract_right";
--      return base::mac::ScopedMachSendRight();
+-      return base::apple::ScopedMachSendRight();
 -    }
--    base::mac::ScopedMachSendRight send_right(port);
+-    base::apple::ScopedMachSendRight send_right(port);
 -    DCHECK_EQ(port, receive_right.get());
 -    DCHECK_EQ(right_type,
 -              implicit_cast<mach_msg_type_name_t>(MACH_MSG_TYPE_PORT_SEND));
@@ -47,7 +47,7 @@
 -                     std::move(receive_right),
 -                     handler_restarter.get(),
 -                     false)) {
--      return base::mac::ScopedMachSendRight();
+-      return base::apple::ScopedMachSendRight();
 -    }
 -
 -    if (handler_restarter &&
@@ -61,7 +61,7 @@
 -    // handler_restarter will be released when this function returns.
 -
 -    return send_right;
-+  return base::mac::ScopedMachSendRight();
++    return base::apple::ScopedMachSendRight();
    }
  
    // NotifyServer::DefaultInterface:
@@ -72,7 +72,7 @@
 -  // The “restartable” behavior can only be selected on OS X 10.10 and later. In
 -  // previous OS versions, if the initial client were to crash while attempting
 -  // to restart the handler, it would become an unkillable process.
--  base::mac::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
+-  base::apple::ScopedMachSendRight exception_port(HandlerStarter::InitialStart(
 -      handler,
 -      database,
 -      metrics_dir,
