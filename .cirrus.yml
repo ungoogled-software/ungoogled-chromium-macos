@@ -27,8 +27,8 @@ validate_with_source_task:
             - mkdir chromium_download_cache
             - ./ungoogled-chromium/utils/downloads.py retrieve -i ungoogled-chromium/downloads.ini -c chromium_download_cache
     unpack_source_script:
-        - ./ungoogled-chromium/utils/downloads.py unpack -i ungoogled-chromium/downloads.ini -c chromium_download_cache chromium_src
+        - ./ungoogled-chromium/utils/downloads.py unpack --skip-unused -i ungoogled-chromium/downloads.ini -c chromium_download_cache chromium_src
     validate_patches_script:
-        - ./ungoogled-chromium/devutils/validate_patches.py -l chromium_src -p patches -s patches/series
+        - ./ungoogled-chromium/devutils/validate_patches.py -l chromium_src -v -p patches -s patches/series
 
 # vim: set expandtab shiftwidth=4 softtabstop=4:
