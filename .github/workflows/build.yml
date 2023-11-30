@@ -40,7 +40,7 @@ jobs:
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Install dependencies
         run: brew install coreutils ninja
       - name: Download, unpack, and prepare for building
@@ -98,7 +98,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download build
         uses: actions/download-artifact@v3
         with:
@@ -160,7 +160,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
@@ -222,7 +222,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
@@ -284,7 +284,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
@@ -346,7 +346,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
@@ -408,7 +408,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
@@ -470,7 +470,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
@@ -532,7 +532,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_14.3.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Download resumed build
         uses: actions/download-artifact@v3
         with:
