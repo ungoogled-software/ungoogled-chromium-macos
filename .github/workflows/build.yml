@@ -46,6 +46,7 @@ jobs:
         run: |
           brew install coreutils ninja
           pip3 install -U setuptools
+          pip3 install -U html5lib
       - name: Download, unpack, and prepare for building
         run: ./github_before_build.sh | tee -a github_actions_build.log
       - name: Build
