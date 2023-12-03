@@ -42,11 +42,7 @@ jobs:
       - name: Run xcode-select
         run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Install dependencies
-        # Remove pip call after Chromium 119
-        run: |
-          brew install coreutils ninja
-          pip3 install -U setuptools
-          pip3 install -U html5lib
+        run: brew install coreutils ninja python3 --overwrite
       - name: Download, unpack, and prepare for building
         run: ./github_before_build.sh | tee -a github_actions_build.log
       - name: Build
@@ -108,7 +104,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -170,7 +166,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -232,7 +228,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -294,7 +290,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -356,7 +352,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -418,7 +414,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -480,7 +476,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -542,7 +538,7 @@ jobs:
         with:
             name: github_build_artifact
       - name: Install dependencies
-        run: brew install coreutils ninja
+        run: brew install coreutils ninja python3 --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
