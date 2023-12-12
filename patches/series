@@ -6,3 +6,5 @@ ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/fix-clang-format-path.patch
 ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/fix-node-path.patch
+ungoogled-chromium/macos/disable-missing-clang-flags.patch
+ungoogled-chromium/macos/no-unknown-warnings.patch
