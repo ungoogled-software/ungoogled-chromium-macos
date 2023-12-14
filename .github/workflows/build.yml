@@ -1,5 +1,6 @@
 name: Build macOS binaries of Ungoogled Chromium
-on: 
+on:
+  workflow_dispatch:
   push:
     paths:
       - 'patches/**'
