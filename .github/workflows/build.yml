@@ -36,6 +36,9 @@ jobs:
         name: Clone repository
         with:
           submodules: true
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
       - name: Disable Spotlight
@@ -43,7 +46,7 @@ jobs:
       - name: Run xcode-select
         run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Download, unpack, and prepare for building
         run: ./github_before_build.sh | tee -a github_actions_build.log
       - name: Build
