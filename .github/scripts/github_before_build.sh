@@ -2,6 +2,8 @@
 
 # Simple script for downloading, unpacking, and getting ready to build Ungoogled-Chromium macOS binaries on GitHub Actions
 
+_target_cpu="${1:-x64}"
+
 _root_dir=$(dirname $(greadlink -f $0))
 _download_cache="$_root_dir/build/download_cache"
 _src_dir="$_root_dir/build/src"
@@ -22,7 +24,8 @@ mkdir -p "$_download_cache"
 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
 
 shopt -s nocasematch
-if [[ $GITHUB_REF =~ arm || $(git log --pretty='%s' -1) =~ arm  ]]; then
+
+if [[ $_target_cpu == "arm64" ]]; then
   echo 'target_cpu = "arm64"' >> "$_root_dir/flags.macos.gn"
   # sudo xcode-select -s "/Applications/Xcode_13.4.app"
 fi

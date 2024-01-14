@@ -1,10 +1,11 @@
 #!/bin/bash -eux
 # Simple script for packing Ungoogled-Chromium macOS build artifacts on GitHub Actions
 
+_arch="${1:-x86-64}"
 _root_dir=$(dirname $(greadlink -f $0))
 _src_dir="$_root_dir/build/src"
 
-if [[ -f "$_root_dir/build_finished.log" ]] ; then
+if [[ -f "$_root_dir/build_finished_$_arch.log" ]] ; then
   # For packaging
   _chromium_version=$(cat $_root_dir/ungoogled-chromium/chromium_version.txt)
   _ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
