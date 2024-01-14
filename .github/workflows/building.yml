@@ -24,8 +24,12 @@ jobs:
         run: sudo mdutil -a -i off
       - name: Run xcode-select
         run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Download, unpack, and prepare for building
         run: ./github_before_build.sh ${{ inputs.arch }} | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Build
@@ -85,8 +89,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -146,8 +154,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -207,8 +219,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -268,8 +284,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -329,8 +349,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -390,8 +414,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -451,8 +479,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -512,8 +544,12 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils ninja python3 --overwrite
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
