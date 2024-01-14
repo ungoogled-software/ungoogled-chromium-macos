@@ -34,7 +34,7 @@ jobs:
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
       - name: Set up Python 3.11
