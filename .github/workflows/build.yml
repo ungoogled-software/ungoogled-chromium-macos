@@ -25,6 +25,29 @@ on:
 # alternatively use on.push.branches: release/*
 
 jobs:
+  retrieve-resources:
+    name: Retrieve resources required for building
+    runs-on: macos-13
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable Spotlight
+        run: sudo mdutil -a -i off
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Download and unpack required resources
+        run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
+      - name: Upload resources
+        uses: actions/upload-artifact@v3
+        with:
+          name: ungoogled_chromium_macos_resources
+
   build:
     name: Build macOS binaries of Ungoogled Chromium
     strategy:
