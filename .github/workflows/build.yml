@@ -49,6 +49,7 @@ jobs:
           name: ungoogled_chromium_macos_resources
 
   build:
+    needs: retrieve-resources
     name: Build macOS binaries of Ungoogled Chromium
     strategy:
       matrix:
