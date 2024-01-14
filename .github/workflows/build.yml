@@ -41,6 +41,8 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+      - name: Install coreutils
+        run: brew install coreutils
       - name: Download and unpack required resources
         run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
       - name: Upload resources
