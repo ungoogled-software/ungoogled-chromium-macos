@@ -47,6 +47,7 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: ungoogled_chromium_macos_resources
+          path: /
 
   build:
     needs: retrieve-resources
