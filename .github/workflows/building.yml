@@ -1,0 +1,552 @@
+name: Building macOS binaries of Ungoogled Chromium
+
+on:
+  workflow_call:
+    inputs:
+      arch:
+        required: true
+        type: string
+
+jobs:
+  build_job_01:
+    name: Start Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable Spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Download, unpack, and prepare for building
+        run: ./github_before_build.sh ${{ inputs.arch }} | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_02:
+    name: Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_01
+    if: ${{needs.build_job_01.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_03:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_02
+    if: ${{needs.build_job_02.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_04:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_03
+    if: ${{needs.build_job_03.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_05:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_04
+    if: ${{needs.build_job_04.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_06:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_05
+    if: ${{needs.build_job_05.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_07:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_06
+    if: ${{needs.build_job_06.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_08:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_07
+    if: ${{needs.build_job_07.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+
+  build_job_09:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: macos-13
+    needs: build_job_08
+    if: ${{needs.build_job_08.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - uses: actions/checkout@v3
+        name: Clone repository
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Run xcode-select
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+      - name: Download resumed build
+        uses: actions/download-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Install dependencies
+        run: brew install coreutils ninja python3 --overwrite
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+      - name: Upload logs
+        uses: actions/upload-artifact@v3
+        with:
+          name: github_build_logs
+          path: upload_logs/
+      - name: Upload disk-image as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: ./release_asset/${{ steps.bake.outputs.file_name }}
+      - name: Create Release
+        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
+        id: create_release
+        uses: softprops/action-gh-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
+          body_path: ./github_release_text.md
+          draft: false
+          prerelease: false
+          files: ./release_asset/${{ steps.bake.outputs.file_name }}
