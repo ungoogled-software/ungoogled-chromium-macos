@@ -30,7 +30,11 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: brew install coreutils ninja --overwrite
-      - name: Download, unpack, and prepare for building
+      - name: Download resources
+        uses: actions/download-artifact@v3
+        with:
+          name: ungoogled_chromium_macos_resources
+      - name: Prepare for building
         run: ./github_before_build.sh ${{ inputs.arch }} | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Build
         id: build
@@ -38,7 +42,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -103,7 +107,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -168,7 +172,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -233,7 +237,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -298,7 +302,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -363,7 +367,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -428,7 +432,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -493,7 +497,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
@@ -558,7 +562,7 @@ jobs:
       - name: Prepare archive of build as artifact
         id: bake
         run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
-      - name: Upload artifact
+      - name: Upload part build artifact
         uses: actions/upload-artifact@v3
         with:
           name: github_build_artifact_${{ inputs.arch }}
