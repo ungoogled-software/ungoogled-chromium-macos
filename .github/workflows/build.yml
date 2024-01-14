@@ -55,7 +55,7 @@ jobs:
       matrix:
         arch: [x86-64, arm64]
       fail-fast: true
-      max-parallel: 1
+      max-parallel: 2
     uses: ./.github/workflows/building.yml
     with:
       arch: ${{ matrix.arch }}
