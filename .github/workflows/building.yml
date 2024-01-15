@@ -34,6 +34,8 @@ jobs:
         uses: actions/download-artifact@v3
         with:
           name: ungoogled_chromium_macos_resources
+      - name: Unpack resources
+        run: ./github_unpack_resources.sh
       - name: Prepare for building
         run: ./github_before_build.sh ${{ inputs.arch }} | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Build
