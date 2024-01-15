@@ -56,24 +56,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_02:
     name: Resuming Building Ungoogled-Chromium for macOS
@@ -121,24 +111,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_03:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -186,24 +166,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_04:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -251,24 +221,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_05:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -316,24 +276,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_06:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -381,24 +331,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_07:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -446,24 +386,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_08:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -511,24 +441,14 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
 
   build_job_09:
     name: Further Resuming Building Ungoogled-Chromium for macOS
@@ -576,21 +496,11 @@ jobs:
         with:
           name: github_build_logs
           path: upload_logs/
-      - name: Upload disk-image as artifact after build
+      - name: Upload disk-image and hash file as artifact after build
         if: ${{ steps.build.outputs.status == 'finished' }}
         uses: actions/upload-artifact@v3
         with:
           name: ${{ steps.bake.outputs.file_name }}
-          path: ./release_asset/${{ steps.bake.outputs.file_name }}
-      - name: Create Release
-        if: ${{ steps.build.outputs.status == 'finished' && github.event_name != 'pull_request' }}
-        id: create_release
-        uses: softprops/action-gh-release@v1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          tag_name: ${{ steps.bake.outputs.release_tag_version }}
-          name: ${{ steps.bake.outputs.release_tag_version }} macOS ungoogled-chromium binary
-          body_path: ./github_release_text.md
-          draft: false
-          prerelease: false
-          files: ./release_asset/${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
