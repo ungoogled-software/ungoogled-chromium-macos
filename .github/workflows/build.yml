@@ -66,3 +66,43 @@ jobs:
     uses: ./.github/workflows/building.yml
     with:
       arch: ${{ matrix.arch }}
+
+  release:
+    needs: build
+    if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
+    name: Release macOS binaries of Ungoogled Chromium
+    runs-on: macos-13
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare release
+        id: bake
+        run: ./github_prepare_release.sh | tee -a github_actions_release.log
+      - name: Get built x86-64 binary
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.x64_file_name }}
+      - name: Get built arm64 binary
+        uses: actions/download-artifact@v3
+        with:
+          name: ${{ steps.bake.outputs.arm64_file_name }}
+      - name: List files
+        run: ls -la
+      - name: Generate release note
+        run: ./github_generate_release_note.sh | tee -a github_actions_release.log
+      - name: Release Ungoogled-Chromium binaries
+        uses: softprops/action-gh-release@v1
+        with:
+          body_path: ./github_release_note.md
+          draft: false
+          prerelease: false
+          files: |
+            ${{ steps.bake.outputs.x64_file_name }}
+            ${{ steps.bake.outputs.arm64_file_name }}
+          name: ${{ steps.bake.outputs.release_name }}
+          tag_name: ${{ steps.bake.outputs.release_tag_version }}
+          token: ${{ secrets.GITHUB_TOKEN }}

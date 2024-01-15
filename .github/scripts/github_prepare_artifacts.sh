@@ -14,7 +14,7 @@ if [[ -f "$_root_dir/build_finished_$_arch.log" ]] ; then
 
   _cpu=x86-64; grep -qF arm64 "$_src_dir/out/Default/args.gn" && _cpu=arm64
   _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_cpu}-macos.dmg"
-  _release_tag_version="${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_cpu}__${_epoch_finish}"
+  _hash_name="${_file_name}.hashes.md"
   
   cd "$_src_dir"
 
@@ -35,13 +35,11 @@ if [[ -f "$_root_dir/build_finished_$_arch.log" ]] ; then
   _hash_md=$(paste ./hash_types.txt ./sums.txt | awk '{print $1 " " $2}')
 
   echo "file_name=$_file_name" >> $GITHUB_OUTPUT
-  echo "release_tag_version=$_release_tag_version" >> $GITHUB_OUTPUT
 
   _gh_run_href="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
   
-  printf '[Hashes](https://en.wikipedia.org/wiki/Cryptographic_hash_function) for the disk image `%s`: \n' "$_file_name" | tee ./github_release_text.md
-  printf '\n```\n%s\n```\n' "$_hash_md" | tee -a ./github_release_text.md
-  printf 'See [this GitHub Actions Run](%s) for the [Workflow file](%s/workflow) used as well as the build logs and artifacts\n' "$_gh_run_href" "$_gh_run_href" | tee -a ./github_release_text.md
+  printf '[Hashes](https://en.wikipedia.org/wiki/Cryptographic_hash_function) for the disk image `%s`: \n' "$_file_name" | tee -a ./${_hash_name}
+  printf '\n```\n%s\n```\n' "$_hash_md" | tee -a ./${_hash_name}
 
   # Use separate folder for build product, so that it can be used as individual asset in case the release action fails
   mkdir -p release_asset
