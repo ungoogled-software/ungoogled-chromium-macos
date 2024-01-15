@@ -36,8 +36,8 @@ jobs:
           name: ungoogled_chromium_macos_resources
       - name: Unpack resources
         run: ./github_unpack_resources.sh
-      - name: (Temporary) List resources files
-        run: ls -Rla
+      - name: List resources
+        run: ls -la
       - name: Prepare for building
         run: ./github_before_build.sh ${{ inputs.arch }} | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Build
