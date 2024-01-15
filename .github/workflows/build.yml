@@ -46,7 +46,7 @@ jobs:
       - name: Download and unpack required resources
         run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
       - name: (Temporary) List resources files
-        run: ls -la
+        run: ls -Rla
       - name: Archive resources
         run: ./github_pack_resources.sh | tee -a github_actions_retrieve_resources.log
       - name: Upload resources
