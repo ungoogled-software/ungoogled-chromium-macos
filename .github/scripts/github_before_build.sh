@@ -23,5 +23,3 @@ cd "$_src_dir"
 
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./out/Default/gn gen out/Default --fail-on-unused-args
-
-rm -rvf "$_download_cache"
