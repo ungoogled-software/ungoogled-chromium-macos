@@ -1,5 +1,7 @@
 #!/bin/bash -eux
 
+_root_dir=$(dirname $(greadlink -f $0))
+
 _chromium_version=$(cat $_root_dir/ungoogled-chromium/chromium_version.txt)
 _ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
 _package_revision=$(cat $_root_dir/revision.txt)
