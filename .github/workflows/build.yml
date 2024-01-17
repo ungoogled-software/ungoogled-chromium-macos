@@ -79,6 +79,10 @@ jobs:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
+      - name: Disable Spotlight
+        run: sudo mdutil -a -i off
+      - name: Install coreutils
+        run: brew install coreutils
       - name: Prepare release
         id: bake
         run: ./github_prepare_release.sh | tee -a github_actions_release.log
