@@ -105,8 +105,8 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ${{ steps.bake.outputs.x64_file_name }}
-            ${{ steps.bake.outputs.arm64_file_name }}
+            ungoogled-chromium/${{ steps.bake.outputs.x64_file_name }}
+            ungoogled-chromium/${{ steps.bake.outputs.arm64_file_name }}
           name: ${{ steps.bake.outputs.release_name }}
           tag_name: ${{ steps.bake.outputs.release_tag_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
