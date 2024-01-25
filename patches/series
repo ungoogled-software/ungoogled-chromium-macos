@@ -8,3 +8,4 @@ ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/fix-node-path.patch
 ungoogled-chromium/macos/disable-missing-clang-flags.patch
 ungoogled-chromium/macos/no-unknown-warnings.patch
+ungoogled-chromium/macos/disable-rust-qr-code-generator.patch
