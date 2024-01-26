@@ -79,4 +79,3 @@
 -
    std::vector<Segment> segments;
    const QRVersionInfo* version_info = nullptr;
- 
