@@ -39,7 +39,7 @@ jobs:
       - name: Archive resources
         run: ./github_pack_resources.sh | tee -a github_actions_retrieve_resources.log
       - name: Upload resources
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: ungoogled_chromium_macos_resources
           path: upload_build_resources/
@@ -76,11 +76,11 @@ jobs:
         id: bake
         run: ./github_prepare_release.sh | tee -a github_actions_release.log
       - name: Get built x86-64 binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ steps.bake.outputs.x64_file_name }}
       - name: Get built arm64 binary
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: ${{ steps.bake.outputs.arm64_file_name }}
       - name: List files
