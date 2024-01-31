@@ -15,7 +15,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -75,7 +75,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -135,7 +135,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -195,7 +195,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -255,7 +255,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -315,7 +315,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -375,7 +375,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -435,7 +435,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
@@ -495,7 +495,7 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Clone repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
         with:
           submodules: true
       - name: Copy GitHub specific scripts to git-root folder
