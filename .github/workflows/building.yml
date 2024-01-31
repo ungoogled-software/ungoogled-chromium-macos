@@ -51,6 +51,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -111,6 +112,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -171,6 +173,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -231,6 +234,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -291,6 +295,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -351,6 +356,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -411,6 +417,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -471,6 +478,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
@@ -531,6 +539,7 @@ jobs:
         with:
           name: github_build_artifact_${{ inputs.arch }}
           path: upload_part_build/
+          overwrite: true
       - name: Upload logs
         uses: actions/upload-artifact@v4
         with:
