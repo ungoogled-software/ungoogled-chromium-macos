@@ -16,7 +16,7 @@ on:
 jobs:
   retrieve-resources:
     name: Retrieve resources required for building
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - name: Clone repository
         uses: actions/checkout@v4
@@ -60,7 +60,7 @@ jobs:
     needs: build
     if: github.event_name == 'push' && contains(github.ref, 'refs/tags/')
     name: Release macOS binaries of Ungoogled Chromium
-    runs-on: macos-13
+    runs-on: macos-latest
     steps:
       - name: Clone repository
         uses: actions/checkout@v4

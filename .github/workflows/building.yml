@@ -8,9 +8,18 @@ on:
         type: string
 
 jobs:
+  get_runs_on:
+    name: Get macOS system required to build
+    runs-on: macos-latest
+    steps:
+      - name: Set runs-on for arm64 builds
+        if: ${{ inputs.arch == 'arm64' }}
+        run: echo "RUNS_ON=macos-14" >> $GITHUB_ENV
+      - name: Set runs-on for non-arm64 builds
+        run: echo "RUNS_ON=macos-13" >> $GITHUB_ENV
   build_job_01:
     name: Start Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
@@ -69,7 +78,7 @@ jobs:
 
   build_job_02:
     name: Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_01
     if: ${{needs.build_job_01.outputs.status == 'running'}}
     outputs:
@@ -130,7 +139,7 @@ jobs:
 
   build_job_03:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_02
     if: ${{needs.build_job_02.outputs.status == 'running'}}
     outputs:
@@ -191,7 +200,7 @@ jobs:
 
   build_job_04:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_03
     if: ${{needs.build_job_03.outputs.status == 'running'}}
     outputs:
@@ -252,7 +261,7 @@ jobs:
 
   build_job_05:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_04
     if: ${{needs.build_job_04.outputs.status == 'running'}}
     outputs:
@@ -313,7 +322,7 @@ jobs:
 
   build_job_06:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_05
     if: ${{needs.build_job_05.outputs.status == 'running'}}
     outputs:
@@ -374,7 +383,7 @@ jobs:
 
   build_job_07:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_06
     if: ${{needs.build_job_06.outputs.status == 'running'}}
     outputs:
@@ -435,7 +444,7 @@ jobs:
 
   build_job_08:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_07
     if: ${{needs.build_job_07.outputs.status == 'running'}}
     outputs:
@@ -496,7 +505,7 @@ jobs:
 
   build_job_09:
     name: Further Resuming Building Ungoogled-Chromium for macOS
-    runs-on: macos-13
+    runs-on: ${{ env.RUNS_ON }}
     needs: build_job_08
     if: ${{needs.build_job_08.outputs.status == 'running'}}
     outputs:
