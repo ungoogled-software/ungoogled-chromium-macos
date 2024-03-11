@@ -61,8 +61,7 @@ source devutils/set_quilt_vars.sh
 2. Setup Chromium source
 ```sh
 mkdir -p build/{src,download_cache}
-./ungoogled-chromium/utils/downloads.py retrieve -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache
-./ungoogled-chromium/utils/downloads.py unpack -i ungoogled-chromium/downloads.ini downloads.ini -c build/download_cache build/src
+./retrieve_and_unpack_resource.sh
 cd build/src
 ```
 
