@@ -4,7 +4,7 @@ on:
   push:
     paths:
       - 'patches/**'
-      - 'downloads.ini'
+      - 'downloads**.ini'
       - 'revision.txt'
       - 'flags.macos.gn'
       - '!build.sh'
