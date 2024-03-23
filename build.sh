@@ -23,6 +23,12 @@ mkdir -p "$_download_cache"
 
 "$_root_dir/retrieve_and_unpack_resource.sh"
 
+## Rust Resource
+_rust_dir="$_src_dir/third_party/rust-toolchain"
+_rust_flag_file=$rust_dir/INSTALLED_VERSION
+
+echo "rustc 1.78.0-nightly (a84bb95a1 2024-02-13)" > "$_rust_flag_file"
+
 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
