@@ -25,7 +25,7 @@ mkdir -p "$_download_cache"
 
 ## Rust Resource
 _rust_dir="$_src_dir/third_party/rust-toolchain"
-_rust_flag_file=$rust_dir/INSTALLED_VERSION
+_rust_flag_file="$_rust_dir/INSTALLED_VERSION"
 
 echo "rustc 1.78.0-nightly (a84bb95a1 2024-02-13)" > "$_rust_flag_file"
 
