@@ -9,3 +9,4 @@ ungoogled-chromium/fix-node-path.patch
 ungoogled-chromium/macos/disable-missing-clang-flags.patch
 ungoogled-chromium/macos/no-unknown-warnings.patch
 ungoogled-chromium/macos/fix-libpng-build.patch
+macos/fix-build-with-rust.patch
