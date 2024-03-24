@@ -24,13 +24,24 @@ mkdir -p "$_download_cache"
 "$_root_dir/retrieve_and_unpack_resource.sh"
 
 ## Rust Resource
+_rust_name="x86_64-apple-darwin"
+if [ "$(uname -m)" = "arm64" ]; then
+    _rust_name="aarch64-apple-darwin"
+fi
+
 _rust_dir="$_src_dir/third_party/rust-toolchain"
-_rust_bin_dir="$_src_dir/third_party/rust-toolchain/bin"
+_rust_bin_dir="$_rust_dir/bin"
 _rust_flag_file="$_rust_dir/INSTALLED_VERSION"
+
+_rust_lib_dir="$_rust_dir/rust-std-$_rust_name/lib/rustlib/$_rust_name/lib"
+_rustc_dir="$_rust_dir/rustc"
+_rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
 
 echo "rustc 1.78.0-nightly (a84bb95a1 2024-02-13)" > "$_rust_flag_file"
 
-ln -s "$_rust_bin_dir/rustc" "$_rust_dir/rustc/bin/rustc"
+mkdir $_rust_bin_dir
+ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
+ln -s "$_rust_lib_dir" "$_rustc_lib_dir"
 
 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
