@@ -269,7 +269,7 @@
 -  client_certificates::RegisterProfilePrefs(registry);
 -#endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC)
  }
-
+ 
  void RegisterLocalStatePrefs(PrefRegistrySimple* registry) {
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
@@ -285,3 +285,4 @@
 -#endif  //
  };
  // clang-format on
+ 
