@@ -15,8 +15,8 @@
    if (llvm_android_mainline) {  # https://crbug.com/1481060
      clang_version = "17"
    } else {
--    clang_version = "18"
-+    clang_version = "17"
+-    clang_version = "19"
++    clang_version = "18"
    }
  }
  

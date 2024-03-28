@@ -15,7 +15,7 @@ validate_with_source_task:
         - sort -o flags.merged.gn flags.merged.gn
         - ./ungoogled-chromium/devutils/check_gn_flags.py -f flags.merged.gn
     check_downloads_ini_script:
-        - ./ungoogled-chromium/devutils/check_downloads_ini.py -d ungoogled-chromium/downloads.ini downloads.ini
+        - ./ungoogled-chromium/devutils/check_downloads_ini.py -d ungoogled-chromium/downloads.ini downloads.ini downloads-x86-64.ini downloads-arm64.ini
     check_patch_files_script:
         - ./ungoogled-chromium/devutils/check_patch_files.py -p patches
     merge_patches_script:
