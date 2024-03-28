@@ -24,3 +24,23 @@ else
     "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache"
     "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache" "$_src_dir"
 fi
+
+## Rust Resource
+_rust_name="x86_64-apple-darwin"
+if [ "$(uname -m)" = "arm64" ]; then
+    _rust_name="aarch64-apple-darwin"
+fi
+
+_rust_dir="$_src_dir/third_party/rust-toolchain"
+_rust_bin_dir="$_rust_dir/bin"
+_rust_flag_file="$_rust_dir/INSTALLED_VERSION"
+
+_rust_lib_dir="$_rust_dir/rust-std-$_rust_name/lib/rustlib/$_rust_name/lib"
+_rustc_dir="$_rust_dir/rustc"
+_rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
+
+echo "rustc 1.78.0-nightly (a84bb95a1 2024-02-13)" > "$_rust_flag_file"
+
+mkdir $_rust_bin_dir
+ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
+ln -s "$_rust_lib_dir" "$_rustc_lib_dir"
