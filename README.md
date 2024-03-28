@@ -80,7 +80,7 @@ A `.dmg` should appear in `build/`
        2. Extract the archive.
        3. Execute `rustc/bin/rustc -V` in the extracted directory to get Rust version string.
             * For our example, the version string is `rustc 1.78.0-nightly (a84bb95a1 2024-02-13)`.
-       4. Adapt the content of `build.sh` and `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` accordingly.
+       4. Adapt the content of `retrieve_and_unpack_resource.sh` and `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` accordingly.
 4. Switch to src directory
 
     ```sh
