@@ -14,38 +14,7 @@ on:
       - '.github/scripts/force_build.txt'
 
 jobs:
-  retrieve-resources:
-    name: Retrieve resources required for building
-    runs-on: macos-latest
-    steps:
-      - name: Clone repository
-        uses: actions/checkout@v4
-        with:
-          submodules: true
-      - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./
-      - name: Disable Spotlight
-        run: sudo mdutil -a -i off
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install coreutils
-        run: brew install coreutils
-      - name: Download and unpack required resources
-        run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
-      - name: List resources
-        run: ls -la
-      - name: Archive resources
-        run: ./github_pack_resources.sh | tee -a github_actions_retrieve_resources.log
-      - name: Upload resources
-        uses: actions/upload-artifact@v4
-        with:
-          name: ungoogled_chromium_macos_resources
-          path: upload_build_resources/
-
   build:
-    needs: retrieve-resources
     name: Build macOS binaries of Ungoogled Chromium
     strategy:
       matrix:

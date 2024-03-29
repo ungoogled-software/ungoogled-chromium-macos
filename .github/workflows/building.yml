@@ -11,6 +11,36 @@ on:
         type: string
 
 jobs:
+  retrieve-resources:
+    name: Retrieve resources required for building
+    runs-on: ${{ inputs.os }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Disable Spotlight
+        run: sudo mdutil -a -i off
+      - name: Set up Python 3.11
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install coreutils
+        run: brew install coreutils
+      - name: Download and unpack required resources
+        run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
+      - name: List resources
+        run: ls -la
+      - name: Archive resources
+        run: ./github_pack_resources.sh | tee -a github_actions_retrieve_resources.log
+      - name: Upload resources
+        uses: actions/upload-artifact@v4
+        with:
+          name: ungoogled_chromium_macos_resources_${{ inputs.arch }}
+          path: upload_build_resources/
+
   build_job_01:
     name: Start Building Ungoogled-Chromium for macOS
     runs-on: ${{ inputs.os }}
@@ -36,7 +66,7 @@ jobs:
       - name: Download resources
         uses: actions/download-artifact@v4
         with:
-          name: ungoogled_chromium_macos_resources
+          name: ungoogled_chromium_macos_resources_${{ inputs.arch }}
       - name: Unpack resources
         run: ./github_unpack_resources.sh
       - name: List resources
