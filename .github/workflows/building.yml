@@ -44,6 +44,7 @@ jobs:
   build_job_01:
     name: Start Building Ungoogled-Chromium for macOS
     runs-on: ${{ inputs.os }}
+    needs: retrieve-resources
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
