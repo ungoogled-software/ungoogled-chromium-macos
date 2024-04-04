@@ -88,7 +88,7 @@ A `.dmg` should appear in `build/`
     ```
 
 5. Use `quilt` to refresh all patches: `quilt push -a --refresh`
-   * If an error occurs, go to the next step. Otherwise, skip to Step 5.
+   * If an error occurs, go to the next step. Otherwise, skip to Step 7.
 6. Use `quilt` to fix the broken patch:
     1. Run `quilt push -f`
     2. Edit the broken files as necessary by adding (`quilt edit ...` or `quilt add ...`) or removing (`quilt remove ...`) files as necessary
