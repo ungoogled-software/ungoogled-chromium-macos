@@ -64,6 +64,8 @@ jobs:
           python-version: '3.11'
       - name: Install dependencies
         run: brew install coreutils ninja --overwrite
+      - name: Show ninja version
+        run: ninja --version
       - name: Download resources
         uses: actions/download-artifact@v4
         with:
