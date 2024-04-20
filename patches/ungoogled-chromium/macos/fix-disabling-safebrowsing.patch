@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1959,10 +1959,6 @@ static_library("browser") {
+@@ -1966,10 +1966,6 @@ static_library("browser") {
      "//chrome/browser/ui",
      "//chrome/browser/storage_access_api",
      "//chrome/browser/top_level_storage_access_api:permissions",
@@ -10,10 +10,10 @@
 -    "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 -    "//chrome/browser/safe_browsing:advanced_protection",
 -    "//chrome/browser/safe_browsing:metrics_collector",
+     "//chrome/browser/ip_protection",
  
      # TODO(crbug.com/1030821): Eliminate usages of browser.h from Media Router.
-     "//chrome/browser/media/router",
-@@ -2085,7 +2081,6 @@ static_library("browser") {
+@@ -2092,7 +2088,6 @@ static_library("browser") {
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
@@ -23,7 +23,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -747,9 +747,6 @@ static_library("extensions") {
+@@ -755,9 +755,6 @@ static_library("extensions") {
  
      # TODO(crbug.com/1065748): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
@@ -33,7 +33,7 @@
    ]
  
    # Since browser and browser_extensions actually depend on each other,
-@@ -762,8 +759,6 @@ static_library("extensions") {
+@@ -770,8 +767,6 @@ static_library("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -42,7 +42,7 @@
      "//components/safe_browsing/core/common/proto:realtimeapi_proto",
      "//components/signin/core/browser",
      "//components/translate/content/browser",
-@@ -803,7 +798,6 @@ static_library("extensions") {
+@@ -811,7 +806,6 @@ static_library("extensions") {
      "//chrome/browser/profiles",
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -50,7 +50,7 @@
      "//chrome/browser/safe_browsing:metrics_collector",
      "//chrome/browser/ui/tabs:tab_enums",
      "//chrome/browser/web_applications",
-@@ -888,12 +882,6 @@ static_library("extensions") {
+@@ -896,12 +890,6 @@ static_library("extensions") {
      "//components/proxy_config",
      "//components/reading_list/core",
      "//components/resources",
@@ -65,7 +65,7 @@
      "//components/services/patch/content",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -396,7 +396,6 @@ static_library("ui") {
+@@ -403,7 +403,6 @@ static_library("ui") {
      "//components/cross_device/logging",
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
@@ -73,7 +73,7 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -443,7 +442,6 @@ static_library("ui") {
+@@ -450,7 +449,6 @@ static_library("ui") {
      "//chrome/browser/profiling_host",
      "//chrome/browser/resources:dev_ui_resources",
      "//chrome/browser/resources:resources",
@@ -81,7 +81,7 @@
      "//chrome/browser/share",
      "//chrome/browser/storage_access_api",
      "//chrome/browser/ui/side_panel:side_panel_enums",
-@@ -587,17 +585,8 @@ static_library("ui") {
+@@ -597,17 +595,8 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -99,7 +99,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -711,7 +700,6 @@ static_library("ui") {
+@@ -721,7 +710,6 @@ static_library("ui") {
      # TODO(crbug.com/1158905): Remove this circular dependency.
      "//chrome/browser/devtools",
      "//chrome/browser/favicon",
@@ -107,7 +107,7 @@
      "//chrome/browser/profiling_host",
  
      "//chrome/browser/permissions",
-@@ -6789,26 +6777,6 @@ static_library("ui") {
+@@ -6863,26 +6851,6 @@ static_library("ui") {
      }
    }
  
@@ -136,7 +136,7 @@
    }
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -453,8 +453,12 @@ void DownloadProtectionService::ShowDeta
+@@ -450,8 +450,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -231,7 +231,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7216,13 +7216,9 @@ test("unit_tests") {
+@@ -7299,13 +7299,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -273,7 +273,7 @@
  void RegisterLocalStatePrefs(PrefRegistrySimple* registry) {
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2083,12 +2083,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2112,12 +2112,6 @@ const PolicyToPreferenceMapEntry kSimple
      prefs::kCAPlatformIntegrationEnabled,
      base::Value::Type::BOOLEAN },
  #endif // BUILDFLAG(CHROME_CERTIFICATE_POLICIES_SUPPORTED)

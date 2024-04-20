@@ -39,7 +39,7 @@ _rust_lib_dir="$_rust_dir/rust-std-$_rust_name/lib/rustlib/$_rust_name/lib"
 _rustc_dir="$_rust_dir/rustc"
 _rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
 
-echo "rustc 1.78.0-nightly (a84bb95a1 2024-02-13)" > "$_rust_flag_file"
+echo "rustc 1.78.0-nightly (bb594538f 2024-02-20)" > "$_rust_flag_file"
 
 mkdir $_rust_bin_dir
 ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
