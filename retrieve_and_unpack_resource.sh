@@ -44,3 +44,8 @@ echo "rustc 1.78.0-nightly (bb594538f 2024-02-20)" > "$_rust_flag_file"
 mkdir $_rust_bin_dir
 ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
 ln -s "$_rust_lib_dir" "$_rustc_lib_dir"
+
+_llvm_dir="$_src_dir/third_party/llvm-build/Release+Asserts"
+_llvm_bin_dir="$_llvm_dir/bin"
+
+ln -s "$_llvm_bin_dir/llvm-install-name-tool" "$_llvm_bin_dir/install_name_tool"
