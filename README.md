@@ -94,7 +94,7 @@ A `.dmg` should appear in `build/`
     2. Edit the broken files as necessary by adding (`quilt edit ...` or `quilt add ...`) or removing (`quilt remove ...`) files as necessary
         * When removing large chunks of code, remove each line instead of using language features to hide or remove the code. This makes the patches less susceptible to breakages when using quilt's refresh command (e.g. quilt refresh updates the line numbers based on the patch context, so it's possible for new but desirable code in the middle of the block comment to be excluded.). It also helps with readability when someone wants to see the changes made based on the patch alone.
     3. Refresh the patch: `quilt refresh`
-    4. Go back to Step 3.
+    4. Go back to Step 5.
 7. Run `../../ungoogled-chromium/devutils/validate_config.py`
 8. Run `quilt pop -a`
 9. Validate that patches are applied correctly
