@@ -63,9 +63,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Download resources
         uses: actions/download-artifact@v4
         with:
@@ -134,9 +132,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -197,9 +193,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -260,9 +254,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -323,9 +315,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -386,9 +376,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -449,9 +437,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -512,9 +498,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -575,9 +559,7 @@ jobs:
         with:
           python-version: '3.11'
       - name: Install dependencies
-        run: brew install coreutils --overwrite
-      - name: Install Ninja 1.11.1 # This is required as Ninja 1.12.0 fails the build
-        run: brew install ninja.rb
+        run: brew install coreutils ninja --overwrite
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
