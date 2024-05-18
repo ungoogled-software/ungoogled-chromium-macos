@@ -37,3 +37,13 @@
    if options.jobs:
      cmd += ['-j', str(options.jobs)]
    subprocess.check_call(cmd)
+--- a/chrome/browser/devtools/BUILD.gn
++++ b/chrome/browser/devtools/BUILD.gn
+@@ -115,6 +115,7 @@ static_library("devtools") {
+     "//chrome/browser/autofill:autofill",
+     "//components/autofill/content/browser:browser",
+     "//components/autofill/core/browser:browser",
++    "//components/enterprise/buildflags",
+     "//components/paint_preview/buildflags:buildflags",
+     "//components/variations/service:service",
+     "//components/webapps/common:common",
