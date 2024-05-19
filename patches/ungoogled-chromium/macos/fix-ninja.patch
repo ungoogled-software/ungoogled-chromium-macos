@@ -47,3 +47,13 @@
      "//components/paint_preview/buildflags:buildflags",
      "//components/variations/service:service",
      "//components/webapps/common:common",
+--- a/chrome/browser/extensions/BUILD.gn
++++ b/chrome/browser/extensions/BUILD.gn
+@@ -893,6 +893,7 @@ static_library("extensions") {
+     "//components/proxy_config",
+     "//components/reading_list/core",
+     "//components/resources",
++    "//components/safe_browsing/content/common/proto:download_file_types_proto",
+     "//components/search_engines",
+     "//components/services/app_service",
+     "//components/services/patch/content",
