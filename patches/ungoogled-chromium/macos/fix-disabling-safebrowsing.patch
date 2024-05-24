@@ -286,27 +286,3 @@
  };
  // clang-format on
  
---- a/chrome/browser/net/profile_network_context_service.cc
-+++ b/chrome/browser/net/profile_network_context_service.cc
-@@ -285,20 +285,7 @@ void UpdateCookieSettings(Profile* profi
- std::unique_ptr<net::ClientCertStore> GetWrappedCertStore(
-     Profile* profile,
-     std::unique_ptr<net::ClientCertStore> platform_store) {
--  if (!profile || !client_certificates::features::
--                      IsManagedClientCertificateForUserEnabled()) {
--    return platform_store;
--  }
--
--  auto* provisioning_service =
--      client_certificates::CertificateProvisioningServiceFactory::GetForProfile(
--          profile);
--  if (!provisioning_service) {
--    return platform_store;
--  }
--
--  return client_certificates::ClientCertificatesService::Create(
--      provisioning_service, std::move(platform_store));
-+  return nullptr;
- }
- #endif  // BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC)
- 
