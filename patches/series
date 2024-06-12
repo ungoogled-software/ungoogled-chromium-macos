@@ -8,3 +8,4 @@ ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/fix-libpng-build.patch
 ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/macos/no-unknown-warnings.patch
+ungoogled-chromium/macos/rust-alloc-fix.patch
