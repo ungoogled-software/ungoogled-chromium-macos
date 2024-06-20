@@ -12,4 +12,3 @@ is_official_build=true
 proprietary_codecs=true
 symbol_level=0
 use_sysroot=false
-use_thin_lto=false
