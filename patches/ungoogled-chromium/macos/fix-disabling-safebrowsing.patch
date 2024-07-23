@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -2008,10 +2008,6 @@ static_library("browser") {
+@@ -1961,10 +1961,6 @@ static_library("browser") {
      "//chrome/browser/ui",
      "//chrome/browser/storage_access_api",
      "//chrome/browser/top_level_storage_access_api:permissions",
@@ -13,7 +13,7 @@
      "//chrome/browser/ip_protection",
  
      # TODO(crbug.com/40110173): Eliminate usages of browser.h from Media Router.
-@@ -2139,7 +2135,6 @@ static_library("browser") {
+@@ -2097,7 +2093,6 @@ static_library("browser") {
      "//chrome/browser/resource_coordinator:mojo_bindings",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
@@ -23,17 +23,17 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -767,9 +767,6 @@ static_library("extensions") {
- 
+@@ -772,9 +772,6 @@ source_set("extensions") {
      # TODO(crbug.com/40124309): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
--
+ 
 -    # TODO(crbug.com/41437292): Remove this circular dependency.
 -    "//chrome/browser/safe_browsing",
-   ]
+-
+     # TODO(crbug.com/343037853): Remove this circular dependency.
+     "//chrome/browser/themes",
  
-   # Since browser and browser_extensions actually depend on each other,
-@@ -782,8 +779,6 @@ static_library("extensions") {
+@@ -795,8 +792,6 @@ source_set("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -42,7 +42,7 @@
      "//components/safe_browsing/core/common/proto:realtimeapi_proto",
      "//components/signin/core/browser",
      "//components/translate/content/browser",
-@@ -826,7 +821,6 @@ static_library("extensions") {
+@@ -844,7 +839,6 @@ source_set("extensions") {
      "//chrome/browser/profiles",
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -52,7 +52,7 @@
      "//chrome/browser/web_applications",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -413,7 +413,6 @@ static_library("ui") {
+@@ -423,7 +423,6 @@ static_library("ui") {
      "//components/cross_device/logging",
      "//components/dom_distiller/core",
      "//components/paint_preview/buildflags",
@@ -60,15 +60,7 @@
      "//components/sync",
      "//components/sync_user_events",
      "//components/translate/content/browser",
-@@ -461,7 +460,6 @@ static_library("ui") {
-     "//chrome/browser/profiling_host",
-     "//chrome/browser/resources:dev_ui_resources",
-     "//chrome/browser/resources:resources",
--    "//chrome/browser/safe_browsing",
-     "//chrome/browser/share",
-     "//chrome/browser/storage_access_api",
-     "//chrome/browser/themes",
-@@ -617,17 +615,8 @@ static_library("ui") {
+@@ -631,17 +630,8 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -86,7 +78,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -745,7 +734,6 @@ static_library("ui") {
+@@ -764,7 +754,6 @@ static_library("ui") {
      # TODO(crbug.com/40161499): Remove this circular dependency.
      "//chrome/browser/devtools",
      "//chrome/browser/favicon",
@@ -94,7 +86,7 @@
      "//chrome/browser/profiling_host",
  
      "//chrome/browser/permissions",
-@@ -7021,26 +7009,6 @@ static_library("ui") {
+@@ -6991,26 +6980,6 @@ static_library("ui") {
      }
    }
  
@@ -123,7 +115,7 @@
    }
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -449,8 +449,12 @@ void DownloadProtectionService::ShowDeta
+@@ -415,8 +415,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -154,7 +146,7 @@
                ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
 --- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
 +++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
-@@ -41,6 +41,7 @@
+@@ -40,6 +40,7 @@
  #include "components/history/core/common/pref_names.h"
  #include "components/prefs/pref_service.h"
  #include "components/profile_metrics/browser_profile_type.h"
@@ -162,7 +154,7 @@
  #include "components/safe_browsing/core/common/features.h"
  #include "components/strings/grit/components_strings.h"
  #include "content/public/browser/download_manager.h"
-@@ -70,10 +71,12 @@ content::WebUIDataSource* CreateAndAddDo
+@@ -69,10 +70,12 @@ content::WebUIDataSource* CreateAndAddDo
        source, base::make_span(kDownloadsResources, kDownloadsResourcesSize),
        IDR_DOWNLOADS_DOWNLOADS_HTML);
  
@@ -218,7 +210,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7414,13 +7414,9 @@ test("unit_tests") {
+@@ -7518,13 +7518,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -247,15 +239,15 @@
        "safe_archive_analyzer.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2124,11 +2124,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2161,11 +2161,6 @@ const PolicyToPreferenceMapEntry kSimple
  #endif
  #endif // BUILDFLAG(CHROME_CERTIFICATE_POLICIES_SUPPORTED)
  
--#if BUILDFLAG(IS_WIN) || BUILDFLAG(IS_MAC)
+-#if BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES)
 -  { key::kProvisionManagedClientCertificateForUser,
 -    client_certificates::prefs::kProvisionManagedClientCertificateForUserPrefs,
 -    base::Value::Type::INTEGER },
--#endif  //
+-#endif  // BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES)
  #if !BUILDFLAG(IS_ANDROID)
    { key::kLensOverlaySettings,
      lens::prefs::kLensOverlaySettings,
