@@ -33,6 +33,8 @@ cat "$_main_repo/flags.gn" "$_root_dir/flags.macos.gn" > "$_src_dir/out/Default/
 cd "$_src_dir"
 
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
+./tools/rust/build_bindgen.py
+
 ./out/Default/gn gen out/Default --fail-on-unused-args
 ninja -C out/Default chrome chromedriver
 
