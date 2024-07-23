@@ -55,7 +55,7 @@ A `.dmg` should appear in `build/`
 
     ```sh
     ./devutils/update_patches.sh merge
-    bash 
+    bash
     source devutils/set_quilt_vars.sh
     ```
 
@@ -63,7 +63,7 @@ A `.dmg` should appear in `build/`
 
     ```sh
     mkdir -p build/{src,download_cache}
-    ./retrieve_and_unpack_resource.sh
+    ./retrieve_and_unpack_resource.sh -g -p
     ```
 
 3. Update Rust toolchain (if necessary)
