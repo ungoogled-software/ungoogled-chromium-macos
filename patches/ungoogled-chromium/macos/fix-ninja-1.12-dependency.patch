@@ -1,0 +1,85 @@
+# https://chromium-review.googlesource.com/c/chromium/src/+/5641516
+--- a/chrome/browser/ui/views/side_panel/BUILD.gn
++++ b/chrome/browser/ui/views/side_panel/BUILD.gn
+@@ -222,5 +222,25 @@ static_library("side_panel") {
+     "//ui/gfx:color_utils",
+     "//ui/gfx/geometry:geometry_skia",
+     "//ui/webui",
++
++    # TODO(crbug.com/345645751): Use //chrome/browser instead after fixing cyclic dependency.
++    "//components/enterprise/common/proto:connectors_proto",
++
++    # TODO(crbug.com/346711540,crbug.com/346699817,crbug.com/345645751,
++    #      crbug.com/346694160,crbug.com/346709958,crbug.com/346707816):
++    # Use //chrome/browser/ui instead after fixing cyclic dependency.
++    "//chrome/browser/cart:mojo_bindings",
++    "//chrome/browser/companion/visual_query",
++    "//chrome/browser/ui:webui_name_variants",
++    "//chrome/browser/ui/webui/side_panel/bookmarks:mojo_bindings",
++    "//chrome/browser/ui/webui/side_panel/customize_chrome:mojo_bindings",
++    "//chrome/browser/ui/webui/side_panel/reading_list:mojo_bindings",
++    "//components/enterprise/buildflags",
++    "//components/page_image_service/mojom:mojo_bindings",
++    "//components/paint_preview/buildflags",
++    "//components/segmentation_platform/public/proto",
++    "//components/user_education/webui",
++    "//components/webapps/common:mojo_bindings",
++    "//ui/webui/resources/cr_components/commerce:mojo_bindings",
+   ]
+ }
+--- a/chrome/browser/ui/BUILD.gn
++++ b/chrome/browser/ui/BUILD.gn
+@@ -422,7 +422,9 @@ static_library("ui") {
+     "//chrome/browser/ui/tabs:tab_enums",
+     "//components/cross_device/logging",
+     "//components/dom_distiller/core",
++    "//components/enterprise/buildflags",
+     "//components/paint_preview/buildflags",
++    "//components/segmentation_platform/public",
+     "//components/sync",
+     "//components/sync_user_events",
+     "//components/translate/content/browser",
+@@ -539,7 +541,6 @@ static_library("ui") {
+     "//components/embedder_support:browser_util",
+     "//components/encrypted_messages:encrypted_message_proto",
+     "//components/enterprise",
+-    "//components/enterprise/buildflags:buildflags",
+     "//components/error_page/content/browser",
+     "//components/facilitated_payments/core/features",
+     "//components/favicon/content",
+@@ -640,7 +641,6 @@ static_library("ui") {
+     "//components/security_interstitials/core:unsafe_resource",
+     "//components/security_state/content",
+     "//components/security_state/core",
+-    "//components/segmentation_platform/public",
+     "//components/send_tab_to_self",
+     "//components/sessions",
+     "//components/signin/core/browser",
+@@ -2169,7 +2169,6 @@ static_library("ui") {
+       "//components/omnibox/browser:mojo_bindings",
+       "//components/page_load_metrics/browser",
+       "//components/paint_preview/browser",
+-      "//components/paint_preview/buildflags",
+       "//components/paint_preview/common",
+       "//components/paint_preview/public",
+       "//components/password_manager/content/common",
+@@ -6350,7 +6349,6 @@ static_library("ui") {
+     sources += get_target_outputs(":webui_name_variants")
+ 
+     deps += [
+-      ":webui_name_variants",
+       "side_search:side_search_tab_data_proto",
+       "//base",
+       "//chrome/browser:main_extra_parts",
+@@ -6409,7 +6407,10 @@ static_library("ui") {
+       "//ui/lottie",
+       "//ui/views:buildflags",
+     ]
+-    public_deps += [ "//ui/base/dragdrop/mojom:mojom_headers" ]
++    public_deps += [
++      ":webui_name_variants",
++      "//ui/base/dragdrop/mojom:mojom_headers",
++    ]
+ 
+     allow_circular_includes_from += [ "//chrome/browser/ui/views" ]
+ 

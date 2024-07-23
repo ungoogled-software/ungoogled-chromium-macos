@@ -10,3 +10,4 @@ ungoogled-chromium/macos/fix-libpng-build.patch
 ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/macos/no-unknown-warnings.patch
 ungoogled-chromium/macos/mark-remap_alloc-used.patch
+ungoogled-chromium/macos/fix-ninja-1.12-dependency.patch
