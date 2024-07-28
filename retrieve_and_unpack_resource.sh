@@ -29,7 +29,7 @@ while getopts 'gp' OPTION; do
         else
             # For x86-64 (Intel)
             "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache"
-            mkdir -p "$_src_dir/third_party/node/mac_x64/node-darwin-x64/"
+            mkdir -p "$_src_dir/third_party/node/mac/node-darwin-x64/"
             "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache" "$_src_dir"
         fi
 
