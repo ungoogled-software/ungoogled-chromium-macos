@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1961,10 +1961,6 @@ static_library("browser") {
+@@ -1989,10 +1989,6 @@ static_library("browser") {
      "//chrome/browser/ui",
      "//chrome/browser/storage_access_api",
      "//chrome/browser/top_level_storage_access_api:permissions",
@@ -13,8 +13,8 @@
      "//chrome/browser/ip_protection",
  
      # TODO(crbug.com/40110173): Eliminate usages of browser.h from Media Router.
-@@ -2097,7 +2093,6 @@ static_library("browser") {
-     "//chrome/browser/resource_coordinator:mojo_bindings",
+@@ -2093,7 +2089,6 @@ static_library("browser") {
+     "//chrome/browser/promos:utils",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
 -    "//chrome/browser/safe_browsing",
@@ -23,8 +23,8 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -772,9 +772,6 @@ source_set("extensions") {
-     # TODO(crbug.com/40124309): Remove this circular dependency.
+@@ -769,9 +769,6 @@ source_set("extensions") {
+     # TODO(crbug.com/346472679): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
  
 -    # TODO(crbug.com/41437292): Remove this circular dependency.
@@ -33,7 +33,7 @@
      # TODO(crbug.com/343037853): Remove this circular dependency.
      "//chrome/browser/themes",
  
-@@ -795,8 +792,6 @@ source_set("extensions") {
+@@ -794,8 +791,6 @@ source_set("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -52,15 +52,7 @@
      "//chrome/browser/web_applications",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -423,7 +423,6 @@ static_library("ui") {
-     "//components/cross_device/logging",
-     "//components/dom_distiller/core",
-     "//components/paint_preview/buildflags",
--    "//components/safe_browsing:buildflags",
-     "//components/sync",
-     "//components/sync_user_events",
-     "//components/translate/content/browser",
-@@ -631,17 +630,8 @@ static_library("ui") {
+@@ -621,17 +621,8 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -78,7 +70,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -764,7 +754,6 @@ static_library("ui") {
+@@ -744,7 +735,6 @@ static_library("ui") {
      # TODO(crbug.com/40161499): Remove this circular dependency.
      "//chrome/browser/devtools",
      "//chrome/browser/favicon",
@@ -86,36 +78,17 @@
      "//chrome/browser/profiling_host",
  
      "//chrome/browser/permissions",
-@@ -6991,26 +6980,6 @@ static_library("ui") {
-     }
-   }
- 
--  if (safe_browsing_mode > 0) {
--    deps += [
--      "//components/safe_browsing/content/browser:safe_browsing_blocking_page",
--    ]
--  }
--
--  if (safe_browsing_mode == 1) {
--    sources += [
--      "webui/reset_password/reset_password_ui.cc",
--      "webui/reset_password/reset_password_ui.h",
--    ]
--
--    deps += [
--      "//chrome/browser/ui/webui/reset_password:mojo_bindings",
--      "//chrome/common/safe_browsing:proto",
--      "//components/safe_browsing/core/browser/password_protection:password_protection_metrics_util",
--      "//components/safe_browsing/core/common/proto:csd_proto",
--    ]
--  }
--
-   if (use_dbus) {
-     deps += [ "//dbus" ]
-   }
+@@ -6785,7 +6775,6 @@ static_library("ui_public_dependencies")
+     "//components/dom_distiller/core",
+     "//components/enterprise/buildflags",
+     "//components/paint_preview/buildflags",
+-    "//components/safe_browsing:buildflags",
+     "//components/segmentation_platform/public",
+     "//components/sync",
+     "//components/sync_user_events",
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -415,8 +415,12 @@ void DownloadProtectionService::ShowDeta
+@@ -416,8 +416,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -130,7 +103,7 @@
      learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
 --- a/chrome/browser/download/notification/download_item_notification.cc
 +++ b/chrome/browser/download/notification/download_item_notification.cc
-@@ -969,9 +969,13 @@ std::u16string DownloadItemNotification:
+@@ -970,9 +970,13 @@ std::u16string DownloadItemNotification:
      }
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
        bool requests_ap_verdicts =
@@ -146,7 +119,7 @@
                ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
 --- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
 +++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
-@@ -40,6 +40,7 @@
+@@ -41,6 +41,7 @@
  #include "components/history/core/common/pref_names.h"
  #include "components/prefs/pref_service.h"
  #include "components/profile_metrics/browser_profile_type.h"
@@ -154,7 +127,7 @@
  #include "components/safe_browsing/core/common/features.h"
  #include "components/strings/grit/components_strings.h"
  #include "content/public/browser/download_manager.h"
-@@ -69,10 +70,12 @@ content::WebUIDataSource* CreateAndAddDo
+@@ -70,10 +71,12 @@ content::WebUIDataSource* CreateAndAddDo
        source, base::make_span(kDownloadsResources, kDownloadsResourcesSize),
        IDR_DOWNLOADS_DOWNLOADS_HTML);
  
@@ -171,30 +144,26 @@
    static constexpr webui::LocalizedString kStrings[] = {
 --- a/chrome/browser/ui/views/download/download_danger_prompt_views.cc
 +++ b/chrome/browser/ui/views/download/download_danger_prompt_views.cc
-@@ -203,17 +203,18 @@ std::u16string DownloadDangerPromptViews
-             download_->GetFileNameToReportUser().LossyDisplayName());
-       }
-       case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
-+#if BUILDFLAG(FULL_SAFE_BROWSING)
-         if (safe_browsing::AdvancedProtectionStatusManagerFactory::
-                 GetForProfile(profile_)
-                     ->IsUnderAdvancedProtection()) {
-           return l10n_util::GetStringFUTF16(
-               IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION,
-               download_->GetFileNameToReportUser().LossyDisplayName());
--        } else {
-+        } else
-+#endif
-           return l10n_util::GetStringFUTF16(
-               IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT,
-               download_->GetFileNameToReportUser().LossyDisplayName());
--        }
-       }
-       case download::DOWNLOAD_DANGER_TYPE_POTENTIALLY_UNWANTED: {
-         return l10n_util::GetStringFUTF16(
+@@ -179,11 +179,15 @@ std::u16string DownloadDangerPromptViews
+                                         filename);
+     case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
+       return l10n_util::GetStringFUTF16(
+-          safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
++    #if BUILDFLAG(FULL_SAFE_BROWSING)
++        safe_browsing::AdvancedProtectionStatusManagerFactory::GetForProfile(
+               profile_)
+                   ->IsUnderAdvancedProtection()
+               ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
+               : IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT,
++    #else
++          IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT
++    #endif
+           filename);
+     case download::DOWNLOAD_DANGER_TYPE_POTENTIALLY_UNWANTED:
+       return l10n_util::GetStringFUTF16(IDS_PROMPT_DOWNLOAD_CHANGES_SETTINGS,
 --- a/chrome/browser/ui/views/download/download_item_view.cc
 +++ b/chrome/browser/ui/views/download/download_item_view.cc
-@@ -1020,11 +1020,13 @@ ui::ImageModel DownloadItemView::GetIcon
+@@ -1021,11 +1021,13 @@ ui::ImageModel DownloadItemView::GetIcon
  
    switch (danger_type) {
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT:
@@ -210,7 +179,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7518,13 +7518,9 @@ test("unit_tests") {
+@@ -7304,13 +7304,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -226,7 +195,7 @@
        # The test fetches resources which means Mac need the app bundle to exist
 --- a/chrome/services/file_util/BUILD.gn
 +++ b/chrome/services/file_util/BUILD.gn
-@@ -44,10 +44,6 @@ source_set("file_util") {
+@@ -46,10 +46,6 @@ source_set("file_util") {
      deps += [ "//components/services/filesystem/public/mojom" ]
    }
  
@@ -239,7 +208,7 @@
        "safe_archive_analyzer.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2161,11 +2161,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2197,11 +2197,6 @@ const PolicyToPreferenceMapEntry kSimple
  #endif
  #endif // BUILDFLAG(CHROME_CERTIFICATE_POLICIES_SUPPORTED)
  
