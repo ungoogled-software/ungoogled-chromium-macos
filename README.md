@@ -14,7 +14,7 @@ Many people have asked for notarizing (signing) the Ungoogled-Chromium macOS bui
 
 As all Ungoogled-Chromium maintainers are maintaining the software on a voluntary basis, we unfortunately do not have the funds for the Apple Developer Program membership, which is required for notarization.
 
-As of now, I, [@Cubik65536](https://github.com/Cubik65536), the maintainer of Ungoogled-Chromium macOS, am seeking sponsors to help me cover the cost of the Apple Developer Program fee. If you're interested into getting the "official" Ungoogled-Chromium macOS build notarized, please consider sponsoring me through [GitHub Sponsors](https://github.com/sponsors/Cubik65536) or [Buy me a Coffee](https://buymeacoffee.com/cubik65536).
+As of now, I, [@Cubik65536](https://github.com/Cubik65536), the maintainer of Ungoogled-Chromium macOS, am seeking sponsors to help me cover the cost of the Apple Developer Program fee. If you're interested in getting the "official" Ungoogled-Chromium macOS build notarized, please consider sponsoring me through [GitHub Sponsors](https://github.com/sponsors/Cubik65536) or [Buy me a Coffee](https://buymeacoffee.com/cubik65536).
 
 Note that:
 
