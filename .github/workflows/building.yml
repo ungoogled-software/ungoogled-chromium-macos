@@ -17,6 +17,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -56,6 +58,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -123,6 +127,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -190,6 +196,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -257,6 +265,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -324,6 +334,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -391,6 +403,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -458,6 +472,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -525,6 +541,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -592,6 +610,8 @@ jobs:
     steps:
       - name: Cleanup Xcode installations
         run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Select Xcode version
+        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
