@@ -30,7 +30,7 @@ jobs:
       - name: Install coreutils
         run: brew install coreutils
       - name: Download and unpack required resources
-        run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
+        run: ./github_fetch_resources.sh ${{ inputs.arch }} | tee -a github_actions_retrieve_resources.log
       - name: List resources
         run: ls -la
       - name: Archive resources
