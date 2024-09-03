@@ -15,6 +15,12 @@ jobs:
     name: Retrieve resources required for building
     runs-on: ${{ inputs.os }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -48,6 +54,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -109,6 +121,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -170,6 +188,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -231,6 +255,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -292,6 +322,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -353,6 +389,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -414,6 +456,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -475,6 +523,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
@@ -536,6 +590,12 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
+      - name: Cleanup Xcode installations
+        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+      - name: Cleanup Xcode Simulators
+        run: sudo xcrun simctl delete all
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
