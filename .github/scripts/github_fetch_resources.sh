@@ -24,8 +24,7 @@ mkdir -p "$_download_cache"
 
 if [[ $_target_cpu == "arm64" ]]; then
     "$_root_dir/retrieve_and_unpack_resource.sh" -a arm64 -p
-else
-    "$_root_dir/retrieve_and_unpack_resource.sh" -p
 fi
+"$_root_dir/retrieve_and_unpack_resource.sh" -p
 
 rm -rvf "$_download_cache"
