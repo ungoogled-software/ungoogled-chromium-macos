@@ -212,3 +212,24 @@
  #if !BUILDFLAG(IS_ANDROID)
    { key::kLensOverlaySettings,
      lens::prefs::kLensOverlaySettings,
+--- a/chrome/browser/chrome_content_browser_client.cc
++++ b/chrome/browser/chrome_content_browser_client.cc
+@@ -8018,18 +8018,6 @@ bool ChromeContentBrowserClient::SetupEm
+     CHECK(compiler->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
+                                  soda_language_pack_path.value()));
+     return true;
+-  } else if (sandbox_type == sandbox::mojom::Sandbox::kScreenAI) {
+-    // ScreenAI service needs read access to ScreenAI component binary path to
+-    // load it.
+-    base::FilePath screen_ai_binary_path =
+-        screen_ai::ScreenAIInstallState::GetInstance()
+-            ->get_component_binary_path();
+-    if (screen_ai_binary_path.empty()) {
+-      VLOG(1) << "Screen AI component not found.";
+-      return false;
+-    }
+-    return compiler->SetParameter(sandbox::policy::kParamScreenAiComponentPath,
+-                                  screen_ai_binary_path.value());
+   }
+ 
+   return false;
