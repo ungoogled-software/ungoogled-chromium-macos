@@ -16,7 +16,7 @@ Now, we've collected enough funds to cover the cost of the Apple Developer Progr
 
 ## Sponsorship
 
-Thanks to the generous support from the following sponsors:
+Thanks to the following sponsors for their generous support:
 
 - @pascal-giguere (via GitHub Sponsors)
 - @kevingriffin (via GitHub Sponsors)
@@ -24,11 +24,11 @@ Thanks to the generous support from the following sponsors:
 - dasos (via By Me a Coffee)
 - @vinnysaj (via GitHub Sponsors)
 
-which made it possible for us to cover the cost of the Apple Developer Program membership and provide notarized builds of Ungoogled-Chromium macOS. These supports are greatly appreciated!
+These contributions made it possible for us to cover the cost of the Apple Developer Program membership and provide notarized builds of Ungoogled-Chromium macOS. All of these sponsorship contributions are greatly appreciated!
 
 New sponsors are still very welcomed, as I (@Cubik65536, current maintainer of Ungoogled-Chromium macOS) am still relying on community sponsors to help me cover the cost of the Apple Developer Program fee for future membership years. The progress of the funding for current and next Apple Developer membership year can be tracked on [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
 
-Your support will also greatly encourage and motivaes me to continue putting more effort into maintaining and improving Ungoogled-Chromium macOS.
+Your support will also greatly encourage and motivate me to continue putting more effort into maintaining and improving Ungoogled-Chromium macOS.
 
 So, please consider sponsoring me through [GitHub Sponsors](https://github.com/sponsors/Cubik65536) or [Buy me a Coffee](https://buymeacoffee.com/cubik65536).
 
