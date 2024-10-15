@@ -47,7 +47,7 @@ while getopts 'gp' OPTION; do
         _rustc_dir="$_rust_dir/rustc"
         _rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
 
-        echo "rustc 1.82.0-nightly (612a33f20 2024-07-29)" > "$_rust_flag_file"
+        echo "rustc 1.83.0-nightly (d6c8169c1 2024-09-03)" > "$_rust_flag_file"
 
         mkdir $_rust_bin_dir
         ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
