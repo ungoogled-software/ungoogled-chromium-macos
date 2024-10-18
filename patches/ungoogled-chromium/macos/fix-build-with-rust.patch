@@ -1,6 +1,6 @@
 --- a/build/config/clang/BUILD.gn
 +++ b/build/config/clang/BUILD.gn
-@@ -247,8 +247,6 @@ clang_lib("compiler_builtins") {
+@@ -246,8 +246,6 @@ clang_lib("compiler_builtins") {
      } else {
        libname = "ios"
      }
@@ -28,7 +28,7 @@
    # Rust targets to be rebuilt, which allows you to update your toolchain and
    # not break incremental builds.
 -  rustc_version = ""
-+  rustc_version = "rustc 1.82.0-nightly (612a33f20 2024-07-29)"
++  rustc_version = "rustc 1.83.0-nightly (d6c8169c1 2024-09-03)"
  
    # If you're using a Rust toolchain as specified by rust_sysroot_absolute,
    # you can specify whether it supports nacl here.
