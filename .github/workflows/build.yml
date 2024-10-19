@@ -27,6 +27,7 @@ jobs:
       fail-fast: true
       max-parallel: 2
     uses: ./.github/workflows/building.yml
+    secrets: inherit
     with:
       arch: ${{ matrix.arch }}
       os: ${{ matrix.os }}
