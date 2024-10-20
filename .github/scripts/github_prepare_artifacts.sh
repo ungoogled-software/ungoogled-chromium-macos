@@ -48,7 +48,7 @@ if [[ -f "$_root_dir/build_finished_$_arch.log" ]] ; then
   codesign --verify --deep --verbose=4 out/Default/Chromium.app
 
   # Pepare app notarization
-  ditto -c -k --keepParent "out/Default/Chromium.app" "out/Default/Chromium.app.zip"
+  ditto -c -k --keepParent "out/Default/Chromium.app" "notarize.zip"
 
   # Notarize the app
   xcrun notarytool store-credentials "notarytool-profile" --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" --password "$PROD_MACOS_NOTARIZATION_PWD"
