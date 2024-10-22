@@ -10,9 +10,23 @@ macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium
 
 ## Announcements
 
-Many people have asked for notarizing (signing) the Ungoogled-Chromium macOS build ([ungoogled-chromium#859](https://github.com/ungoogled-software/ungoogled-chromium/issues/859), [#63](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/63), [#179](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/179)).
+Ungoogled-Chromium macOS builds are now notarized (signed) with an Apple Developer ID! Notarized builds will be provided at least till the end of our 2024-2025 Apple Developer Program membership year, which ends on September 2025.
 
-Now, we've collected enough funds to cover the cost of the Apple Developer Program membership for 2024-2025 membership year, and we will provide notarized builds later this year (around mid-to-end October 2024). We will keep you updated on the progress.
+The notarized binaries distributed in the ungoogled-software/ungoogled-chromium-macos repository are signed with the Apple Developer ID certificate `Developer ID Application: Qian Qian (B9A88FL5XJ)`. You should be able to verify the signature of the binaries after downloading the `.dmg` file, extracting the `.app` file, and running the following command in Terminal:
+
+```sh
+spctl -a -vvv -t install path/to/Chromium.app
+```
+
+This output should show something like:
+
+```sh
+path/to/Chromium.app: accepted
+source=Notarized Developer ID
+origin=Developer ID Application: Qian Qian (B9A88FL5XJ)
+```
+
+that indicates the binary is correctly signed and notarized.
 
 ## Sponsorship
 
@@ -26,7 +40,7 @@ Thanks to the following sponsors for their generous support:
 
 These contributions made it possible for us to cover the cost of the Apple Developer Program membership and provide notarized builds of Ungoogled-Chromium macOS. All of these sponsorship contributions are greatly appreciated!
 
-New sponsors are still very welcomed, as I (@Cubik65536, current maintainer of Ungoogled-Chromium macOS) am still relying on community sponsors to help me cover the cost of the Apple Developer Program fee for future membership years. The progress of the funding for current and next Apple Developer membership year can be tracked on [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
+New sponsors are still very welcomed, as I (@Cubik65536, the current maintainer of Ungoogled-Chromium macOS) am still relying on community sponsors to help me cover the cost of the Apple Developer Program fee for future membership years. The progress of the funding for current and next Apple Developer membership year can be tracked on [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
 
 Your support will also greatly encourage and motivate me to continue putting more effort into maintaining and improving Ungoogled-Chromium macOS.
 
