@@ -9,16 +9,36 @@ _download_cache="$_root_dir/build/download_cache"
 _src_dir="$_root_dir/build/src"
 _main_repo="$_root_dir/ungoogled-chromium"
 
-while getopts 'gp' OPTION; do
+# Clone to get the Chromium Source
+clone=true
+
+while getopts 'dgp' OPTION; do
   case "$OPTION" in
+    d)
+        clone=false
+        ;;
     g)
+        # Retrieve and unpack Chromium Source
+        if $clone; then
+            if [ "$(uname -m)" = "arm64" ]; then
+                # For arm64 (Apple Silicon)
+                "$_main_repo/utils/clone.py" -p mac-arm -o "$_src_dir"
+            else 
+                # For amd64 (Intel)
+                "$_main_repo/utils/clone.py" -p mac -o "$_src_dir"
+            fi
+        else
+            "$_main_repo/utils/downloads.py" retrieve -i "$_main_repo/downloads.ini" -c "$_download_cache"
+            "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" -c "$_download_cache" "$_src_dir"
+        fi
+
         # Retrieve and unpack general resources
-        "$_main_repo/utils/downloads.py" retrieve -i "$_main_repo/downloads.ini" "$_root_dir/downloads.ini" -c "$_download_cache"
-        "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" "$_root_dir/downloads.ini" -c "$_download_cache" "$_src_dir"
+        "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads.ini" -c "$_download_cache"
+        "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads.ini" -c "$_download_cache" "$_src_dir"
         ;;
     p)
         rm -rf "$_src_dir/third_party/llvm-build/Release+Asserts/"
-        rm -rf "$_src_dir/third_party/rust-toolchain/bin"
+        rm -rf "$_src_dir/third_party/rust-toolchain/bin/"
 
         # Retrieve and unpack platform-specific resources
         if [ "$(uname -m)" = "arm64" ]; then
@@ -49,7 +69,8 @@ while getopts 'gp' OPTION; do
 
         echo "rustc 1.83.0-nightly (d6c8169c1 2024-09-03)" > "$_rust_flag_file"
 
-        mkdir $_rust_bin_dir
+        mkdir -p "$_rust_bin_dir"
+        mkdir -p "$_rust_dir/lib"
         ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
         ln -s "$_rust_dir/cargo/bin/cargo" "$_rust_bin_dir/cargo"
         ln -s "$_rust_lib_dir" "$_rustc_lib_dir"
@@ -60,7 +81,10 @@ while getopts 'gp' OPTION; do
         ln -s "$_llvm_bin_dir/llvm-install-name-tool" "$_llvm_bin_dir/install_name_tool"
         ;;
     ?)
-        echo "Usage: $0 [-g] [-p]"
+        echo "Usage: $0 [-d] [-g] [-p]"
+        echo "  -d: Use download instead of git clone to get Chromium Source"
+        echo "  -g: Retrieve and unpack Chromium Source and general resources"
+        echo "  -p: Retrieve and unpack platform-specific resources"
         exit 1
         ;;
     esac
