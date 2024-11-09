@@ -46,6 +46,8 @@ jobs:
           python-version: '3.11'
       - name: Install coreutils
         run: brew install coreutils
+      - name: Install httplib2 for Python
+        run: pip install httplib2 --break-system-package
       - name: Download and unpack required resources
         run: ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
       - name: List resources
