@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1800,10 +1800,6 @@ static_library("browser") {
+@@ -1768,10 +1768,6 @@ static_library("browser") {
      "//chrome/browser/ui/omnibox:impl",
      "//chrome/browser/storage_access_api",
      "//chrome/browser/top_level_storage_access_api:permissions",
@@ -13,8 +13,8 @@
      "//chrome/browser/ip_protection",
  
      # TODO(crbug.com/40110173): Eliminate usages of browser.h from Media Router.
-@@ -1932,7 +1928,6 @@ static_library("browser") {
-     "//chrome/browser/promos:utils",
+@@ -1924,7 +1920,6 @@ static_library("browser") {
+     "//chrome/browser/reading_list",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
 -    "//chrome/browser/safe_browsing",
@@ -23,7 +23,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -700,9 +700,6 @@ source_set("extensions") {
+@@ -672,9 +672,6 @@ source_set("extensions") {
      # TODO(crbug.com/346472679): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
  
@@ -33,7 +33,7 @@
      # TODO(crbug.com/343037853): Remove this circular dependency.
      "//chrome/browser/themes",
  
-@@ -735,8 +732,6 @@ source_set("extensions") {
+@@ -711,8 +708,6 @@ source_set("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -42,17 +42,17 @@
      "//components/safe_browsing/core/common/proto:realtimeapi_proto",
      "//components/signin/core/browser",
      "//components/translate/content/browser",
-@@ -798,7 +793,6 @@ source_set("extensions") {
+@@ -783,7 +778,6 @@ source_set("extensions") {
      "//chrome/browser/profiles",
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:mojo_bindings",
 -    "//chrome/browser/safe_browsing",
      "//chrome/browser/safe_browsing:metrics_collector",
+     "//chrome/browser/ui/safety_hub",
      "//chrome/browser/ui/tabs:tab_enums",
-     "//chrome/browser/web_applications",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -597,17 +597,8 @@ static_library("ui") {
+@@ -574,17 +574,8 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -70,7 +70,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -5994,7 +5985,6 @@ static_library("ui_public_dependencies")
+@@ -5694,7 +5685,6 @@ static_library("ui_public_dependencies")
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -171,7 +171,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7270,13 +7270,9 @@ test("unit_tests") {
+@@ -6825,13 +6825,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -200,7 +200,7 @@
        "safe_archive_analyzer.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2223,11 +2223,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2235,11 +2235,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
@@ -214,7 +214,7 @@
      lens::prefs::kLensOverlaySettings,
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -8041,18 +8041,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -8054,28 +8054,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(compiler->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                   soda_language_pack_path.value()));
      return true;
@@ -230,6 +230,16 @@
 -    }
 -    return compiler->SetParameter(sandbox::policy::kParamScreenAiComponentPath,
 -                                  screen_ai_binary_path.value());
+-  } else if (sandbox_type == sandbox::mojom::Sandbox::kOnDeviceTranslation) {
+-    auto translatekit_binary_path =
+-        OnDeviceTranslationServiceController::GetTranslateKitComponentPath();
+-    if (translatekit_binary_path.empty()) {
+-      VLOG(1) << "TranslationKit component not found.";
+-      return false;
+-    }
+-    return compiler->SetParameter(
+-        sandbox::policy::kParamTranslatekitComponentPath,
+-        translatekit_binary_path.value());
    }
  
    return false;
