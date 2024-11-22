@@ -13,7 +13,8 @@ shopt -s nocasematch
 
 if [[ $_target_cpu == "arm64" ]]; then
   echo 'target_cpu = "arm64"' >> "$_root_dir/flags.macos.gn"
-  # sudo xcode-select -s "/Applications/Xcode_13.4.app"
+else
+  echo 'target_cpu = "x64"' >> "$_root_dir/flags.macos.gn"
 fi
 
 cp "$_main_repo/flags.gn" "$_src_dir/out/Default/args.gn"
