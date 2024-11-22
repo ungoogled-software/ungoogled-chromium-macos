@@ -21,9 +21,9 @@ jobs:
         arch: [arm64, x86-64]
         include:
           - arch: arm64
-            os: macos-14
+            os: macos-15
           - arch: x86-64
-            os: macos-13
+            os: macos-15
       fail-fast: true
       max-parallel: 2
     uses: ./.github/workflows/building.yml
