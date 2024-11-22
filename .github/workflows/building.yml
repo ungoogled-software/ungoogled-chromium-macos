@@ -25,9 +25,9 @@ jobs:
     runs-on: ${{ inputs.os }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -68,9 +68,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -84,7 +84,7 @@ jobs:
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Set up Python 3.11
         uses: actions/setup-python@v5
         with:
@@ -137,9 +137,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -153,7 +153,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -206,9 +206,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -222,7 +222,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -275,9 +275,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -291,7 +291,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -344,9 +344,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -360,7 +360,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -413,9 +413,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -429,7 +429,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -482,9 +482,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -498,7 +498,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -551,9 +551,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -567,7 +567,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -620,9 +620,9 @@ jobs:
       status: ${{ steps.build.outputs.status }}
     steps:
       - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_15.0.1.app /Applications/tmp_xcode_15.0.1.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_xcode_15.0.1.app /Applications/Xcode_15.0.1.app
+        run: sudo mv /Applications/Xcode_16.app /Applications/tmp_Xcode_16.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.app /Applications/Xcode_16.app
       - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Cleanup Xcode Simulators
         run: sudo xcrun simctl delete all
       - name: Cleanup Android Related Stuff
@@ -636,7 +636,7 @@ jobs:
       - name: Disable spotlight
         run: sudo mdutil -a -i off
       - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_15.0.1.app
+        run: sudo xcode-select --switch /Applications/Xcode_16.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
