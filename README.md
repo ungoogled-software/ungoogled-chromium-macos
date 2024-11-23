@@ -150,7 +150,10 @@ A `.dmg` should appear in `build/`
 
     ```sh
     mkdir -p build/{src,download_cache}
-    ./retrieve_and_unpack_resource.sh -g -p
+    ./retrieve_and_unpack_resource.sh -g arm64  # For Apple Silicon Macs
+    ./retrieve_and_unpack_resource.sh -p arm64  # For Apple Silicon Macs
+    ./retrieve_and_unpack_resource.sh -g x86_64  # For Intel Chip Macs
+    ./retrieve_and_unpack_resource.sh -p x86_64  # For Intel Chip Macs
     ```
 
 3. Update Rust toolchain (if necessary)

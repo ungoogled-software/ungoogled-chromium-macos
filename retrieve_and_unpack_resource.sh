@@ -5,10 +5,6 @@ set -eux
 # Script to retrieve and unpack resources to build Chromium macOS
 _target_cpu="${2:-x64}"
 
-if [ -n "$_target_cpu" ]; then
-    _target_cpu="$(uname -m)"
-fi
-
 _root_dir=$(dirname $(greadlink -f $0))
 _download_cache="$_root_dir/build/download_cache"
 _src_dir="$_root_dir/build/src"
