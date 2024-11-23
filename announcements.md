@@ -30,13 +30,10 @@ Thanks to our 2024-2025 sponsors for their generous support:
 - BabyFn0rd (via By Me a Coffee)
 - dasos (via By Me a Coffee)
 - @vinnysaj (via GitHub Sponsors)
-- @kremalicious (via GitHub Sponsors)
 
-You can also see every sponsor on the [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
+You can also see sponsors for other Apple Membership years on the [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
 
 These contributions made it possible for me to cover the cost of the Apple Developer Program membership and provide notarized builds of Ungoogled-Chromium macOS.
-
-Even though some of the sponsors are made after the purchase of the Apple Developer Program membership, so these sponsors are not directly contributing to the cost of the current membership year, their contributions are still greatly appreciated, and these contributions might be used to cover the cost of future membership years, or for me to cover some of my personal expenses as a full-time student or sponsor other open-source projects.
 
 Some of the sponsors have chosen to remain anonymous, but regardless of whether they are listed here, all of these sponsorship contributions are greatly appreciated!
 
