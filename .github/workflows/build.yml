@@ -22,8 +22,8 @@ jobs:
         include:
           - arch: arm64
             os: macos-15
-          - arch: x86-64
-            os: macos-15
+          # - arch: x86-64
+          #   os: macos-15
       fail-fast: true
       max-parallel: 2
     uses: ./.github/workflows/building.yml
@@ -51,10 +51,10 @@ jobs:
       - name: Prepare release
         id: bake
         run: ./github_prepare_release.sh | tee -a github_actions_release.log
-      - name: Get built x86-64 binary
-        uses: actions/download-artifact@v4
-        with:
-          name: ${{ steps.bake.outputs.x64_file_name }}
+      # - name: Get built x86-64 binary
+      #   uses: actions/download-artifact@v4
+      #   with:
+      #     name: ${{ steps.bake.outputs.x64_file_name }}
       - name: Get built arm64 binary
         uses: actions/download-artifact@v4
         with:
@@ -70,8 +70,8 @@ jobs:
           draft: false
           prerelease: false
           files: |
-            ./release_asset/${{ steps.bake.outputs.x64_file_name }}
             ./release_asset/${{ steps.bake.outputs.arm64_file_name }}
+#            ./release_asset/${{ steps.bake.outputs.x64_file_name }}
           name: ${{ steps.bake.outputs.release_name }}
           tag_name: ${{ steps.bake.outputs.release_tag_version }}
           token: ${{ secrets.GITHUB_TOKEN }}
