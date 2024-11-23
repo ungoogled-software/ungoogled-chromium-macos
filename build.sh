@@ -31,7 +31,7 @@ rm -rf "$_src_dir/out" || true
 mkdir -p "$_download_cache"
 
 if $clone; then
-  "$_root_dir/retrieve_and_unpack_resource.sh" -g
+  "$_root_dir/retrieve_and_unpack_resource.sh" -g "$(uname -m)"
 else
   "$_root_dir/retrieve_and_unpack_resource.sh" -d -g
 fi
@@ -46,7 +46,7 @@ cat "$_main_repo/flags.gn" "$_root_dir/flags.macos.gn" > "$_src_dir/out/Default/
 mkdir -p "$_src_dir/third_party/llvm-build/Release+Asserts"
 mkdir -p "$_src_dir/third_party/rust-toolchain/bin"
 
-"$_root_dir/retrieve_and_unpack_resource.sh" -p
+"$_root_dir/retrieve_and_unpack_resource.sh" -p "$(uname -m)"
 
 cd "$_src_dir"
 
