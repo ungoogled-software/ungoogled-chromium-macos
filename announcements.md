@@ -16,6 +16,11 @@ origin=Developer ID Application: Qian Qian (B9A88FL5XJ)
 
 that indicates the binary is correctly signed and notarized.
 
+### Intel (x86_64) builds
+
+As the Chromium project updated their macOS SDK used to macOS 15 SDK, and GitHub Action doesn't provide any up-to-date Intel macOS runner hosts, we are unable to provide Intel (x86_64) builds of Ungoogled-Chromium macOS for the time being.
+We are looking for a solution to restore the Intel (x86_64) builds in the future, and we will provide updates on the progress to the community.
+
 ## Sponsorship
 
 Thanks to the following sponsors for their generous support:
