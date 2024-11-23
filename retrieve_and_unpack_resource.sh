@@ -3,7 +3,7 @@
 set -eux
 
 # Script to retrieve and unpack resources to build Chromium macOS
-_target_cpu="${1:-x64}"
+_target_cpu="${2:-x64}"
 
 if [ -n "$_target_cpu" ]; then
     _target_cpu="$(uname -m)"
