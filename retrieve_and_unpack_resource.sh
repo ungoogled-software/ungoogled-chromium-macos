@@ -3,6 +3,11 @@
 set -eux
 
 # Script to retrieve and unpack resources to build Chromium macOS
+_target_cpu="${1:-x64}"
+
+if [ -n "$_target_cpu" ]; then
+    _target_cpu="$(uname -m)"
+fi
 
 _root_dir=$(dirname $(greadlink -f $0))
 _download_cache="$_root_dir/build/download_cache"
@@ -20,10 +25,10 @@ while getopts 'dgp' OPTION; do
     g)
         # Retrieve and unpack Chromium Source
         if $clone; then
-            if [ "$(uname -m)" = "arm64" ]; then
+            if [[ $_target_cpu == "arm64" ]]; then
                 # For arm64 (Apple Silicon)
                 "$_main_repo/utils/clone.py" -p mac-arm -o "$_src_dir"
-            else 
+            else
                 # For amd64 (Intel)
                 "$_main_repo/utils/clone.py" -p mac -o "$_src_dir"
             fi
@@ -41,7 +46,7 @@ while getopts 'dgp' OPTION; do
         rm -rf "$_src_dir/third_party/rust-toolchain/bin/"
 
         # Retrieve and unpack platform-specific resources
-        if [ "$(uname -m)" = "arm64" ]; then
+        if [[ $_target_cpu == "arm64" ]]; then
             # For arm64 (Apple Silicon)
             "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-arm64.ini" -c "$_download_cache"
             mkdir -p "$_src_dir/third_party/node/mac_arm64/node-darwin-arm64/"
@@ -55,7 +60,7 @@ while getopts 'dgp' OPTION; do
 
         ## Rust Resource
         _rust_name="x86_64-apple-darwin"
-        if [ "$(uname -m)" = "arm64" ]; then
+        if [[ $_target_cpu == "arm64" ]]; then
             _rust_name="aarch64-apple-darwin"
         fi
 
