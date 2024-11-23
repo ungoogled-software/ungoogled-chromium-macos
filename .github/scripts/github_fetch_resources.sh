@@ -2,6 +2,8 @@
 
 # Simple script for downloading and unpacking required resources to build Ungoogled-Chromium macOS binaries on GitHub Actions
 
+_target_cpu="${1:-x64}"
+
 _root_dir=$(dirname $(greadlink -f $0))
 _download_cache="$_root_dir/build/download_cache"
 _src_dir="$_root_dir/build/src"
