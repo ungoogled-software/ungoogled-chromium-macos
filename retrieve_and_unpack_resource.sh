@@ -40,6 +40,7 @@ while getopts 'dgp' OPTION; do
     p)
         rm -rf "$_src_dir/third_party/llvm-build/Release+Asserts/"
         rm -rf "$_src_dir/third_party/rust-toolchain/bin/"
+        mkdir -p "$_src_dir/third_party/llvm-build/Release+Asserts"
 
         # Retrieve and unpack platform-specific resources
         if [[ $_target_cpu == "arm64" ]]; then
