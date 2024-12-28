@@ -8,7 +8,7 @@
 alias quilt='quilt --quiltrc -'
 
 # Assume this script lives within devutils/
-PLATFORM_ROOT=$(dirname $(dirname $(greadlink -f ${BASH_SOURCE[0]})))
+PLATFORM_ROOT=$(dirname $(dirname $(greadlink -f $0)))
 
 export QUILT_PATCHES="$PLATFORM_ROOT/patches"
 export QUILT_SERIES="series.merged"
