@@ -81,8 +81,13 @@ mkdir -p "$_src_dir/third_party/rust-toolchain/bin"
 
 cd "$_src_dir"
 
+_rust_target="x86_64-apple-darwin"
+if [[ $_arch == "arm64" ]]; then
+  _rust_target="aarch64-apple-darwin"
+fi
+
 /usr/bin/arch -$_arch $_python_path/python3 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
-/usr/bin/arch -$_arch $_python_path/python3 ./tools/rust/build_bindgen.py --rust-target x86_64-apple-darwin
+/usr/bin/arch -$_arch $_python_path/python3 ./tools/rust/build_bindgen.py --rust-target $_rust_target
 
 /usr/bin/arch -$_arch ./out/Default/gn gen out/Default --fail-on-unused-args
 /usr/bin/arch -$_arch $_ninja_path/ninja -C out/Default chrome chromedriver
