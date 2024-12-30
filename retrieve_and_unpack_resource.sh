@@ -10,7 +10,7 @@ _target_cpu="$(/usr/bin/uname -m)"
 _x86_64_homebrew_path="/usr/local/opt"
 _arm64_homebrew_path="/opt/homebrew/opt"
 _homebrew_path="$_x86_64_homebrew_path"
-if [[ $_arch == "arm64" ]]; then
+if [[ $_target_cpu == "arm64" ]]; then
   _homebrew_path="$_arm64_homebrew_path"
 fi
 _python_path="$_homebrew_path/python3/bin"
