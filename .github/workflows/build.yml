@@ -20,18 +20,13 @@ jobs:
       matrix:
         # arch: [arm64, x86-64]
         arch: [arm64]
-        include:
-          - arch: arm64
-            os: macos-15
-          # - arch: x86-64
-          #   os: macos-15
       fail-fast: true
       max-parallel: 2
     uses: ./.github/workflows/building.yml
     secrets: inherit
     with:
       arch: ${{ matrix.arch }}
-      os: ${{ matrix.os }}
+      os: macos-15
 
   release:
     needs: build
