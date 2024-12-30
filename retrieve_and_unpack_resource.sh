@@ -1,9 +1,19 @@
 #!/usr/bin/env bash
 
+# Script to retrieve and unpack resources to build Chromium macOS
+
 set -eux
 
-# Script to retrieve and unpack resources to build Chromium macOS
-_target_cpu="${2:-x64}"
+_target_cpu="$(/usr/bin/uname -m)"
+
+# Paths for required toolchain binaries.
+_x86_64_homebrew_path="/usr/local/opt"
+_arm64_homebrew_path="/opt/homebrew/opt"
+_homebrew_path="$_x86_64_homebrew_path"
+if [[ $_arch == "arm64" ]]; then
+  _homebrew_path="$_arm64_homebrew_path"
+fi
+_python_path="$_homebrew_path/python3/bin"
 
 _root_dir=$(dirname $(greadlink -f $0))
 _download_cache="$_root_dir/build/download_cache"
@@ -23,19 +33,19 @@ while getopts 'dgp' OPTION; do
         if $clone; then
             if [[ $_target_cpu == "arm64" ]]; then
                 # For arm64 (Apple Silicon)
-                "$_main_repo/utils/clone.py" -p mac-arm -o "$_src_dir"
+                /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/clone.py" -p mac-arm -o "$_src_dir"
             else
                 # For amd64 (Intel)
-                "$_main_repo/utils/clone.py" -p mac -o "$_src_dir"
+                /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/clone.py" -p mac -o "$_src_dir"
             fi
         else
-            "$_main_repo/utils/downloads.py" retrieve -i "$_main_repo/downloads.ini" -c "$_download_cache"
-            "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" -c "$_download_cache" "$_src_dir"
+            /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" retrieve -i "$_main_repo/downloads.ini" -c "$_download_cache"
+            /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" unpack -i "$_main_repo/downloads.ini" -c "$_download_cache" "$_src_dir"
         fi
 
         # Retrieve and unpack general resources
-        "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads.ini" -c "$_download_cache"
-        "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads.ini" -c "$_download_cache" "$_src_dir"
+        /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads.ini" -c "$_download_cache"
+        /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads.ini" -c "$_download_cache" "$_src_dir"
         ;;
     p)
         rm -rf "$_src_dir/third_party/llvm-build/Release+Asserts/"
@@ -45,14 +55,14 @@ while getopts 'dgp' OPTION; do
         # Retrieve and unpack platform-specific resources
         if [[ $_target_cpu == "arm64" ]]; then
             # For arm64 (Apple Silicon)
-            "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-arm64.ini" -c "$_download_cache"
+            /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-arm64.ini" -c "$_download_cache"
             mkdir -p "$_src_dir/third_party/node/mac_arm64/node-darwin-arm64/"
-            "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads-arm64.ini" -c "$_download_cache" "$_src_dir"
+            /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads-arm64.ini" -c "$_download_cache" "$_src_dir"
         else
             # For x86-64 (Intel)
-            "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache"
+            /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" retrieve -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache"
             mkdir -p "$_src_dir/third_party/node/mac/node-darwin-x64/"
-            "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache" "$_src_dir"
+            /usr/bin/arch -$_target_cpu $_python_path/python3 "$_main_repo/utils/downloads.py" unpack -i "$_root_dir/downloads-x86-64.ini" -c "$_download_cache" "$_src_dir"
         fi
 
         ## Rust Resource
