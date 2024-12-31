@@ -6,7 +6,7 @@ _chromium_version=$(cat $_root_dir/ungoogled-chromium/chromium_version.txt)
 _ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
 _package_revision=$(cat $_root_dir/revision.txt)
 
-_x64_file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_x86-64-macos.dmg"
+_x64_file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_x86_64-macos.dmg"
 _arm64_file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_arm64-macos.dmg"
 _release_tag_version="${_chromium_version}-${_ungoogled_revision}.${_package_revision}"
 _release_name="${_release_tag_version}"
