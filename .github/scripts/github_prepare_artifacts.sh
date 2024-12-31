@@ -1,19 +1,19 @@
 #!/bin/bash -eux
 # Simple script for packing Ungoogled-Chromium macOS build artifacts on GitHub Actions
 
-_arch="${1:-x86-64}"
+_target_cpu="$(/usr/bin/uname -m)"
+
 _root_dir=$(dirname $(greadlink -f $0))
 _src_dir="$_root_dir/build/src"
 
 # If build finished successfully
-if [[ -f "$_root_dir/build_finished_$_arch.log" ]] ; then
+if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
   # For packaging
   _chromium_version=$(cat $_root_dir/ungoogled-chromium/chromium_version.txt)
   _ungoogled_revision=$(cat $_root_dir/ungoogled-chromium/revision.txt)
   _package_revision=$(cat $_root_dir/revision.txt)
 
-  _cpu=x86-64; grep -qF arm64 "$_src_dir/out/Default/args.gn" && _cpu=arm64
-  _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_cpu}-macos.dmg"
+  _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_target_cpu}-macos.dmg"
   _hash_name="${_file_name}.hashes.md"
   
   cd "$_src_dir"

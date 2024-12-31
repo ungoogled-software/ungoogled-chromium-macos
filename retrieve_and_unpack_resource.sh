@@ -6,7 +6,7 @@ set -eux
 
 _target_cpu="$(/usr/bin/uname -m)"
 
-# Paths for required toolchain binaries.
+# Paths for required toolchain binaries
 _x86_64_homebrew_path="/usr/local/opt"
 _arm64_homebrew_path="/opt/homebrew/opt"
 _homebrew_path="$_x86_64_homebrew_path"
