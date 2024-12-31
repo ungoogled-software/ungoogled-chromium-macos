@@ -38,6 +38,9 @@ export LDFLAGS="-L$_homebrew_path/llvm/lib"
 export CPPFLAGS="-I$_homebrew_path/llvm/include"
 
 # Setup GitHub Actions environment variables
+echo "$_clangxx_path" >> $GITHUB_PATH
+echo "$_ninja_path" >> $GITHUB_PATH
+echo "$_python_path" >> $GITHUB_PATH
 echo "CXX=$_clangxx_path/clang++" >> $GITHUB_ENV
 echo "NINJA=$_ninja_path/ninja" >> $GITHUB_ENV
 echo "LDFLAGS=-L$_homebrew_path/llvm/lib" >> $GITHUB_ENV
