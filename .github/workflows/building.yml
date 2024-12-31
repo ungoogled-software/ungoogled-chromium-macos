@@ -2,7 +2,7 @@ name: Building macOS binaries of Ungoogled Chromium
 
 defaults:
   run:
-    shell: zsh
+    shell: bash
 
 on:
   workflow_call:
@@ -49,7 +49,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Download and unpack required resources
         run: ./github_fetch_resources.sh ${{ inputs.arch }} | tee -a github_actions_retrieve_resources.log
       - name: List resources
@@ -92,7 +92,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Download resources
         uses: actions/download-artifact@v4
         with:
@@ -169,7 +169,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -238,7 +238,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -307,7 +307,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -376,7 +376,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -445,7 +445,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -514,7 +514,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -583,7 +583,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -652,7 +652,7 @@ jobs:
         if: ${{ inputs.arch == 'x86_64' }}
         run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
