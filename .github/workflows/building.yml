@@ -1,5 +1,9 @@
 name: Building macOS binaries of Ungoogled Chromium
 
+defaults:
+  run:
+    shell: zsh
+
 on:
   workflow_call:
     inputs:
@@ -40,14 +44,12 @@ jobs:
         run: cp -va ./.github/scripts/ ./
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install coreutils
-        run: brew install coreutils
-      - name: Install httplib2 for Python
-        run: pip install httplib2 --break-system-package
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Download and unpack required resources
         run: ./github_fetch_resources.sh ${{ inputs.arch }} | tee -a github_actions_retrieve_resources.log
       - name: List resources
@@ -85,12 +87,12 @@ jobs:
         run: sudo mdutil -a -i off
       - name: Run xcode-select
         run: sudo xcode-select --switch /Applications/Xcode_16.app
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Download resources
         uses: actions/download-artifact@v4
         with:
@@ -162,12 +164,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -231,12 +233,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -300,12 +302,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -369,12 +371,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -438,12 +440,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -507,12 +509,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -576,12 +578,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
@@ -645,12 +647,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Set up Python 3.11
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.11'
-      - name: Install dependencies
-        run: brew install coreutils ninja --overwrite
+      - name: Install Rosetta 2
+        # Only install Rosetta 2 when building for x86_64
+        if: ${{ inputs.arch == 'x86_64' }}
+        run: softwareupdate --install-rosetta --agree-to-license
+      - name: Setup Environment and Toolchain
+        run: /usr/bin/arch -${{ inputs.arch }} /bin/zsh ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
