@@ -18,8 +18,7 @@ jobs:
     name: Build macOS binaries of Ungoogled Chromium
     strategy:
       matrix:
-        # arch: [arm64, x86_64]
-        arch: [arm64]
+        arch: [arm64, x86_64]
       fail-fast: true
       max-parallel: 2
     uses: ./.github/workflows/building.yml
