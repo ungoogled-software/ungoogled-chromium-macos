@@ -3,7 +3,7 @@
 # Simple partitioned (2 of 3) build script for building Ungoogled-Chromium macOS binaries on GitHub Actions
 # Resuming build script for macOS
 
-_target_cpu="$(/usr/bin/uname -m)"
+_target_cpu="${1:-x86_64}"
 
 _x86_64_homebrew_path="/usr/local/opt"
 _arm64_homebrew_path="/opt/homebrew/opt"

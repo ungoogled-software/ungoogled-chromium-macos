@@ -105,7 +105,7 @@ jobs:
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_before_build.sh | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -174,7 +174,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -243,7 +243,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -312,7 +312,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -381,7 +381,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -450,7 +450,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -519,7 +519,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -588,7 +588,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
@@ -657,7 +657,7 @@ jobs:
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_build.sh 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
         run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_prepare_artifacts.sh | tee -a github_actions_upload_${{ inputs.arch }}.log
