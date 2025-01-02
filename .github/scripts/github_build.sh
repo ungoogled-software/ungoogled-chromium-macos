@@ -28,7 +28,7 @@ cd build/src
 echo $(date +%s) | tee -a "$_root_dir/build_times_$_target_cpu.log"
 echo "status=running" >> $GITHUB_OUTPUT
 
-timeout -k 7m -s SIGTERM ${_remaining_time:-19680}s /usr/bin/arch -$_target_cpu $_ninja_path/ninja -C out/Default chrome chromedriver # 328 m as default $_remaining_time
+timeout --preserve-status -k 7m -s SIGTERM ${_remaining_time:-19680}s /usr/bin/arch -$_target_cpu $_ninja_path/ninja -C out/Default chrome chromedriver # 328 m as default $_remaining_time
 
 echo $(date +%s) | tee "$_root_dir/build_finished_$_target_cpu.log"
 echo "status=finished" >> $GITHUB_OUTPUT
