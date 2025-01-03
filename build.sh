@@ -2,8 +2,30 @@
 
 set -eux
 
-# Simple build script for macOS
+# Build script for local macOS environment
 
+# The architecture of the running shell
+# Also used to determine the build target architecture
+_arch="$(/usr/bin/uname -m)"
+
+# Paths for required toolchain binaries
+_x86_64_homebrew_path="/usr/local/opt"
+_arm64_homebrew_path="/opt/homebrew/opt"
+_homebrew_path="$_x86_64_homebrew_path"
+if [[ $_arch == "arm64" ]]; then
+  _homebrew_path="$_arm64_homebrew_path"
+fi
+_clangxx_path="$_homebrew_path/llvm/bin"
+_ninja_path="$_homebrew_path/ninja/bin"
+_python_path="$_homebrew_path/python3/bin"
+
+export PATH="$_clangxx_path:$_ninja_path:$_python_path:$PATH"
+export CXX="$_clangxx_path/clang++"
+export NINJA="$_ninja_path/ninja"
+export LDFLAGS="-L$_homebrew_path/llvm/lib"
+export CPPFLAGS="-I$_homebrew_path/llvm/include"
+
+# Some path variables
 _root_dir=$(dirname $(greadlink -f $0))
 _download_cache="$_root_dir/build/download_cache"
 _src_dir="$_root_dir/build/src"
@@ -31,69 +53,43 @@ rm -rf "$_src_dir/out" || true
 mkdir -p "$_download_cache"
 
 if $clone; then
-  "$_root_dir/retrieve_and_unpack_resource.sh" -g "$(uname -m)"
+  /usr/bin/arch -$_arch /bin/zsh "$_root_dir/retrieve_and_unpack_resource.sh" -g
 else
-  "$_root_dir/retrieve_and_unpack_resource.sh" -d -g
+  /usr/bin/arch -$_arch /bin/zsh "$_root_dir/retrieve_and_unpack_resource.sh" -d -g
 fi
 
 mkdir -p "$_src_dir/out/Default"
 
-"$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
-"$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
-"$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
+# Apply patches and substitutions
+/usr/bin/arch -$_arch $_python_path/python3 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
+/usr/bin/arch -$_arch $_python_path/python3 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
+/usr/bin/arch -$_arch $_python_path/python3 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
+# Set build flags
 cat "$_main_repo/flags.gn" "$_root_dir/flags.macos.gn" > "$_src_dir/out/Default/args.gn"
+
+# Set target_cpu to the corresponding architecture
+if [[ $_arch == "arm64" ]]; then
+  echo 'target_cpu = "arm64"' >> "$_src_dir/out/Default/args.gn"
+else
+  echo 'target_cpu = "x64"' >> "$_src_dir/out/Default/args.gn"
+fi
 
 mkdir -p "$_src_dir/third_party/llvm-build/Release+Asserts"
 mkdir -p "$_src_dir/third_party/rust-toolchain/bin"
 
-"$_root_dir/retrieve_and_unpack_resource.sh" -p "$(uname -m)"
+/usr/bin/arch -$_arch /bin/zsh "$_root_dir/retrieve_and_unpack_resource.sh" -p
 
 cd "$_src_dir"
 
-./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
-./tools/rust/build_bindgen.py
+_rust_target="x86_64-apple-darwin"
+if [[ $_arch == "arm64" ]]; then
+  _rust_target="aarch64-apple-darwin"
+fi
 
-./out/Default/gn gen out/Default --fail-on-unused-args
-ninja -C out/Default chrome chromedriver
+/usr/bin/arch -$_arch $_python_path/python3 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
+/usr/bin/arch -$_arch $_python_path/python3 ./tools/rust/build_bindgen.py --rust-target $_rust_target
 
-chrome/installer/mac/pkg-dmg \
-  --sourcefile --source out/Default/Chromium.app \
-  --target "$_root_dir/build/ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg" \
-  --volname Chromium --symlink /Applications:/Applications \
-  --format UDBZ --verbosity 2
+/usr/bin/arch -$_arch ./out/Default/gn gen out/Default --fail-on-unused-args
+/usr/bin/arch -$_arch $_ninja_path/ninja -C out/Default chrome chromedriver
 
-# Fix issue where macOS requests permission for incoming network connections
-# See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/17
-xattr -cs out/Default/Chromium.app
-
-# Sign the binary
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier chrome_crashpad_handler --options=restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/chrome_crashpad_handler
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper.app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements $_root_dir/entitlements/helper-renderer-entitlements.plist out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(Renderer\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements $_root_dir/entitlements/helper-gpu-entitlements.plist out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(GPU\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper.plugin --options restrict,kill,runtime --entitlements $_root_dir/entitlements/helper-plugin-entitlements.plist out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(Plugin\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(Alerts\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier app_mode_loader --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/app_mode_loader
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier web_app_shortcut_copier --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/web_app_shortcut_copier
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libEGL out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libEGL.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libGLESv2 out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libGLESv2.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libvk_swiftshader out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libvk_swiftshader.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.framework out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements $_root_dir/entitlements/app-entitlements.plist --requirements '=designated => identifier "io.ungoogled-software.ungoogled-chromium" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */' out/Default/Chromium.app
-
-# Verify the binary signature
-codesign --verify --deep --verbose=4 out/Default/Chromium.app
-
-# Pepare app notarization
-ditto -c -k --keepParent "out/Default/Chromium.app" "notarize.zip"
-
-# Notarize the app
-xcrun notarytool store-credentials "notarytool-profile" --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" --password "$PROD_MACOS_NOTARIZATION_PWD"
-xcrun notarytool submit "notarize.zip" --keychain-profile "notarytool-profile" --wait
-xcrun stapler staple "out/Default/Chromium.app"
-
-# If you do not have an Apple Developer account to notarize the app, or you do not want to notarize the app
-# comment the lines above and uncomment the following line to use ad-hoc signing
-
-# Using ad-hoc signing
-# codesign --force --deep --sign - out/Default/Chromium.app
+./sign_and_package_app.sh
