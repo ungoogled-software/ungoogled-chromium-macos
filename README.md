@@ -28,11 +28,6 @@ origin=Developer ID Application: Qian Qian (B9A88FL5XJ)
 
 that indicates the binary is correctly signed and notarized.
 
-### Intel (x86_64) builds
-
-As the Chromium project updated their macOS SDK used to macOS 15 SDK, and GitHub Action doesn't provide any up-to-date Intel macOS runner hosts, we are unable to provide Intel (x86_64) builds of Ungoogled-Chromium macOS for the time being.
-We are looking for a solution to restore the Intel (x86_64) builds in the future, and we will provide updates on the progress to the community.
-
 ## Sponsorship
 
 Thanks to our 2024-2025 sponsors for their generous support:
@@ -72,13 +67,17 @@ Note that these sponsorship accounts are under the name of `Cubik65536`. All spo
 
 ### Setting up the build environment
 
-1. Install Ninja via Homebrew: `brew install ninja`
-2. Install GNU coreutils (for `greadlink` in packaging script): `brew install coreutils`
-3. Install GNU readline: `brew install readline`
-4. Install the data compression tools xz and zlib: `brew install xz zlib`
-5. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
-6. Install Node.js: `brew install node`
-7. Restart your Terminal
+1. Install Python 3 via Homebrew: `brew install python@3`
+2. Install `httplib2` via `pip3`: `pip3 install httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
+3. Install LLVM via Homebrew: `brew install llvm`, and set `LDFLAGS` and `CPPFLAGS` environment variables according to the Homebrew prompt.
+4. Install Ninja via Homebrew: `brew install ninja`
+5. Install GNU coreutils and readline via Homebrew: `brew install coreutils readline`
+6. Install the data compression tools xz and zlib via Homebrew: `brew install xz zlib`
+7. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
+8. Install Node.js via Homebrew: `brew install node`
+9. Restart your terminal.
+
+**NOTE**: If you are building for x86_64 Mac from an Apple Silicon (arm64) Mac, you might need to install Rosetta 2 and these tools from x86_64 Homebrew, as well as setting `PATH` variables to use the x86_64 tools.
 
 ### Build
 
@@ -136,10 +135,23 @@ git clone --recurse-submodules https://github.com/ungoogled-software/ungoogled-c
 cd ungoogled-chromium-macos
 # Replace TAG_OR_BRANCH_HERE with a tag or branch name
 git checkout --recurse-submodules TAG_OR_BRANCH_HERE
+```
+
+to switch to the desired release or development branch.
+
+Finally, run the following (if you are building for the same architecture as your Mac, i.e. x86_64 for Intel Macs or arm64 for Apple Silicon Macs, or if you are building for arm64 on an Intel Mac and you set the appropriate build flag):
+
+```sh
 ./build.sh
 ```
 
-A `.dmg` should appear in `build/`
+or, if you want to build for x86_64 on an Apple Silicon Mac (and if you have Rosetta 2 and other necessary tools for x86_64 installed):
+
+```sh
+/usr/bin/arch -x86_64 /bin/zsh ./build.sh
+```
+
+Once it's complete, a `.dmg` should appear in `build/`.
 
 **NOTE**: If the build fails, you must take additional steps before re-running the build:
 
@@ -154,7 +166,6 @@ A `.dmg` should appear in `build/`
 
     ```sh
     ./devutils/update_patches.sh merge
-    bash
     source devutils/set_quilt_vars.sh
     ```
 
