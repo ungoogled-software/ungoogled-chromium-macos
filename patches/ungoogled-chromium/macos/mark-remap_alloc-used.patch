@@ -1,6 +1,6 @@
 --- a/build/rust/std/remap_alloc.cc
 +++ b/build/rust/std/remap_alloc.cc
-@@ -74,7 +74,11 @@ extern "C" {
+@@ -92,7 +92,11 @@ extern "C" {
    __attribute__((visibility("default"))) __attribute__((weak))
  #endif
  #else
@@ -11,8 +11,8 @@
 +#endif
  #endif  // COMPONENT_BUILD
  
- // This must exist as the stdlib depends on it to prove that we know the
-@@ -84,8 +88,13 @@ extern "C" {
+ #if !PA_BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC) && BUILDFLAG(IS_WIN) && \
+@@ -109,8 +113,13 @@ extern "C" {
  // Marked as weak as when Rust drives linking it includes this symbol itself,
  // and we don't want a collision due to C++ being in the same link target, where
  // C++ causes us to explicitly link in the stdlib and this symbol here.
@@ -25,4 +25,4 @@
 +#endif
  
  REMAP_ALLOC_ATTRIBUTES void* __rust_alloc(size_t size, size_t align) {
- #if !PA_BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC)
+ #if PA_BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC)
