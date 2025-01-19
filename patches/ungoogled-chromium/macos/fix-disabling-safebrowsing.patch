@@ -2,8 +2,8 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1768,10 +1768,6 @@ static_library("browser") {
-     "//chrome/browser/ui/omnibox:impl",
+@@ -1741,10 +1741,6 @@ static_library("browser") {
+     "//chrome/browser/ui/javascript_dialogs:impl",
      "//chrome/browser/storage_access_api",
      "//chrome/browser/top_level_storage_access_api:permissions",
 -    "//chrome/browser/safe_browsing",
@@ -13,7 +13,7 @@
      "//chrome/browser/ip_protection",
  
      # TODO(crbug.com/40110173): Eliminate usages of browser.h from Media Router.
-@@ -1924,7 +1920,6 @@ static_library("browser") {
+@@ -1911,7 +1907,6 @@ static_library("browser") {
      "//chrome/browser/reading_list",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
@@ -23,7 +23,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -672,9 +672,6 @@ source_set("extensions") {
+@@ -660,9 +660,6 @@ source_set("extensions") {
      # TODO(crbug.com/346472679): Remove this circular dependency.
      "//chrome/browser/web_applications/extensions",
  
@@ -33,7 +33,7 @@
      # TODO(crbug.com/343037853): Remove this circular dependency.
      "//chrome/browser/themes",
  
-@@ -711,8 +708,6 @@ source_set("extensions") {
+@@ -700,8 +697,6 @@ source_set("extensions") {
      "//chrome/common",
      "//chrome/common/extensions/api",
      "//components/omnibox/browser",
@@ -42,7 +42,7 @@
      "//components/safe_browsing/core/common/proto:realtimeapi_proto",
      "//components/signin/core/browser",
      "//components/translate/content/browser",
-@@ -783,7 +778,6 @@ source_set("extensions") {
+@@ -776,7 +771,6 @@ source_set("extensions") {
      "//chrome/browser/profiles",
      "//chrome/browser/profiles:profile",
      "//chrome/browser/resource_coordinator:mojo_bindings",
@@ -52,7 +52,7 @@
      "//chrome/browser/ui/tabs:tab_enums",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -574,17 +574,8 @@ static_library("ui") {
+@@ -567,17 +567,8 @@ static_library("ui") {
      "//components/reading_list/features:flags",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -70,7 +70,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search",
      "//components/search_engines",
-@@ -5694,7 +5685,6 @@ static_library("ui_public_dependencies")
+@@ -5661,7 +5652,6 @@ static_library("ui_public_dependencies")
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -80,7 +80,7 @@
      "//components/sync_user_events",
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -416,8 +416,12 @@ void DownloadProtectionService::ShowDeta
+@@ -415,8 +415,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -95,7 +95,7 @@
      learn_more_url = GURL(chrome::kAdvancedProtectionDownloadLearnMoreURL);
 --- a/chrome/browser/download/notification/download_item_notification.cc
 +++ b/chrome/browser/download/notification/download_item_notification.cc
-@@ -970,9 +970,13 @@ std::u16string DownloadItemNotification:
+@@ -961,9 +961,13 @@ std::u16string DownloadItemNotification:
      }
      case download::DOWNLOAD_DANGER_TYPE_UNCOMMON_CONTENT: {
        bool requests_ap_verdicts =
@@ -171,7 +171,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -6825,13 +6825,9 @@ test("unit_tests") {
+@@ -6914,13 +6914,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -200,7 +200,7 @@
        "safe_archive_analyzer.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2235,11 +2235,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2254,12 +2254,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
@@ -209,15 +209,17 @@
 -    client_certificates::prefs::kProvisionManagedClientCertificateForUserPrefs,
 -    base::Value::Type::INTEGER },
 -#endif  // BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES)
+-
  #if !BUILDFLAG(IS_ANDROID)
    { key::kLensOverlaySettings,
      lens::prefs::kLensOverlaySettings,
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -8054,28 +8054,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -8055,30 +8055,6 @@ bool ChromeContentBrowserClient::SetupEm
+     CHECK(!soda_language_pack_path.empty());
      CHECK(compiler->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                   soda_language_pack_path.value()));
-     return true;
+-    return true;
 -  } else if (sandbox_type == sandbox::mojom::Sandbox::kScreenAI) {
 -    // ScreenAI service needs read access to ScreenAI component binary path to
 -    // load it.
@@ -232,7 +234,8 @@
 -                                  screen_ai_binary_path.value());
 -  } else if (sandbox_type == sandbox::mojom::Sandbox::kOnDeviceTranslation) {
 -    auto translatekit_binary_path =
--        OnDeviceTranslationServiceController::GetTranslateKitComponentPath();
+-        on_device_translation::ComponentManager::GetInstance()
+-            .GetTranslateKitComponentPath();
 -    if (translatekit_binary_path.empty()) {
 -      VLOG(1) << "TranslationKit component not found.";
 -      return false;
