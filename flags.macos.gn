@@ -10,5 +10,5 @@ is_clang=true
 is_debug=false
 is_official_build=true
 proprietary_codecs=true
-symbol_level=0
+symbol_level=1
 use_sysroot=false
