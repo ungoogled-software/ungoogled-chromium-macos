@@ -41,11 +41,6 @@ while getopts 'd' OPTION; do
   esac
 done
 
-# For packaging
-_chromium_version=$(cat "$_root_dir"/ungoogled-chromium/chromium_version.txt)
-_ungoogled_revision=$(cat "$_root_dir"/ungoogled-chromium/revision.txt)
-_package_revision=$(cat "$_root_dir"/revision.txt)
-
 # Add local clang and build tools to PATH
 # export PATH="$PATH:$_src_dir/third_party/llvm-build/Release+Asserts/bin"
 
@@ -90,6 +85,9 @@ fi
 /usr/bin/arch -$_arch $_python_path/python3 ./tools/rust/build_bindgen.py --rust-target $_rust_target
 
 /usr/bin/arch -$_arch ./out/Default/gn gen out/Default --fail-on-unused-args
+
+ln -s "$_src_dir/third_party" "$_src_dir/../third_party"
+
 /usr/bin/arch -$_arch $_ninja_path/ninja -C out/Default chrome chromedriver
 
-./sign_and_package_app.sh
+/bin/zsh "$_root_dir/sign_and_package_app.sh"
