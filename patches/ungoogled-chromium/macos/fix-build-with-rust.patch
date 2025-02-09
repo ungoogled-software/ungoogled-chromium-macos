@@ -11,7 +11,7 @@
  
 --- a/build/config/rust.gni
 +++ b/build/config/rust.gni
-@@ -59,17 +59,17 @@ declare_args() {
+@@ -58,17 +58,17 @@ declare_args() {
    # To use a custom toolchain instead, specify an absolute path to the root of
    # a Rust sysroot, which will have a 'bin' directory and others. Commonly
    # <home dir>/.rustup/toolchains/nightly-<something>-<something>
