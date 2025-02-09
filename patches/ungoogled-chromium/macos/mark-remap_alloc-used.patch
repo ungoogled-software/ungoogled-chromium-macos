@@ -11,7 +11,7 @@
 +#endif
  #endif  // COMPONENT_BUILD
  
- #if !PA_BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC) && BUILDFLAG(IS_WIN) && \
+ #if !BUILDFLAG(RUST_ALLOCATOR_USES_PARTITION_ALLOC) && BUILDFLAG(IS_WIN) && \
 @@ -109,8 +113,13 @@ extern "C" {
  // Marked as weak as when Rust drives linking it includes this symbol itself,
  // and we don't want a collision due to C++ being in the same link target, where
@@ -25,4 +25,4 @@
 +#endif
  
  REMAP_ALLOC_ATTRIBUTES void* __rust_alloc(size_t size, size_t align) {
- #if PA_BUILDFLAG(USE_PARTITION_ALLOC_AS_MALLOC)
+ #if BUILDFLAG(RUST_ALLOCATOR_USES_PARTITION_ALLOC)
