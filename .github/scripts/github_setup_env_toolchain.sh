@@ -11,6 +11,9 @@ fi
 
 # Install dependencies from Homebrew
 if [[ $_arch == "x86_64" ]]; then
+  # Install expat as a workaround for a bug in the Python 3.13 formula.
+  # See https://github.com/Homebrew/homebrew-core/issues/206778.
+  /usr/bin/arch -x86_64 /usr/local/bin/brew install expat
   /usr/bin/arch -x86_64 /usr/local/bin/brew install python3 llvm ninja coreutils readline xz zlib binutils node --overwrite
 else
   /usr/bin/arch -arm64 /opt/homebrew/bin/brew install python3 llvm ninja coreutils readline xz zlib binutils node --overwrite
