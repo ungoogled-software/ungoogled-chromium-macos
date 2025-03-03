@@ -21,7 +21,20 @@ ln -s "$_src_dir/third_party" "$_src_dir/../third_party"
 echo $(date +%s) | tee -a "$_root_dir/build_times_$_target_cpu.log"
 echo "status=running" >> $GITHUB_OUTPUT
 
+set +e
+
 timeout -k 7m -s SIGTERM ${_remaining_time:-19680}s ninja -C out/Default chrome chromedriver # 328 m as default $_remaining_time
+
+_error_code="${?}"
+if [[ "$_error_code" -eq 124 ]]; then
+    exit 0
+fi
+
+if [[ "$_error_code" -ne 0 ]]; then
+    exit "$_error_code"
+fi
+
+set -e
 
 echo $(date +%s) | tee "$_root_dir/build_finished_$_target_cpu.log"
 echo "status=finished" >> $GITHUB_OUTPUT
