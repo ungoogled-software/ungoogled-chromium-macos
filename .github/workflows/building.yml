@@ -44,14 +44,10 @@ jobs:
         run: cp -va ./.github/scripts/ ./
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Download and unpack required resources
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_fetch_resources.sh | tee -a github_actions_retrieve_resources.log
+        run: ./github_fetch_resources.sh ${{ inputs.arch }} | tee -a github_actions_retrieve_resources.log
       - name: List resources
         run: ls -la
       - name: Archive resources
@@ -87,12 +83,8 @@ jobs:
         run: sudo mdutil -a -i off
       - name: Run xcode-select
         run: sudo xcode-select --switch /Applications/Xcode_16.app
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Download resources
         uses: actions/download-artifact@v4
         with:
@@ -102,10 +94,9 @@ jobs:
       - name: List resources
         run: ls -la
       - name: Prepare for building
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_before_build.sh | tee -a github_actions_build_${{ inputs.arch }}.log
+        run: ./github_before_build.sh ${{ inputs.arch }} | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -165,17 +156,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -235,17 +221,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -305,17 +286,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -375,17 +351,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -445,17 +416,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -515,17 +481,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -585,17 +546,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake
@@ -655,17 +611,12 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: github_build_artifact_${{ inputs.arch }}
-      - name: Install Rosetta 2
-        # Only install Rosetta 2 when building for x86_64
-        if: ${{ inputs.arch == 'x86_64' }}
-        run: softwareupdate --install-rosetta --agree-to-license
       - name: Setup Environment and Toolchain
-        run: /usr/bin/arch -${{ inputs.arch }} /bin/bash ./github_setup_env_toolchain.sh | tee -a github_actions_setup_env_toolchain.log
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Unpack archive of build
         run: ./github_unpack_archive.sh
       - name: Resume Build
         id: build
-        continue-on-error: true
         run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
       - name: Prepare archive of build as artifact
         id: bake

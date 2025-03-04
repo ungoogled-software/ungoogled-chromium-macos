@@ -145,10 +145,10 @@ Finally, run the following (if you are building for the same architecture as you
 ./build.sh
 ```
 
-or, if you want to build for x86_64 on an Apple Silicon Mac (and if you have Rosetta 2 and other necessary tools for x86_64 installed):
+or, if you want to build for x86_64 on an Apple Silicon Mac:
 
 ```sh
-/usr/bin/arch -x86_64 /bin/zsh ./build.sh
+./build.sh x86_64
 ```
 
 Once it's complete, a `.dmg` should appear in `build/`.
