@@ -1,6 +1,6 @@
 --- a/third_party/devtools-frontend/src/scripts/build/typescript/ts_library.py
 +++ b/third_party/devtools-frontend/src/scripts/build/typescript/ts_library.py
-@@ -54,7 +54,7 @@ logging.basicConfig(
+@@ -56,7 +56,7 @@ logging.basicConfig(
  
  def runTsc(tsconfig_location):
      cmd = [NODE_LOCATION, TSC_LOCATION, '-p', tsconfig_location]
@@ -9,16 +9,3 @@
      process = subprocess.Popen(cmd,
                                 stdout=subprocess.PIPE,
                                 stderr=subprocess.PIPE,
-@@ -105,9 +105,9 @@ def runTscRemote(tsconfig_location, all_
-                      rewrapper_exec_root), '--', relative_node_location,
-         relative_tsc_location, '-p', relative_tsconfig_location
-     ],
--                               stdout=subprocess.PIPE,
--                               stderr=subprocess.PIPE,
--                               universal_newlines=True)
-+        stdout=subprocess.PIPE,
-+        stderr=subprocess.PIPE,
-+        universal_newlines=True)
-     stdout, stderr = process.communicate()
-     # TypeScript does not correctly write to stderr because of https://github.com/microsoft/TypeScript/issues/33849
-     return process.returncode, stdout + stderr
