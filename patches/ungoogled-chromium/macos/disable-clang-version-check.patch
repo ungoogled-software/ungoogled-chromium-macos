@@ -1,6 +1,6 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1641,8 +1641,7 @@ config("compiler_deterministic") {
+@@ -1630,8 +1630,7 @@ config("compiler_deterministic") {
  }
  
  config("clang_revision") {
@@ -12,11 +12,11 @@
        "--verify-version=$clang_version",
 --- a/build/toolchain/toolchain.gni
 +++ b/build/toolchain/toolchain.gni
-@@ -54,7 +54,7 @@ declare_args() {
-     clang_version = "21"
+@@ -51,7 +51,7 @@ declare_args() {
+   if (llvm_android_mainline) {  # https://crbug.com/1481060
+     clang_version = "17"
    } else {
-     # TODO(crbug.com/392929930): Remove in the next Clang roll.
--    clang_version = "20"
+-    clang_version = "21"
 +    clang_version = "19"
    }
  }
