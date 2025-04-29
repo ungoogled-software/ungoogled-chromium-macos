@@ -1,0 +1,10 @@
+--- a/build/config/compiler/BUILD.gn
++++ b/build/config/compiler/BUILD.gn
+@@ -312,7 +312,6 @@ config("compiler") {
+     ":compiler_cpu_abi",
+     ":compiler_codegen",
+     ":compiler_deterministic",
+-    ":clang_warning_suppression",
+   ]
+ 
+   # Here we enable -fno-delete-null-pointer-checks, which makes various nullptr

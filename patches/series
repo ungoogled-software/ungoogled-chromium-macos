@@ -1,5 +1,6 @@
 ungoogled-chromium/macos/build-bindgen.patch
 ungoogled-chromium/macos/disable-clang-version-check.patch
+ungoogled-chromium/macos/disable-warning-suppression.patch
 ungoogled-chromium/macos/disable-crashpad-handler.patch
 ungoogled-chromium/macos/disable-symbol-order-verification.patch
 ungoogled-chromium/macos/fix-build-with-rust.patch
