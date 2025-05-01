@@ -1,8 +1,8 @@
 --- a/build/config/clang/BUILD.gn
 +++ b/build/config/clang/BUILD.gn
-@@ -261,8 +261,6 @@ clang_lib("compiler_builtins") {
+@@ -276,8 +276,6 @@ clang_lib("compiler_builtins") {
      } else {
-       libname = "ios"
+       assert(false, "unsupported target_platform=$target_platform")
      }
 -  } else {
 -    libname = "builtins"
@@ -11,7 +11,7 @@
  
 --- a/build/config/rust.gni
 +++ b/build/config/rust.gni
-@@ -58,17 +58,17 @@ declare_args() {
+@@ -59,17 +59,17 @@ declare_args() {
    # To use a custom toolchain instead, specify an absolute path to the root of
    # a Rust sysroot, which will have a 'bin' directory and others. Commonly
    # <home dir>/.rustup/toolchains/nightly-<something>-<something>
