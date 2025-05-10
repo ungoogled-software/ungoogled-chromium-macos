@@ -21,12 +21,12 @@ if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
   xattr -cs out/Default/Chromium.app
   
   # Prepar the certificate for app signing
-  echo $MACOS_CERTIFICATE | base64 --decode > certificate.p12
+  echo $MACOS_CERTIFICATE | base64 --decode > "$TMPDIR/certificate.p12"
 
   security create-keychain -p "$MACOS_CI_KEYCHAIN_PWD" build.keychain
   security default-keychain -s build.keychain
   security unlock-keychain -p "$MACOS_CI_KEYCHAIN_PWD" build.keychain
-  security import certificate.p12 -k build.keychain -P "$MACOS_CERTIFICATE_PWD" -T /usr/bin/codesign
+  security import "$TMPDIR/certificate.p12" -k build.keychain -P "$MACOS_CERTIFICATE_PWD" -T /usr/bin/codesign
   security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$MACOS_CI_KEYCHAIN_PWD" build.keychain
   
   # Sign the binary
@@ -48,11 +48,11 @@ if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
   codesign --verify --deep --verbose=4 out/Default/Chromium.app
 
   # Pepare app notarization
-  ditto -c -k --keepParent "out/Default/Chromium.app" "notarize.zip"
+  ditto -c -k --keepParent "out/Default/Chromium.app" "$TMPDIR/notarize.zip"
 
   # Notarize the app
   xcrun notarytool store-credentials "notarytool-profile" --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" --password "$PROD_MACOS_NOTARIZATION_PWD"
-  xcrun notarytool submit "notarize.zip" --keychain-profile "notarytool-profile" --wait
+  xcrun notarytool submit "$TMPDIR/notarize.zip" --keychain-profile "notarytool-profile" --wait
   xcrun stapler staple "out/Default/Chromium.app"
 
   # Package the app
