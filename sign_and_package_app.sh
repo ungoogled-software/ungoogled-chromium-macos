@@ -1,4 +1,4 @@
-_root_dir=$(dirname $(greadlink -f $0))
+_root_dir="$(dirname "$(greadlink -f "$0")")"
 
 # For packaging
 _chromium_version=$(cat "$_root_dir"/ungoogled-chromium/chromium_version.txt)
