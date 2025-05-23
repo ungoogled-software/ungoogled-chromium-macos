@@ -1,6 +1,6 @@
 --- a/third_party/devtools-frontend/src/scripts/build/typescript/ts_library.py
 +++ b/third_party/devtools-frontend/src/scripts/build/typescript/ts_library.py
-@@ -53,7 +53,7 @@ logging.basicConfig(
+@@ -52,7 +52,7 @@ logging.basicConfig(
  
  def runTsc(tsconfig_location):
      cmd = [NODE_LOCATION, TSC_LOCATION, '-p', tsconfig_location]
