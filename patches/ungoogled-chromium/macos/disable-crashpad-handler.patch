@@ -2,7 +2,7 @@
 
 --- a/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
 +++ b/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
-@@ -131,61 +131,7 @@ class HandlerStarter final : public Noti
+@@ -138,61 +138,7 @@ class HandlerStarter final : public Noti
        const std::map<std::string, std::string>& annotations,
        const std::vector<std::string>& arguments,
        bool restartable) {
@@ -65,7 +65,7 @@
    }
  
    // NotifyServer::DefaultInterface:
-@@ -456,24 +402,7 @@ bool CrashpadClient::StartHandler(
+@@ -463,24 +409,7 @@ bool CrashpadClient::StartHandler(
    // Attachments are not implemented on MacOS yet.
    DCHECK(attachments.empty());
  
