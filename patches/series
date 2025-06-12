@@ -10,7 +10,6 @@ ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/fix-libpng-build.patch
 ungoogled-chromium/macos/fix-runTsc-log-info.patch
 ungoogled-chromium/macos/no-unknown-warnings.patch
-ungoogled-chromium/macos/mark-remap_alloc-used.patch
 ungoogled-chromium/macos/re2-include-fix
 ungoogled-chromium/macos/build-bindgen-target-override.patch
 ungoogled-chromium/macos/disable-clang-extend-variable-liveness.patch
