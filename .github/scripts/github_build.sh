@@ -16,8 +16,6 @@ fi
 
 cd "$_src_dir"
 
-ln -s "$_src_dir/third_party" "$_src_dir/../third_party"
-
 echo $(date +%s) | tee -a "$_root_dir/build_times_$_target_cpu.log"
 echo "status=running" >> $GITHUB_OUTPUT
 
