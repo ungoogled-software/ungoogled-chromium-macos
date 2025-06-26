@@ -98,7 +98,7 @@ if $retrieve_arch_specific; then
     _rustc_dir="$_rust_dir/rustc"
     _rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
 
-    echo "rustc 1.85.0-nightly (69fd5e405 2025-02-15)" > "$_rust_flag_file"
+    echo "rustc 1.88.0-nightly (13e879094 2025-05-04)" > "$_rust_flag_file"
 
     mkdir -p "$_rust_bin_dir"
     mkdir -p "$_rust_dir/lib"

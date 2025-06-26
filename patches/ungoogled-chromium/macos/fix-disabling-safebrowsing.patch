@@ -13,7 +13,7 @@
      "//chrome/browser/search",
      "//chrome/browser/search_engine_choice:impl",
      "//chrome/browser/signin:impl",
-@@ -1966,7 +1962,6 @@ static_library("browser") {
+@@ -1986,7 +1982,6 @@ static_library("browser") {
      "//chrome/browser/reading_list",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
@@ -23,7 +23,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -776,9 +776,6 @@ source_set("extensions") {
+@@ -792,9 +792,6 @@ source_set("extensions") {
        # TODO(crbug.com/346472679): Remove this circular dependency.
        "//chrome/browser/web_applications/extensions",
  
@@ -33,18 +33,18 @@
        # TODO(crbug.com/343037853): Remove this circular dependency.
        "//chrome/browser/themes",
  
-@@ -814,7 +811,6 @@ source_set("extensions") {
+@@ -830,7 +827,6 @@ source_set("extensions") {
        "//chrome/common",
        "//chrome/common/extensions/api",
        "//components/omnibox/browser",
 -      "//components/safe_browsing/core/common/proto:csd_proto",
        "//components/safe_browsing/core/common/proto:realtimeapi_proto",
-       "//components/signin/core/browser",
        "//components/translate/content/browser",
+       "//content/public/browser",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -582,17 +582,8 @@ static_library("ui") {
-     "//components/reading_list/features:flags",
+@@ -562,17 +562,8 @@ static_library("ui") {
+     "//components/reading_list/core",
      "//components/renderer_context_menu",
      "//components/resources",
 -    "//components/safe_browsing/content/browser",
@@ -59,9 +59,9 @@
      "//components/safe_browsing/core/common/hashprefix_realtime:hash_realtime_utils",
 -    "//components/safe_browsing/core/common/proto:csd_proto",
      "//components/schema_org/common:improved_mojom",
-     "//components/search",
      "//components/search_engines",
-@@ -5756,7 +5747,6 @@ static_library("ui_public_dependencies")
+     "//components/security_interstitials/content:security_interstitial_page",
+@@ -5731,7 +5722,6 @@ static_library("ui_public_dependencies")
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -162,7 +162,7 @@
      case download::DOWNLOAD_DANGER_TYPE_DANGEROUS_HOST:
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7295,13 +7295,9 @@ test("unit_tests") {
+@@ -7349,13 +7349,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -191,7 +191,7 @@
        "safe_archive_analyzer.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2311,15 +2311,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2296,15 +2296,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
@@ -209,7 +209,7 @@
      lens::prefs::kLensOverlaySettings,
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -8113,33 +8113,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -7691,33 +7691,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(!soda_language_pack_path.empty());
      CHECK(serializer->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                     soda_language_pack_path.value()));

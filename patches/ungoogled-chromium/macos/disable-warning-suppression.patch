@@ -1,10 +1,10 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -313,7 +313,6 @@ config("compiler") {
+@@ -315,7 +315,6 @@ config("compiler") {
      ":compiler_cpu_abi",
      ":compiler_codegen",
      ":compiler_deterministic",
 -    ":clang_warning_suppression",
    ]
  
-   # Here we enable -fno-delete-null-pointer-checks, which makes various nullptr
+   # TODO(https://crbug.com/404297941): Disable clang_warning_suppression

@@ -64,8 +64,6 @@ cd "$_src_dir"
 
 ./out/Default/gn gen out/Default --fail-on-unused-args
 
-ln -s "$_src_dir/third_party" "$_src_dir/../third_party"
-
 ninja -C out/Default chrome chromedriver
 
 "$_root_dir/sign_and_package_app.sh"

@@ -1,6 +1,6 @@
 --- a/build/config/clang/BUILD.gn
 +++ b/build/config/clang/BUILD.gn
-@@ -276,8 +276,6 @@ clang_lib("compiler_builtins") {
+@@ -287,8 +287,6 @@ clang_lib("compiler_builtins") {
      } else {
        assert(false, "unsupported target_platform=$target_platform")
      }
@@ -11,24 +11,21 @@
  
 --- a/build/config/rust.gni
 +++ b/build/config/rust.gni
-@@ -59,17 +59,17 @@ declare_args() {
+@@ -52,7 +52,7 @@ declare_args() {
    # To use a custom toolchain instead, specify an absolute path to the root of
    # a Rust sysroot, which will have a 'bin' directory and others. Commonly
    # <home dir>/.rustup/toolchains/nightly-<something>-<something>
 -  rust_sysroot_absolute = ""
-+  rust_sysroot_absolute = "../../third_party/rust-toolchain"
++  rust_sysroot_absolute = "//third_party/rust-toolchain"
  
    # Directory under which to find `bin/bindgen` (a `bin` directory containing
    # the bindgen exectuable).
--  rust_bindgen_root = "//third_party/rust-toolchain"
-+  rust_bindgen_root = "../../third_party/rust-toolchain"
- 
-   # If you're using a Rust toolchain as specified by rust_sysroot_absolute,
+@@ -62,7 +62,7 @@ declare_args() {
    # set this to the output of `rustc -V`. Changing this string will cause all
    # Rust targets to be rebuilt, which allows you to update your toolchain and
    # not break incremental builds.
 -  rustc_version = ""
-+  rustc_version = "rustc 1.86.0-nightly (69fd5e405 2025-02-15)"
++  rustc_version = "rustc 1.88.0-nightly (13e879094 2025-05-04)"
  
    # If you're using a Rust toolchain as specified by rust_sysroot_absolute,
    # you can specify whether it supports nacl here.
