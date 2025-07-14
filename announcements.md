@@ -37,8 +37,8 @@ New sponsors are still very welcomed, as I am still relying on community sponsor
 > [!NOTE]
 > The prioritized usage of the sponsorship contribution will always be the coverage/securing the Apple Developer Membership fee of the current and the following membership year. However, please acknowledge that, after the current and the next year's membership fees have been fully covered/secured, any donation I receive might be reallocated for other personal purpose.
 
-So, please consider sponsoring me through [GitHub Sponsors](https://github.com/sponsors/Cubik65536) or [Buy me a Coffee](https://buymeacoffee.com/cubik65536).
+So, please consider sponsoring me through [GitHub Sponsors](https://github.com/sponsors/Qubik65536) or [Buy me a Coffee](https://buymeacoffee.com/Qubik65536).
 
-Note that these sponsorship accounts are under the name of `Cubik65536`. All sponsor records (i.e. who’s sponsoring) will be public unless you choose to make it private. When sponsoring, you can leave a message specifying that it is for Ungoogled-Chromium, so you will be able to be credited in a sponsor list in the future.
+Note that these sponsorship accounts are under the name of `Qubik65536`. All sponsor records (i.e. who’s sponsoring) will be public unless you choose to make it private. When sponsoring, you can leave a message specifying that it is for Ungoogled-Chromium, so you will be able to be credited in a sponsor list in the future.
 
-\- @Cubik65536, maintainer of Ungoogled-Chromium macOS
+\- @Qubik65536, maintainer of Ungoogled-Chromium macOS
