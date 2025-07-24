@@ -3,8 +3,7 @@
 macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium).
 
 ## Downloads
-
-[Download binaries from the Contributor Binaries website](//ungoogled-software.github.io/ungoogled-chromium-binaries/).
+[Download binaries from GitHub Releases](//github.com/ungoogled-software/ungoogled-chromium-macos/releases).
 
 Also available in [Homebrew](https://brew.sh/) as [ungoogled-chromium](https://formulae.brew.sh/cask/ungoogled-chromium). Just run `brew install --cask ungoogled-chromium`. Chromium will appear in your /Applications directory.
 
