@@ -1,6 +1,6 @@
 # ungoogled-chromium-macos
 
-macOS packaging for [ungoogled-chromium](//github.com/Eloston/ungoogled-chromium).
+macOS packaging for [ungoogled-chromium](//github.com/ungoogled-software/ungoogled-chromium).
 
 ## Downloads
 [Download binaries from GitHub Releases](//github.com/ungoogled-software/ungoogled-chromium-macos/releases).
