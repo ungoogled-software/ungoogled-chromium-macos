@@ -91,7 +91,7 @@ If you want to notarize the build, you need to have an Apple Developer ID and a 
 - `PROD_MACOS_NOTARIZATION_TEAM_ID`: Your Apple Developer Team ID, which can be found in the Apple Developer membership page
 - `PROD_MACOS_NOTARIZATION_PWD`: An app-specific password generated in the Apple ID account settings
 
-If you don't have an Apple Developer ID to sign the build (or you don't want to sign it), you can comment the following parts in `build.sh`:
+If you don't have an Apple Developer ID to sign the build (or you don't want to sign it), you can comment the following parts in `sign_and_package_app.sh`:
 
 ```sh
 # Sign the binary
