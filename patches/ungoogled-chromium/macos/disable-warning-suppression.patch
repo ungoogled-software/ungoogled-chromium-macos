@@ -1,6 +1,6 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -325,7 +325,6 @@ config("compiler") {
+@@ -347,7 +347,6 @@ config("compiler") {
      ":compiler_cpu_abi",
      ":compiler_codegen",
      ":compiler_deterministic",

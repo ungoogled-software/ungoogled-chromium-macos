@@ -1,6 +1,6 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1704,8 +1704,7 @@ config("compiler_deterministic") {
+@@ -1713,8 +1713,7 @@ config("compiler_deterministic") {
  }
  
  config("clang_revision") {
@@ -10,14 +10,3 @@
      _perform_consistency_checks = current_toolchain == default_toolchain
      if (llvm_force_head_revision) {
        _head_revision_stamp_path = "//third_party/llvm-build/force_head_revision"
---- a/build/toolchain/toolchain.gni
-+++ b/build/toolchain/toolchain.gni
-@@ -36,7 +36,7 @@ declare_args() {
-   if (llvm_android_mainline) {  # https://crbug.com/1481060
-     clang_version = "17"
-   } else {
--    clang_version = "21"
-+    clang_version = "20"
-   }
- }
- 
