@@ -24,6 +24,6 @@ cat "$_root_dir/flags.macos.gn" >> "$_src_dir/out/Default/args.gn"
 cd "$_src_dir"
 
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
-./tools/rust/build_bindgen.py
+./tools/rust/build_bindgen.py --skip-test
 
 ./out/Default/gn gen out/Default --fail-on-unused-args

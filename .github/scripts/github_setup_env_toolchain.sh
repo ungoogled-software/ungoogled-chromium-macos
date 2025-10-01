@@ -4,5 +4,5 @@
 
 brew install ninja coreutils --overwrite
 
-# Install httplib2 for Python from PyPI
-pip3 install httplib2 --break-system-packages
+# Install PySocks and httplib2 for Python from PyPI
+pip3 install PySocks httplib2 --break-system-packages
