@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1770,10 +1770,6 @@ static_library("browser") {
+@@ -1738,10 +1738,6 @@ static_library("browser") {
      "//chrome/browser/prefs:util_impl",
      "//chrome/browser/profiles:profiles_extra_parts_impl",
      "//chrome/browser/profiles:profile_util_impl",
@@ -13,8 +13,8 @@
      "//chrome/browser/search",
      "//chrome/browser/search_engine_choice:impl",
      "//chrome/browser/signin:impl",
-@@ -2011,7 +2007,6 @@ static_library("browser") {
-     "//chrome/browser/reading_list",
+@@ -1989,7 +1985,6 @@ static_library("browser") {
+     "//chrome/browser/regional_capabilities:metrics_provider_impl",
      "//chrome/browser/resource_coordinator:tab_manager_features",
      "//chrome/browser/resources/accessibility:resources",
 -    "//chrome/browser/safe_browsing",
@@ -23,7 +23,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -841,9 +841,6 @@ source_set("extensions") {
+@@ -845,9 +845,6 @@ source_set("extensions") {
        # TODO(crbug.com/346472679): Remove this circular dependency.
        "//chrome/browser/web_applications/extensions",
  
@@ -33,7 +33,7 @@
        # TODO(crbug.com/343037853): Remove this circular dependency.
        "//chrome/browser/themes",
  
-@@ -881,7 +878,6 @@ source_set("extensions") {
+@@ -886,7 +883,6 @@ source_set("extensions") {
        "//chrome/common",
        "//chrome/common/extensions/api",
        "//components/omnibox/browser",
@@ -43,7 +43,7 @@
        "//content/public/browser",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -548,17 +548,8 @@ static_library("ui") {
+@@ -539,17 +539,8 @@ static_library("ui") {
      "//components/reading_list/core",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -61,7 +61,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search_engines",
      "//components/security_interstitials/content:security_interstitial_page",
-@@ -5518,7 +5509,6 @@ static_library("ui_public_dependencies")
+@@ -5329,7 +5320,6 @@ static_library("ui_public_dependencies")
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -71,7 +71,7 @@
      "//components/sync_user_events",
 --- a/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
 +++ b/chrome/browser/safe_browsing/download_protection/download_protection_service.cc
-@@ -378,8 +378,12 @@ void DownloadProtectionService::ShowDeta
+@@ -383,8 +383,12 @@ void DownloadProtectionService::ShowDeta
    Profile* profile = Profile::FromBrowserContext(
        content::DownloadItemUtils::GetBrowserContext(item));
    if (profile &&
@@ -146,7 +146,7 @@
        return l10n_util::GetStringFUTF16(IDS_PROMPT_DOWNLOAD_CHANGES_SETTINGS,
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7559,13 +7559,9 @@ test("unit_tests") {
+@@ -7626,13 +7626,9 @@ test("unit_tests") {
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/browser/updater:browser_updater_client",
        "//chrome/common/notifications",
@@ -175,7 +175,7 @@
        "safe_archive_analyzer.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2323,15 +2323,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2327,15 +2327,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
@@ -193,7 +193,7 @@
      lens::prefs::kLensOverlaySettings,
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -7742,33 +7742,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -7923,33 +7923,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(!soda_language_pack_path.empty());
      CHECK(serializer->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                     soda_language_pack_path.value()));

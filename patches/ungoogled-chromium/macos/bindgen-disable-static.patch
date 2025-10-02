@@ -1,0 +1,18 @@
+--- a/tools/rust/build_bindgen.py
++++ b/tools/rust/build_bindgen.py
+@@ -191,14 +191,13 @@ def main():
+         RmTree(build_dir)
+ 
+     print(f'Building bindgen in {build_dir} ...')
+-    static_feature = ",static" if ('windows' not in RustTargetTriple()) else ""
+     cargo_args = [
+         'build',
+         f'--manifest-path={BINDGEN_SRC_DIR}/Cargo.toml',
+         f'--target-dir={build_dir}',
+         f'--target={rust_target}',
+         f'--no-default-features',
+-        f'--features=logging' + static_feature,
++        f'--features=logging',
+         '--release',
+         '--bin',
+         'bindgen',

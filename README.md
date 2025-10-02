@@ -69,16 +69,13 @@ Note that these sponsorship accounts are under the name of `Qubik65536`. All spo
 ### Setting up the build environment
 
 1. Install Python 3 via Homebrew: `brew install python@3`
-2. Install `httplib2` via `pip3`: `pip3 install httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
-3. Install LLVM via Homebrew: `brew install llvm`, and set `LDFLAGS` and `CPPFLAGS` environment variables according to the Homebrew prompt.
+2. Install `PySocks` and `httplib2` via `pip3`: `pip3 install PySocks httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
+3. Install Metal toolchain: `xcodebuild -downloadComponent MetalToolchain`
 4. Install Ninja via Homebrew: `brew install ninja`
 5. Install GNU coreutils and readline via Homebrew: `brew install coreutils readline`
-6. Install the data compression tools xz and zlib via Homebrew: `brew install xz zlib`
-7. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
-8. Install Node.js via Homebrew: `brew install node`
-9. Restart your terminal.
-
-**NOTE**: If you are building for x86_64 Mac from an Apple Silicon (arm64) Mac, you might need to install Rosetta 2 and these tools from x86_64 Homebrew, as well as setting `PATH` variables to use the x86_64 tools.
+6. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
+7. Install Node.js via Homebrew: `brew install node`
+8. Restart your terminal.
 
 ### Build
 

@@ -1,6 +1,6 @@
 --- a/build/config/clang/BUILD.gn
 +++ b/build/config/clang/BUILD.gn
-@@ -292,8 +292,6 @@ clang_lib("compiler_builtins") {
+@@ -248,8 +248,6 @@ clang_lib("compiler_builtins") {
      } else {
        assert(false, "unsupported target_platform=$target_platform")
      }

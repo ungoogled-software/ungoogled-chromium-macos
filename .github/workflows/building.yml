@@ -28,20 +28,21 @@ jobs:
     name: Retrieve resources required for building
     runs-on: ${{ inputs.os }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Upload Metal Toolchain
+        uses: actions/upload-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+          path: MetalToolchain.exportedBundle.tar.zst
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
       - name: Setup Environment and Toolchain
@@ -65,24 +66,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Setup Environment and Toolchain
         run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Download resources
@@ -130,24 +131,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -195,24 +196,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -260,24 +261,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -325,24 +326,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -390,24 +391,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -455,24 +456,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -520,24 +521,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -585,24 +586,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -650,24 +651,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -715,24 +716,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
@@ -780,24 +781,24 @@ jobs:
     outputs:
       status: ${{ steps.build.outputs.status }}
     steps:
-      - name: Cleanup Xcode installations
-        run: sudo mv /Applications/Xcode_16.4.app /Applications/tmp_Xcode_16.4.app ; sudo rm -rf /Applications/Xcode* ; sudo mv /Applications/tmp_Xcode_16.4.app /Applications/Xcode_16.4.app
-      - name: Select Xcode version
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
-      - name: Cleanup Xcode Simulators
-        run: sudo xcrun simctl delete all
-      - name: Cleanup Android Related Stuff
-        run: sudo rm -rf $ANDROID_HOME
       - name: Clone repository
         uses: actions/checkout@v4
         with:
           submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
-        run: cp -va ./.github/scripts/ ./ ; date +%s > ./epoch_job_start.txt
+        run: cp -va ./.github/scripts/ ./
+      - name: Download Metal Toolchain
+        uses: actions/download-artifact@v4
+        with:
+          name: metal_toolchain_${{ inputs.arch }}
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
       - name: Disable spotlight
         run: sudo mdutil -a -i off
-      - name: Run xcode-select
-        run: sudo xcode-select --switch /Applications/Xcode_16.4.app
       - name: Get previous logs
         uses: actions/download-artifact@v4
         with:
