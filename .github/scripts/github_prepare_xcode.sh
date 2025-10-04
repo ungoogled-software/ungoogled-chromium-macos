@@ -36,7 +36,7 @@ if [ ! -e MetalToolchain.exportedBundle.tar.zst ]; then
   rmdir metal_toolchain
   # cache the bundle for future jobs (the next step will upload it in this case).
   tar -c -f - MetalToolchain.exportedBundle | zstd -vv -11 -T0 -o MetalToolchain.exportedBundle.tar.zst
-else
+elif [ "$(xcodebuild -showComponent metalToolchain | grep 'Status: ')" != "Status: installed" ]; then
   echo "Extracting Metal Toolchain"
   tar -xf MetalToolchain.exportedBundle.tar.zst
   rm MetalToolchain.exportedBundle.tar.zst
