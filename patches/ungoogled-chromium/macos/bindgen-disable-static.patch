@@ -1,6 +1,6 @@
 --- a/tools/rust/build_bindgen.py
 +++ b/tools/rust/build_bindgen.py
-@@ -191,14 +191,13 @@ def main():
+@@ -187,14 +187,13 @@ def main():
          RmTree(build_dir)
  
      print(f'Building bindgen in {build_dir} ...')

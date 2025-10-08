@@ -4,6 +4,8 @@
  }
  
  if (metal_internal_shader_compilation_supported) {
+-  _metal_internal_shaders_air_file =
+-      "$root_gen_dir/angle/mtl_internal_shaders_autogen.air"
 +  template("run_metal_tool") {
 +    action(target_name) {
 +      forward_variables_from(invoker,
@@ -36,19 +38,17 @@
 +        # before Xcode 26.0, so it can be run directly from there.
 +        args = [ mac_bin_path + metal_tool ]
 +      }
-+
-+      args += invoker.args
-+    }
-+  }
-+
-   _metal_internal_shaders_air_file =
-       "$root_gen_dir/angle/mtl_internal_shaders_autogen.air"
  
 -  action("angle_metal_internal_shaders_to_air") {
 -    script = "shaders/metal_wrapper.py"
--
++      args += invoker.args
++    }
++  }
+ 
 -    outputs = [ _metal_internal_shaders_air_file ]
--
++  _metal_internal_shaders_air_file =
++      "$root_gen_dir/angle/mtl_internal_shaders_autogen.air"
+ 
 +  run_metal_tool("angle_metal_internal_shaders_to_air") {
      _metal_internal_shaders_metal_source =
          "shaders/mtl_internal_shaders_autogen.metal"
@@ -63,7 +63,7 @@
        "-c",
        rebase_path(_metal_internal_shaders_metal_source, root_build_dir),
        "-o",
-@@ -60,17 +96,16 @@ if (metal_internal_shader_compilation_supported) {
+@@ -60,17 +96,16 @@ if (metal_internal_shader_compilation_su
    _metal_internal_shaders_metallib_file =
        "$root_gen_dir/angle/mtl_internal_shaders_autogen.metallib"
  

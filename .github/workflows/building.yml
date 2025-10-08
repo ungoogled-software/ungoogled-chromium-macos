@@ -38,11 +38,6 @@ jobs:
         run: cp -va ./.github/scripts/ ./
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
-      - name: Upload Metal Toolchain
-        uses: actions/upload-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
-          path: MetalToolchain.exportedBundle.tar.zst
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
       - name: Setup Environment and Toolchain
@@ -76,10 +71,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable Spotlight
@@ -141,10 +132,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -206,10 +193,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -271,10 +254,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -336,10 +315,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -401,10 +376,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -466,10 +437,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -531,10 +498,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -596,10 +559,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -661,10 +620,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -726,10 +681,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
@@ -791,10 +742,6 @@ jobs:
         run: sudo rm -rf $ANDROID_HOME
       - name: Copy GitHub specific scripts to git-root folder
         run: cp -va ./.github/scripts/ ./
-      - name: Download Metal Toolchain
-        uses: actions/download-artifact@v4
-        with:
-          name: metal_toolchain_${{ inputs.arch }}
       - name: Prepare Xcode
         run: ./github_prepare_xcode.sh
       - name: Disable spotlight
