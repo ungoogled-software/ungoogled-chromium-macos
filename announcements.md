@@ -1,4 +1,6 @@
-Ungoogled-Chromium macOS builds are now notarized (signed) with an Apple Developer ID! Notarized builds will be provided at least till the end of our 2024-2025 Apple Developer Program membership year, which ends on October 14th 2025.
+## Announcements
+
+Ungoogled-Chromium macOS builds are now notarized (signed) with an Apple Developer ID! Notarized builds will be provided at least till the end of our 2025-2026 Apple Developer Program membership year, which ends on October 14th 2026.
 
 The notarized binaries distributed in the ungoogled-software/ungoogled-chromium-macos repository are signed with the Apple Developer ID certificate `Developer ID Application: Qian Qian (B9A88FL5XJ)`. You should be able to verify the signature of the binaries after downloading the `.dmg` file, extracting the `.app` file, and running the following command in Terminal:
 
@@ -18,13 +20,11 @@ that indicates the binary is correctly signed and notarized.
 
 ## Sponsorship
 
-Thanks to our 2024-2025 sponsors for their generous support:
+Thanks to our 2025-2026 sponsors for their generous support:
 
-- @pascal-giguere (via GitHub Sponsors)
-- @kevingriffin (via GitHub Sponsors)
-- BabyFn0rd (via By Me a Coffee)
-- dasos (via By Me a Coffee)
+- @brucehs (via GitHub Sponsors)
 - @vinnysaj (via GitHub Sponsors)
+- 3Onion (via By Me a Coffee)
 
 You can also see sponsors for other Apple Membership years on the [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
 
