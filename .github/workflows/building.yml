@@ -40,6 +40,10 @@ jobs:
         run: ./github_prepare_xcode.sh
       - name: Disable Spotlight
         run: sudo mdutil -a -i off
+      - name: Setup Python 3.13 (latest for depot_tools to work)
+        uses: actions/setup-python@v3
+        with:
+          python-version: "3.13"
       - name: Setup Environment and Toolchain
         run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
       - name: Download and unpack required resources
