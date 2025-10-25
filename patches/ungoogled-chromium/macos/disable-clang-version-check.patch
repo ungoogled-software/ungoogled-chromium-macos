@@ -1,6 +1,6 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1706,8 +1706,7 @@ config("compiler_deterministic") {
+@@ -1747,8 +1747,7 @@ config("compiler_deterministic") {
  }
  
  config("clang_revision") {
@@ -10,3 +10,14 @@
      _perform_consistency_checks = current_toolchain == default_toolchain
      if (llvm_force_head_revision) {
        _head_revision_stamp_path = "//third_party/llvm-build/force_head_revision"
+--- a/build/toolchain/toolchain.gni
++++ b/build/toolchain/toolchain.gni
+@@ -32,7 +32,7 @@ declare_args() {
+ }
+ 
+ declare_args() {
+-  clang_version = "22"
++  clang_version = "21"
+ }
+ 
+ # Extension for shared library files (including leading dot).
