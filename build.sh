@@ -41,6 +41,12 @@ mkdir -p "$_src_dir/out/Default"
 # Apply patches and substitutions
 python3 "$_main_repo/utils/prune_binaries.py" "$_src_dir" "$_main_repo/pruning.list"
 python3 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "$_root_dir/patches"
+
+# TODO: remove this once chromium includes this file in the tarballs
+if [ "$clone" = false ]; then
+  patch -p1 -d "$_src_dir" < "$_root_dir/patches/ungoogled-chromium/macos/tarball-fix-dawn-commit-hash.patch"
+fi
+
 python3 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
 # Set build flags
 cat "$_main_repo/flags.gn" "$_root_dir/flags.macos.gn" > "$_src_dir/out/Default/args.gn"
