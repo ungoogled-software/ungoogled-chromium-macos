@@ -1,0 +1,10 @@
+--- a/components/contextual_tasks/internal/BUILD.gn
++++ b/components/contextual_tasks/internal/BUILD.gn
+@@ -43,6 +43,7 @@ source_set("internal") {
+     "//components/sync/model",
+     "//components/url_formatter",
+     "//net",
++    "//third_party/re2",
+     "//ui/gfx",
+     "//url",
+   ]
