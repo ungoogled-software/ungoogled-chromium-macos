@@ -9,4 +9,3 @@ ungoogled-chromium/macos/fix-dsymutil.patch
 ungoogled-chromium/macos/no-unknown-warnings.patch
 ungoogled-chromium/macos/build-bindgen-target-override.patch
 ungoogled-chromium/macos/bindgen-disable-static.patch
-ungoogled-chromium/macos/missing-dependencies.patch
