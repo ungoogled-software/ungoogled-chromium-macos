@@ -18,18 +18,14 @@ jobs:
     name: Build macOS binaries of Ungoogled Chromium
     strategy:
       matrix:
-        include:
-          - arch: arm64
-            os: macos-15
-          - arch: x86_64
-            os: macos-15-intel
+        arch: [arm64, x86_64]
       fail-fast: true
       max-parallel: 2
     uses: ./.github/workflows/building.yml
     secrets: inherit
     with:
       arch: ${{ matrix.arch }}
-      os: ${{ matrix.os }}
+      os: depot-macos-latest
 
   release:
     needs: build
