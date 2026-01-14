@@ -788,3 +788,491 @@ jobs:
           path: |
             ./release_asset/${{ steps.bake.outputs.file_name }}
             ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_13:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_12
+    if: ${{needs.build_job_12.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_14:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_13
+    if: ${{needs.build_job_13.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_15:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_14
+    if: ${{needs.build_job_14.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_16:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_15
+    if: ${{needs.build_job_15.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_17:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_16
+    if: ${{needs.build_job_16.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_18:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_17
+    if: ${{needs.build_job_17.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_19:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_18
+    if: ${{needs.build_job_18.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
+
+  build_job_20:
+    name: Further Resuming Building Ungoogled-Chromium for macOS
+    runs-on: ${{ inputs.os }}
+    needs: build_job_19
+    if: ${{needs.build_job_19.outputs.status == 'running'}}
+    outputs:
+      status: ${{ steps.build.outputs.status }}
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v4
+        with:
+          submodules: true
+      - name: Log Start Timestamp
+        run: date +%s > ./epoch_job_start.txt
+      - name: Cleanup Android Related Stuff
+        run: sudo rm -rf $ANDROID_HOME
+      - name: Copy GitHub specific scripts to git-root folder
+        run: cp -va ./.github/scripts/ ./
+      - name: Prepare Xcode
+        run: ./github_prepare_xcode.sh
+      - name: Disable spotlight
+        run: sudo mdutil -a -i off
+      - name: Get previous logs
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+      - name: Download resumed build
+        uses: actions/download-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+      - name: Setup Environment and Toolchain
+        run: ./github_setup_env_toolchain.sh ${{ inputs.arch }} | tee -a github_actions_setup_env_toolchain.log
+      - name: Unpack archive of build
+        run: ./github_unpack_archive.sh
+      - name: Resume Build
+        id: build
+        run: ./github_build.sh ${{ inputs.arch }} 2>&1 | tee -a github_actions_build_${{ inputs.arch }}.log
+      - name: Prepare archive of build as artifact
+        id: bake
+        run: ./github_prepare_artifacts.sh ${{ inputs.arch }} | tee -a github_actions_upload_${{ inputs.arch }}.log
+      - name: Upload part build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_artifact_${{ inputs.arch }}
+          path: upload_part_build/
+          overwrite: true
+      - name: Upload logs
+        uses: actions/upload-artifact@v4
+        with:
+          name: github_build_logs_${{ inputs.arch }}
+          path: upload_logs/
+          overwrite: true
+      - name: Upload disk-image and hash file as artifact after build
+        if: ${{ steps.build.outputs.status == 'finished' }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ steps.bake.outputs.file_name }}
+          path: |
+            ./release_asset/${{ steps.bake.outputs.file_name }}
+            ./${{ steps.bake.outputs.file_name }}.hashes.md
