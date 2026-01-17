@@ -35,7 +35,7 @@ that indicates the binary is correctly signed and notarized.
 
 ## Sponsorship
 
-A huge thank you to [Depot](https://depot.dev) for sponsoring our macOS building action runners. Their high-performance infrastructure allows us to release to reduce build times from days to hours, and allows you to get the built binary as quick as other platforms.
+A huge thank you to [Depot](https://depot.dev) for sponsoring our macOS building action runners. Their high-performance infrastructure allows us to reduce build times from days to hours, and allows you to get the built binary as quick as other platforms.
 
 Thanks to our 2025-2026 sponsors for their generous support:
 
