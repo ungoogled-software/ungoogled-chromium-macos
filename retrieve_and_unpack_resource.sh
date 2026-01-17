@@ -104,7 +104,9 @@ if $retrieve_arch_specific; then
     mkdir -p "$_rust_dir/lib"
     ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
     ln -s "$_rust_dir/cargo/bin/cargo" "$_rust_bin_dir/cargo"
+    ln -s "$_rust_dir/rustfmt-preview/bin/rustfmt" "$_rust_bin_dir/rustfmt"
     ln -s "$_rust_lib_dir" "$_rustc_lib_dir"
+    ln -s "$_rust_dir/rustc/lib" "$_rust_dir/rustfmt-preview/lib"
 
     _llvm_dir="$_src_dir/third_party/llvm-build/Release+Asserts"
     _llvm_bin_dir="$_llvm_dir/bin"
