@@ -1,5 +1,9 @@
 ## Announcements
 
+[Depot](https://depot.dev) is now sponsoring us and providing GitHub Action runners for building and packaging releases. This allows us to dramatically accelerate the release cycle. A huge thanks to them.
+
+---
+
 Ungoogled-Chromium macOS builds are now notarized (signed) with an Apple Developer ID! Notarized builds will be provided at least till the end of our 2025-2026 Apple Developer Program membership year, which ends on October 14th 2026.
 
 The notarized binaries distributed in the ungoogled-software/ungoogled-chromium-macos repository are signed with the Apple Developer ID certificate `Developer ID Application: Qian Qian (B9A88FL5XJ)`. You should be able to verify the signature of the binaries after downloading the `.dmg` file, extracting the `.app` file, and running the following command in Terminal:
@@ -19,6 +23,8 @@ origin=Developer ID Application: Qian Qian (B9A88FL5XJ)
 that indicates the binary is correctly signed and notarized.
 
 ## Sponsorship
+
+A huge thank you to [Depot](https://depot.dev) for sponsoring our macOS building action runners. Their high-performance infrastructure allows us to reduce build times from days to hours, and allows you to get the built binary as quick as other platforms.
 
 Thanks to our 2025-2026 sponsors for their generous support:
 
