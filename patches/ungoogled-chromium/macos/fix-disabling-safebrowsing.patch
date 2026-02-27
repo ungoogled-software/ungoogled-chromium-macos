@@ -43,7 +43,7 @@
        "//content/public/browser",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -548,18 +548,8 @@ static_library("ui") {
+@@ -550,18 +550,8 @@ static_library("ui") {
      "//components/reading_list/core",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -62,7 +62,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search_engines",
      "//components/security_interstitials/content:security_interstitial_page",
-@@ -5504,7 +5494,6 @@ static_library("ui_public_dependencies")
+@@ -5513,7 +5503,6 @@ static_library("ui_public_dependencies")
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -178,9 +178,7 @@
      ash::prefs::kAuthenticationFlowAutoReloadInterval,
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7749,8 +7749,6 @@
-     deps += [
-       "//chrome/app_shim",
+@@ -7754,8 +7754,6 @@ test("unit_tests") {
        "//chrome/browser/apps/app_shim",
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/common/notifications",
@@ -191,7 +189,7 @@
        "//chrome/utility/safe_browsing",
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -7915,33 +7915,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -7918,33 +7918,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(!soda_language_pack_path.empty());
      CHECK(serializer->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                     soda_language_pack_path.value()));
