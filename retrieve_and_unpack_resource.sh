@@ -92,13 +92,10 @@ if $retrieve_arch_specific; then
 
     _rust_dir="$_src_dir/third_party/rust-toolchain"
     _rust_bin_dir="$_rust_dir/bin"
-    _rust_flag_file="$_rust_dir/INSTALLED_VERSION"
 
     _rust_lib_dir="$_rust_dir/rust-std-$_rust_name/lib/rustlib/$_rust_name/lib"
     _rustc_dir="$_rust_dir/rustc"
     _rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
-
-    echo "rustc 1.93.0-nightly (646a3f8c1 2025-12-02)" > "$_rust_flag_file"
 
     mkdir -p "$_rust_bin_dir"
     mkdir -p "$_rust_dir/lib"
