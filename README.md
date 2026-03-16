@@ -193,9 +193,7 @@ Once it's complete, a `.dmg` should appear in `build/`.
             * For our example, the download URL for Apple Silicon Macs is `https://static.rust-lang.org/dist/2025-06-23/rust-nightly-aarch64-apple-darwin.tar.gz`
             * For our example, the download URL for Intel Chip Macs is `https://static.rust-lang.org/dist/2025-06-23/rust-nightly-x86_64-apple-darwin.tar.gz`
        2. Extract the archive.
-       3. Execute `rustc/bin/rustc -V` in the extracted directory to get Rust version string.
-            * For our example, the version string is `rustc 1.89.0-nightly (be19eda0d 2025-06-22)`.
-       4. Adapt the content of `retrieve_and_unpack_resource.sh` and `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` accordingly.
+       3. Adapt the content of `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` with the output of `rustc/bin/rustc -V | tr -dc '[:alnum:]'`
 4. Switch to src directory
 
     ```sh
