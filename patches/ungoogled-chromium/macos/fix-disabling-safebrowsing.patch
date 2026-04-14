@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/BUILD.gn
 +++ b/chrome/browser/BUILD.gn
-@@ -1560,10 +1560,6 @@ static_library("browser") {
+@@ -1410,10 +1410,6 @@ static_library("browser") {
      "//chrome/browser/prefs:util_impl",
      "//chrome/browser/profiles:profiles_extra_parts_impl",
      "//chrome/browser/profiles:profile_util_impl",
@@ -13,7 +13,7 @@
      "//chrome/browser/search",
      "//chrome/browser/search_engine_choice:impl",
      "//chrome/browser/signin:impl",
-@@ -1898,7 +1894,6 @@ static_library("browser") {
+@@ -1821,7 +1817,6 @@ static_library("browser") {
      "//chrome/browser/regional_capabilities",
      "//chrome/browser/regional_capabilities:metrics_provider_impl",
      "//chrome/browser/resources/accessibility:resources",
@@ -23,7 +23,7 @@
      "//chrome/browser/safe_browsing:verdict_cache_manager_factory",
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -851,9 +851,6 @@ source_set("extensions") {
+@@ -854,9 +854,6 @@ source_set("extensions") {
        # TODO(crbug.com/346472679): Remove this circular dependency.
        "//chrome/browser/web_applications/extensions",
  
@@ -33,7 +33,7 @@
        # TODO(crbug.com/343037853): Remove this circular dependency.
        "//chrome/browser/themes",
  
-@@ -887,7 +884,6 @@ source_set("extensions") {
+@@ -890,7 +887,6 @@ source_set("extensions") {
        "//chrome/common",
        "//chrome/common/extensions/api",
        "//components/omnibox/browser",
@@ -43,7 +43,7 @@
        "//content/public/browser",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -547,18 +547,8 @@ static_library("ui") {
+@@ -573,18 +573,8 @@ static_library("ui") {
      "//components/reading_list/core",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -62,7 +62,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search_engines",
      "//components/security_interstitials/content:security_interstitial_page",
-@@ -5509,7 +5499,6 @@ static_library("ui_public_dependencies")
+@@ -5548,7 +5538,6 @@ static_library("ui_public_dependencies")
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -103,7 +103,7 @@
                ? IDS_PROMPT_UNCOMMON_DOWNLOAD_CONTENT_IN_ADVANCED_PROTECTION
 --- a/chrome/browser/ui/webui/downloads/downloads_ui.cc
 +++ b/chrome/browser/ui/webui/downloads/downloads_ui.cc
-@@ -39,6 +39,7 @@
+@@ -40,6 +40,7 @@
  #include "components/history/core/common/pref_names.h"
  #include "components/prefs/pref_service.h"
  #include "components/profile_metrics/browser_profile_type.h"
@@ -111,7 +111,7 @@
  #include "components/strings/grit/components_strings.h"
  #include "content/public/browser/download_manager.h"
  #include "content/public/browser/url_data_source.h"
-@@ -67,10 +68,12 @@ content::WebUIDataSource* CreateAndAddDo
+@@ -68,10 +69,12 @@ content::WebUIDataSource* CreateAndAddDo
    webui::SetupWebUIDataSource(source, kDownloadsResources,
                                IDR_DOWNLOADS_DOWNLOADS_HTML);
  
@@ -160,7 +160,7 @@
        "obfuscated_archive_analysis_delegate.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2384,15 +2384,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2374,15 +2374,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
@@ -178,7 +178,7 @@
      ash::prefs::kAuthenticationFlowAutoReloadInterval,
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -7844,8 +7844,6 @@ test("unit_tests") {
+@@ -7904,8 +7904,6 @@ test("unit_tests") {
        "//chrome/browser/apps/app_shim",
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/common/notifications",
@@ -189,7 +189,7 @@
        "//chrome/utility/safe_browsing",
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -7997,33 +7997,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -8103,33 +8103,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(!soda_language_pack_path.empty());
      CHECK(serializer->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                     soda_language_pack_path.value()));
