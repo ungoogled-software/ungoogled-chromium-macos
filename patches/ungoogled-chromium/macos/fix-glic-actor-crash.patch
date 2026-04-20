@@ -1,0 +1,36 @@
+# Disable Glic (Google AI Actor) for ungoogled-chromium builds
+#
+# kGlicActor is ENABLED_BY_DEFAULT on non-Android but requires Google-internal
+# services absent in ungoogled builds, causing two crashes:
+#
+# 1. BrowserView init: ActorTaskListBubbleController calls
+#    GlicActorTaskIconManagerFactory::GetForProfile -> GlicActorTaskIconManager(
+#    profile, actor_service=null) -> CHECK(actor_service) fires.
+#
+# 2. chrome://settings: AddGlicStrings -> ShouldShowWebActuationToggle accesses
+#    GlicKeyedService::actor_policy_checker() which is uninitialized when
+#    kGlicActor is disabled -> EXC_BAD_ACCESS at offset 0xac.
+
+--- a/chrome/common/chrome_features.cc
++++ b/chrome/common/chrome_features.cc
+@@ -264,7 +264,7 @@ BASE_FEATURE(kForcedAppRelaunchOnPlaceholderUpdate,
+ BASE_FEATURE(kGeoLanguage, base::FEATURE_DISABLED_BY_DEFAULT);
+
+ // Controls whether the actor component of Glic is enabled.
+-#if BUILDFLAG(IS_ANDROID)
++#if BUILDFLAG(IS_ANDROID) || !BUILDFLAG(GOOGLE_CHROME_BRANDING)
+ BASE_FEATURE(kGlicActor, base::FEATURE_DISABLED_BY_DEFAULT);
+ #else
+ BASE_FEATURE(kGlicActor, base::FEATURE_ENABLED_BY_DEFAULT);
+--- a/chrome/browser/ui/webui/settings/settings_localized_strings_provider.cc
++++ b/chrome/browser/ui/webui/settings/settings_localized_strings_provider.cc
+@@ -747,6 +747,9 @@ bool IsWebActuationDisabledForEnterprise(Profile* profile) {
+ }
+
+ bool ShouldShowWebActuationToggle(Profile* profile) {
++  if (!base::FeatureList::IsEnabled(features::kGlicActor)) {
++    return false;
++  }
+   auto* command_line = base::CommandLine::ForCurrentProcess();
+   if (command_line->HasSwitch(::switches::kGlicAlwaysShowWebActuationToggle)) {
+     return true;
