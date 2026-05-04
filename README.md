@@ -72,15 +72,9 @@ Note that these sponsorship accounts are under the name of `Qubik65536`. All spo
 
 ### Setting up the build environment
 
-<<<<<<< master
 1. Install Python 3 via Homebrew: `brew install python@3` (<3.14)
-2. Install `httplib2` via `pip3`: `pip3 install httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
-3. Install LLVM via Homebrew: `brew install llvm`, and set `LDFLAGS` and `CPPFLAGS` environment variables according to the Homebrew prompt.
-=======
-1. Install Python 3 via Homebrew: `brew install python@3`
 2. Install `PySocks` and `httplib2` via `pip3`: `pip3 install PySocks httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
 3. Install Metal toolchain: `xcodebuild -downloadComponent MetalToolchain`
->>>>>>> master
 4. Install Ninja via Homebrew: `brew install ninja`
 5. Install GNU coreutils and readline via Homebrew: `brew install coreutils readline`
 6. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
