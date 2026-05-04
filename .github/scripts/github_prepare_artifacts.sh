@@ -15,11 +15,11 @@ if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
 
   _file_name="ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_${_target_cpu}-macos.dmg"
   _hash_name="${_file_name}.hashes.md"
-  
+
   cd "$_src_dir"
 
   xattr -cs out/Default/Chromium.app
-  
+
   # Prepar the certificate for app signing
   echo $MACOS_CERTIFICATE | base64 --decode > "$TMPDIR/certificate.p12"
 
@@ -28,7 +28,7 @@ if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
   security unlock-keychain -p "$MACOS_CI_KEYCHAIN_PWD" build.keychain
   security import "$TMPDIR/certificate.p12" -k build.keychain -P "$MACOS_CERTIFICATE_PWD" -T /usr/bin/codesign
   security set-key-partition-list -S apple-tool:,apple:,codesign: -s -k "$MACOS_CI_KEYCHAIN_PWD" build.keychain
-  
+
   # Sign the binary
   codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier chrome_crashpad_handler --options=restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/chrome_crashpad_handler
   codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper.app
@@ -51,8 +51,10 @@ if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
   ditto -c -k --keepParent "out/Default/Chromium.app" "$TMPDIR/notarize.zip"
 
   # Notarize the app
-  xcrun notarytool store-credentials "notarytool-profile" --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" --password "$PROD_MACOS_NOTARIZATION_PWD"
-  xcrun notarytool submit "$TMPDIR/notarize.zip" --keychain-profile "notarytool-profile" --wait
+  xcrun notarytool submit "$TMPDIR/notarize.zip" --wait \
+    --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" \
+    --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" \
+    --password "$PROD_MACOS_NOTARIZATION_PWD"
   xcrun stapler staple "out/Default/Chromium.app"
 
   # Package the app
@@ -65,13 +67,13 @@ if [[ -f "$_root_dir/build_finished_$_target_cpu.log" ]] ; then
   cd "$_root_dir"
   echo -e "md5: \nsha1: \nsha256: " | tee ./hash_types.txt
   { md5sum "$_file_name" ; sha1sum "$_file_name" ; sha256sum "$_file_name" ; } | tee ./sums.txt
-  
+
   _hash_md=$(paste ./hash_types.txt ./sums.txt | awk '{print $1 " " $2}')
 
   echo "file_name=$_file_name" >> $GITHUB_OUTPUT
 
   _gh_run_href="https://github.com/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
-  
+
   printf '[Hashes](https://en.wikipedia.org/wiki/Cryptographic_hash_function) for the disk image `%s`: \n' "$_file_name" | tee -a ./${_hash_name}
   printf '\n```\n%s\n```\n' "$_hash_md" | tee -a ./${_hash_name}
 

@@ -92,19 +92,18 @@ if $retrieve_arch_specific; then
 
     _rust_dir="$_src_dir/third_party/rust-toolchain"
     _rust_bin_dir="$_rust_dir/bin"
-    _rust_flag_file="$_rust_dir/INSTALLED_VERSION"
 
     _rust_lib_dir="$_rust_dir/rust-std-$_rust_name/lib/rustlib/$_rust_name/lib"
     _rustc_dir="$_rust_dir/rustc"
     _rustc_lib_dir="$_rust_dir/rustc/lib/rustlib/$_rust_name/lib"
 
-    echo "rustc 1.88.0-nightly (13e879094 2025-05-04)" > "$_rust_flag_file"
-
     mkdir -p "$_rust_bin_dir"
     mkdir -p "$_rust_dir/lib"
     ln -s "$_rust_dir/rustc/bin/rustc" "$_rust_bin_dir/rustc"
     ln -s "$_rust_dir/cargo/bin/cargo" "$_rust_bin_dir/cargo"
+    ln -s "$_rust_dir/rustfmt-preview/bin/rustfmt" "$_rust_bin_dir/rustfmt"
     ln -s "$_rust_lib_dir" "$_rustc_lib_dir"
+    ln -s "$_rust_dir/rustc/lib" "$_rust_dir/rustfmt-preview/lib"
 
     _llvm_dir="$_src_dir/third_party/llvm-build/Release+Asserts"
     _llvm_bin_dir="$_llvm_dir/bin"

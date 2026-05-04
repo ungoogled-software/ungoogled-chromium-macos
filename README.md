@@ -11,7 +11,11 @@ Also available in [Homebrew](https://brew.sh/) as [ungoogled-chromium](https://f
 
 ## Announcements
 
-Ungoogled-Chromium macOS builds are now notarized (signed) with an Apple Developer ID! Notarized builds will be provided at least till the end of our 2024-2025 Apple Developer Program membership year, which ends on October 14th 2025.
+[Depot](https://depot.dev) is now sponsoring us and providing GitHub Action runners for building and packaging releases. This allows us to dramatically accelerate the release cycle. A huge thanks to them.
+
+---
+
+Ungoogled-Chromium macOS builds are now notarized (signed) with an Apple Developer ID! Notarized builds will be provided at least till the end of our 2025-2026 Apple Developer Program membership year, which ends on October 14th 2026.
 
 The notarized binaries distributed in the ungoogled-software/ungoogled-chromium-macos repository are signed with the Apple Developer ID certificate `Developer ID Application: Qian Qian (B9A88FL5XJ)`. You should be able to verify the signature of the binaries after downloading the `.dmg` file, extracting the `.app` file, and running the following command in Terminal:
 
@@ -31,13 +35,13 @@ that indicates the binary is correctly signed and notarized.
 
 ## Sponsorship
 
-Thanks to our 2024-2025 sponsors for their generous support:
+A huge thank you to [Depot](https://depot.dev) for sponsoring our macOS building action runners. Their high-performance infrastructure allows us to reduce build times from days to hours, and allows you to get the built binary as quick as other platforms.
 
-- @pascal-giguere (via GitHub Sponsors)
-- @kevingriffin (via GitHub Sponsors)
-- BabyFn0rd (via By Me a Coffee)
-- dasos (via By Me a Coffee)
+Thanks to our 2025-2026 sponsors for their generous support:
+
+- @brucehs (via GitHub Sponsors)
 - @vinnysaj (via GitHub Sponsors)
+- 3Onion (via By Me a Coffee)
 
 You can also see sponsors for other Apple Membership years on the [issue #184](https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/184).
 
@@ -68,17 +72,20 @@ Note that these sponsorship accounts are under the name of `Qubik65536`. All spo
 
 ### Setting up the build environment
 
+<<<<<<< master
 1. Install Python 3 via Homebrew: `brew install python@3` (<3.14)
 2. Install `httplib2` via `pip3`: `pip3 install httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
 3. Install LLVM via Homebrew: `brew install llvm`, and set `LDFLAGS` and `CPPFLAGS` environment variables according to the Homebrew prompt.
+=======
+1. Install Python 3 via Homebrew: `brew install python@3`
+2. Install `PySocks` and `httplib2` via `pip3`: `pip3 install PySocks httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
+3. Install Metal toolchain: `xcodebuild -downloadComponent MetalToolchain`
+>>>>>>> master
 4. Install Ninja via Homebrew: `brew install ninja`
 5. Install GNU coreutils and readline via Homebrew: `brew install coreutils readline`
-6. Install the data compression tools xz and zlib via Homebrew: `brew install xz zlib`
-7. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
-8. Install Node.js via Homebrew: `brew install node`
-9. Restart your terminal.
-
-**NOTE**: If you are building for x86_64 Mac from an Apple Silicon (arm64) Mac, you might need to install Rosetta 2 and these tools from x86_64 Homebrew, as well as setting `PATH` variables to use the x86_64 tools.
+6. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
+7. Install Node.js via Homebrew: `brew install node`
+8. Restart your terminal.
 
 ### Build
 
@@ -182,19 +189,17 @@ Once it's complete, a `.dmg` should appear in `build/`.
 
 3. Update Rust toolchain (if necessary)
     1. Check the `RUST_REVISION` constant in file `src/tools/rust/update_rust.py` in build root.
-        * As an example, the revision as of writing this guide is `4a0969e06dbeaaa43914d2d00b2e843d49aa3886`.
+        * As an example, the revision as of writing this guide is `22be76b7e259f27bf3e55eb931f354cd8b69d55f`.
     2. Get date for nightly Rust build from Rust's GitHub repository.
-        * The page URL for our example is `https://github.com/rust-lang/rust/commit/4a0969e06dbeaaa43914d2d00b2e843d49aa3886`
-            1. In this case, the corresponding nightly build date is `2024-05-05`.
+        * The page URL for our example is `https://github.com/rust-lang/rust/commit/22be76b7e259f27bf3e55eb931f354cd8b69d55f`
+            1. In this case, the corresponding nightly build date is `2025-06-23`.
             2. Adapt the version number in `downloads-{arm64,x86-64}{,-rustlib}.ini` accordingly.
     3. Get the information of the latest nightly build and adapt configurations accordingly.
        1. Download the latest nightly build from the Rust website.
-            * For our example, the download URL for Apple Silicon Macs is `https://static.rust-lang.org/dist/2024-05-05/rust-nightly-aarch64-apple-darwin.tar.gz`
-            * For our example, the download URL for Intel Chip Macs is `https://static.rust-lang.org/dist/2024-05-05/rust-nightly-x86_64-apple-darwin.tar.gz`
+            * For our example, the download URL for Apple Silicon Macs is `https://static.rust-lang.org/dist/2025-06-23/rust-nightly-aarch64-apple-darwin.tar.gz`
+            * For our example, the download URL for Intel Chip Macs is `https://static.rust-lang.org/dist/2025-06-23/rust-nightly-x86_64-apple-darwin.tar.gz`
        2. Extract the archive.
-       3. Execute `rustc/bin/rustc -V` in the extracted directory to get Rust version string.
-            * For our example, the version string is `rustc 1.88.0-nightly (13e879094 2025-05-04)`.
-       4. Adapt the content of `retrieve_and_unpack_resource.sh` and `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` accordingly.
+       3. Adapt the content of `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` with the output of `rustc/bin/rustc -V | tr -dc '[:alnum:]'`
 4. Switch to src directory
 
     ```sh

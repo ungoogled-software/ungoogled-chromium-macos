@@ -1,0 +1,16 @@
+--- a/tools/rust/build_bindgen.py
++++ b/tools/rust/build_bindgen.py
+@@ -197,12 +197,11 @@ def main():
+     RunCargo([
+         'clean',
+     ] + cargo_shared_args)
+-    static_feature = ",static" if ('windows' not in RustTargetTriple()) else ""
+     cargo_args = [
+         'build',
+         f'--target={rust_target}',
+         f'--no-default-features',
+-        f'--features=logging' + static_feature,
++        f'--features=logging',
+         '--release',
+         '--bin',
+         'bindgen',
