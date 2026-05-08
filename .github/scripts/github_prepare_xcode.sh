@@ -12,6 +12,8 @@ fi
 
 TARGET_XCODE_VERSION="$(readlink -f "$BASE_XCODE_PATH" | xargs basename | sed 's/Xcode_//' | sed 's/.app//')"
 
+ls -l /Applications | grep Xcode
+
 sudo rm -rf /Applications/Xcode_!("$TARGET_XCODE_VERSION").app
 if [ ! -e /Applications/Xcode_26.app ]; then
   # try to keep paths consistent between jobs.
