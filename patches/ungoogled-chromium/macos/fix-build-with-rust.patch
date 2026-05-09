@@ -25,7 +25,7 @@
    # Rust targets to be rebuilt, which allows you to update your toolchain and
    # not break incremental builds.
 -  rustc_version = ""
-+  rustc_version = "rustc1950nightly842bd5be220260129"
++  rustc_version = "rustc1950nightly6a979b3e320260226"
  
    # Whether artifacts produced by the Rust compiler can participate in ThinLTO.
    #

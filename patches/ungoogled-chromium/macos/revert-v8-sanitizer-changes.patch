@@ -1,0 +1,82 @@
+--- a/v8/BUILD.gn
++++ b/v8/BUILD.gn
+@@ -1919,6 +1919,32 @@ config("always_turbofanimize") {
+   }
+ }
+ 
++# Sanitizer defines. V8 will inherit a default `-fsanitize=array-bounds`
++# from Chromium's `//build/config/`, which prevents clean usage of
++# `__has_feature(undefined_behavior_sanitizer)` in the short term,
++# until something like `--lie-about-ubsan-enablement=array-bounds`
++# can be implemented.
++#
++# This config provides a clear signal of "are we sanitizing" tied to
++# GN configuration.
++#
++# See also: https://crbug.com/386992829
++config("sanitizer_defines") {
++  defines = []
++  if (is_asan) {
++    defines += [ "V8_USE_ADDRESS_SANITIZER" ]
++  }
++  if (is_hwasan) {
++    defines += [ "V8_USE_HWADDRESS_SANITIZER" ]
++  }
++  if (is_msan) {
++    defines += [ "V8_USE_MEMORY_SANITIZER" ]
++  }
++  if (is_ubsan) {
++    defines += [ "V8_USE_UNDEFINED_BEHAVIOR_SANITIZER" ]
++  }
++}
++
+ ###############################################################################
+ # Actions
+ #
+--- a/v8/gni/v8.gni
++++ b/v8/gni/v8.gni
+@@ -392,6 +392,7 @@ v8_add_configs = [
+   v8_path_prefix + ":features",
+   v8_path_prefix + ":toolchain",
+   v8_path_prefix + ":strict_warnings",
++  v8_path_prefix + ":sanitizer_defines",
+ ]
+ 
+ if (v8_force_optimize_speed) {
+--- a/v8/src/base/macros.h
++++ b/v8/src/base/macros.h
+@@ -201,34 +201,6 @@ V8_INLINE constexpr Dest bit_cast(Source
+   void operator delete(void*, size_t) { v8::base::OS::Abort(); } \
+   void operator delete[](void*, size_t) { v8::base::OS::Abort(); }
+ 
+-// Define V8_USE_ADDRESS_SANITIZER macro.
+-#if defined(__has_feature)
+-#if __has_feature(address_sanitizer)
+-#define V8_USE_ADDRESS_SANITIZER 1
+-#endif
+-#endif
+-
+-// Define V8_USE_HWADDRESS_SANITIZER macro.
+-#if defined(__has_feature)
+-#if __has_feature(hwaddress_sanitizer)
+-#define V8_USE_HWADDRESS_SANITIZER 1
+-#endif
+-#endif
+-
+-// Define V8_USE_MEMORY_SANITIZER macro.
+-#if defined(__has_feature)
+-#if __has_feature(memory_sanitizer)
+-#define V8_USE_MEMORY_SANITIZER 1
+-#endif
+-#endif
+-
+-// Define V8_USE_UNDEFINED_BEHAVIOR_SANITIZER macro.
+-#if defined(__has_feature)
+-#if __has_feature(undefined_behavior_sanitizer)
+-#define V8_USE_UNDEFINED_BEHAVIOR_SANITIZER 1
+-#endif
+-#endif
+-
+ // Define V8_USE_SAFE_STACK macro.
+ #if defined(__has_feature)
+ #if __has_feature(safe_stack)
