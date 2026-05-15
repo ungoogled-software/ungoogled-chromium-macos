@@ -72,7 +72,7 @@ Note that these sponsorship accounts are under the name of `Qubik65536`. All spo
 
 ### Setting up the build environment
 
-1. Install Python 3 via Homebrew: `brew install python@3`
+1. Install Python 3 via Homebrew: `brew install python@3.13` (Python 3.13 or earlier required for the depot_tools)
 2. Install `PySocks` and `httplib2` via `pip3`: `pip3 install PySocks httplib2`, note that you might need to use `--break-system-packages` if you don't want to use a dedicated Python environment for building Ungoogled-Chromium.
 3. Install Metal toolchain: `xcodebuild -downloadComponent MetalToolchain`
 4. Install Ninja via Homebrew: `brew install ninja`
