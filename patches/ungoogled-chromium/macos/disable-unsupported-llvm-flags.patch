@@ -29,7 +29,7 @@
      ]
    }
  }
-@@ -1913,12 +1913,6 @@ config("sanitize_return") {
+@@ -1928,12 +1913,6 @@ config("sanitize_return") {
      cflags = [
        "-fsanitize=return",
        "-fsanitize-trap=return",
