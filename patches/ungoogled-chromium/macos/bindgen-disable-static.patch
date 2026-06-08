@@ -1,6 +1,6 @@
 --- a/tools/rust/build_bindgen.py
 +++ b/tools/rust/build_bindgen.py
-@@ -197,12 +197,11 @@ def main():
+@@ -204,12 +204,11 @@ def main():
      RunCargo([
          'clean',
      ] + cargo_shared_args)

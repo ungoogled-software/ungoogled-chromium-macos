@@ -1,6 +1,6 @@
 --- a/build/config/clang/BUILD.gn
 +++ b/build/config/clang/BUILD.gn
-@@ -264,8 +264,6 @@ clang_lib("compiler_builtins") {
+@@ -267,8 +267,6 @@ clang_lib("compiler_builtins") {
      } else {
        assert(false, "unsupported target_platform=$target_platform")
      }
@@ -25,7 +25,7 @@
    # Rust targets to be rebuilt, which allows you to update your toolchain and
    # not break incremental builds.
 -  rustc_version = ""
-+  rustc_version = "rustc1950nightly6a979b3e320260226"
++  rustc_version = "rustc1880nightlyd4f880f8c20250408"
  
    # Whether artifacts produced by the Rust compiler can participate in ThinLTO.
    #
