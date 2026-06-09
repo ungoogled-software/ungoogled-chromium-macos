@@ -2,9 +2,9 @@
 
 --- a/chrome/BUILD.gn
 +++ b/chrome/BUILD.gn
-@@ -1236,7 +1236,7 @@ if (is_win) {
+@@ -1244,7 +1244,7 @@ if (is_win) {
  
-   # TOOD(crbug/1163903#c8) - thakis@ look into why profile and coverage
+   # TOOD(crbug.com/40740432#comment9) - thakis@ look into why profile and coverage
    # instrumentation adds these symbols in different orders
 -  if (!is_component_build && chrome_pgo_phase != 1 && !using_sanitizer) {
 +  if (false) {

@@ -1,6 +1,6 @@
 --- a/tools/rust/build_bindgen.py
 +++ b/tools/rust/build_bindgen.py
-@@ -29,8 +29,7 @@ from update import (RmTree)
+@@ -30,8 +30,7 @@ from update import (RmTree)
  # The git hash to use.  See https://github.com/rust-lang/rust-bindgen/tags.
  # The current hash below corresponds to 0.72.1
  BINDGEN_GIT_VERSION = 'd874de8d646d9b8a3e7ba2db2bcd52f2fba8f1f5'
@@ -10,7 +10,7 @@
  
  BINDGEN_SRC_DIR = os.path.join(THIRD_PARTY_DIR, 'rust-toolchain-intermediate',
                                 'bindgen-src')
-@@ -96,15 +95,8 @@ def RunCargo(cargo_args):
+@@ -97,15 +96,8 @@ def RunCargo(cargo_args):
                f'the build_rust.py script builds rustc that is needed here.')
          sys.exit(1)
  
@@ -28,7 +28,7 @@
  
      env = collections.defaultdict(str, os.environ)
      # Cargo normally stores files in $HOME. Override this.
-@@ -213,7 +205,7 @@ def main():
+@@ -220,7 +212,7 @@ def main():
      install_dir = os.path.join(RUST_TOOLCHAIN_OUT_DIR)
      print(f'Installing bindgen to {install_dir} ...')
  
