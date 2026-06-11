@@ -35,7 +35,7 @@
  #
 --- a/v8/gni/v8.gni
 +++ b/v8/gni/v8.gni
-@@ -391,6 +391,7 @@ v8_add_configs = [
+@@ -393,6 +393,7 @@ v8_add_configs = [
    v8_path_prefix + ":features",
    v8_path_prefix + ":toolchain",
    v8_path_prefix + ":strict_warnings",
