@@ -1,6 +1,6 @@
 --- a/v8/BUILD.gn
 +++ b/v8/BUILD.gn
-@@ -1919,6 +1919,32 @@ config("always_turbofanimize") {
+@@ -1929,6 +1929,32 @@ config("always_turbofanimize") {
    }
  }
  
@@ -35,7 +35,7 @@
  #
 --- a/v8/gni/v8.gni
 +++ b/v8/gni/v8.gni
-@@ -393,6 +393,7 @@ v8_add_configs = [
+@@ -395,6 +395,7 @@ v8_add_configs = [
    v8_path_prefix + ":features",
    v8_path_prefix + ":toolchain",
    v8_path_prefix + ":strict_warnings",
