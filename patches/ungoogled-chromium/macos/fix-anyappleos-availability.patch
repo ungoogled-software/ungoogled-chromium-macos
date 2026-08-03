@@ -1,0 +1,23 @@
+--- a/net/base/apple/url_conversions.mm
++++ b/net/base/apple/url_conversions.mm
+@@ -59,6 +59,7 @@ GURL GURLWithNSURL(NSURL* url) {
+   // TODO(crbug.com/523200130): Remove this workaround when the minimum
+   // deployment target is iOS 27.0 or higher.
+-  if (!@available(anyAppleOS 27.0, *)) {
++  if (!@available(macOS 27.0, iOS 27.0, tvOS 27.0, watchOS 27.0,
++                   *)) {
+     if (base::FeatureList::IsEnabled(
+             features::kUseNSURLDataForGURLConversion)) {
+       // The bug in NSURL absoluteString is natively fixed in iOS 27+.
+--- a/net/base/apple/url_conversions_unittest.mm
++++ b/net/base/apple/url_conversions_unittest.mm
+@@ -255,7 +255,8 @@ TEST_F(URLConversionTest, TestGURLWithNSURLFeatureDisabled) {
+   NSURL* url = [NSURL URLWithString:@"about:blank#hash"];
+   GURL gurl = GURLWithNSURL(url);
+ 
+-  if (@available(anyAppleOS 27.0, *)) {
++  if (@available(macOS 27.0, iOS 27.0, tvOS 27.0, watchOS 27.0,
++                   *)) {
+     // If this test fails, it means Apple has broken the bug fix in iOS 27+.
+     EXPECT_EQ("about:blank#hash", gurl.spec());
+   } else {
