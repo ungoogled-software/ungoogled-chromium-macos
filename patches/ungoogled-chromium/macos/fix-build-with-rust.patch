@@ -13,7 +13,7 @@
 +++ b/build/config/rust.gni
 @@ -57,7 +57,7 @@ declare_args() {
    # using a *nightly* version of Rust toolchain (see
-   # `tools/rust/unstable_rust_feature_usage.md`) although other projects (e.g.
+   # `docs/rust/unstable_rust_feature_usage.md`) although other projects (e.g.
    # V8) may be compatible with the stable version of Rust toolchain.
 -  rust_sysroot_absolute = ""
 +  rust_sysroot_absolute = "//third_party/rust-toolchain"
@@ -25,7 +25,7 @@
    # Rust targets to be rebuilt, which allows you to update your toolchain and
    # not break incremental builds.
 -  rustc_version = ""
-+  rustc_version = "rustc1960nightly90048564220260408"
++  rustc_version = "rustc1980nightly01dfd792420260615"
  
    # Whether artifacts produced by the Rust compiler can participate in ThinLTO.
    #

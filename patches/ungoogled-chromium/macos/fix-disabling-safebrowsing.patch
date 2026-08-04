@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -868,9 +868,6 @@ source_set("extensions") {
+@@ -870,9 +870,6 @@ source_set("extensions") {
        # TODO(crbug.com/346472679): Remove this circular dependency.
        "//chrome/browser/web_applications/extensions",
  
@@ -12,7 +12,7 @@
        # TODO(crbug.com/343037853): Remove this circular dependency.
        "//chrome/browser/themes",
  
-@@ -903,7 +900,6 @@ source_set("extensions") {
+@@ -904,7 +901,6 @@ source_set("extensions") {
        "//chrome/common",
        "//chrome/common/extensions/api",
        "//components/omnibox/browser",
@@ -22,7 +22,7 @@
        "//content/public/browser",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -564,18 +564,8 @@ static_library("ui") {
+@@ -847,18 +847,8 @@ static_library("ui") {
      "//components/reading_list/core",
      "//components/renderer_context_menu",
      "//components/resources",
@@ -41,7 +41,7 @@
      "//components/schema_org/common:improved_mojom",
      "//components/search_engines",
      "//components/security_interstitials/content:security_interstitial_page",
-@@ -5416,7 +5406,6 @@ group("ui_public_dependencies") {
+@@ -5607,7 +5597,6 @@ group("ui_public_dependencies") {
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -64,25 +64,32 @@
        "obfuscated_archive_analysis_delegate.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2437,15 +2437,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2454,22 +2454,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
+-// The per-user policy is available on ChromeOS (declared `future_on:
+-// chrome_os`), but the per-browser policy is not (it is `chrome.*`, i.e.
+-// win/mac/linux only). As a result the per-browser `key::` constant is only
+-// generated in non-ChromeOS builds, so its entry must be guarded accordingly.
 -#if BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES)
 -  { key::kProvisionManagedClientCertificateForUser,
 -    client_certificates::prefs::kProvisionManagedClientCertificateForUserPrefs,
 -    base::Value::Type::INTEGER },
+-#endif  // BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES)
+-
+-#if BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES) && !BUILDFLAG(IS_CHROMEOS)
 -  { key::kProvisionManagedClientCertificateForBrowser,
 -    client_certificates::prefs::kProvisionManagedClientCertificateForBrowserPrefs,
 -    base::Value::Type::INTEGER },
--#endif  // BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES)
+-#endif  // BUILDFLAG(ENTERPRISE_CLIENT_CERTIFICATES) && !BUILDFLAG(IS_CHROMEOS)
 -
  #if BUILDFLAG(IS_CHROMEOS)
    { key::kDeviceAuthenticationFlowAutoReloadInterval,
      ash::prefs::kAuthenticationFlowAutoReloadInterval,
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -8038,8 +8038,6 @@ test("unit_tests") {
+@@ -6737,8 +6737,6 @@ test("unit_tests") {
        "//chrome/browser/mac:unit_tests",
        "//chrome/browser/renderer_host:history_swiper",
        "//chrome/common/notifications",
@@ -93,7 +100,7 @@
        "//chrome/utility/safe_browsing",
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -8363,33 +8363,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -8424,33 +8424,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(!soda_language_pack_path.empty());
      CHECK(serializer->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                     soda_language_pack_path.value()));

@@ -1,19 +1,21 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -576,12 +576,6 @@ config("compiler") {
+@@ -576,14 +576,6 @@ config("compiler") {
    if (is_clang) {
      # Flags for diagnostics.
      cflags += [ "-fcolor-diagnostics" ]
--    if (!is_win) {
--      cflags += [ "-fdiagnostics-show-inlining-chain" ]
--    } else {
--      # Combine after https://github.com/llvm/llvm-project/pull/192241
--      cflags += [ "/clang:-fdiagnostics-show-inlining-chain" ]
+-    if (!is_wasm) {
+-      if (!is_win) {
+-        cflags += [ "-fdiagnostics-show-inlining-chain" ]
+-      } else {
+-        # Combine after https://github.com/llvm/llvm-project/pull/192241
+-        cflags += [ "/clang:-fdiagnostics-show-inlining-chain" ]
+-      }
 -    }
      if (diagnostics_print_source_range_info && !is_win) {
        cflags += [ "-fdiagnostics-print-source-range-info" ]
      }
-@@ -615,9 +609,6 @@ config("compiler") {
+@@ -617,9 +609,6 @@ config("compiler") {
      # The performance improvement does not seem worth the risk. See
      # https://crbug.com/484082200 for background and https://crrev.com/c/7593035
      # for discussion.
@@ -25,7 +27,7 @@
      # by default. https://crbug.com/765793
 --- a/build/config/sanitizers/sanitizers.gni
 +++ b/build/config/sanitizers/sanitizers.gni
-@@ -541,7 +541,6 @@ template("ubsan_hardening") {
+@@ -540,7 +540,6 @@ template("ubsan_hardening") {
          # be usable even in release builds, i.e. as widely as possible.
          # It's important not to have full-on UBSan workarounds activate
          # just because we built support for a specific sanitizer.

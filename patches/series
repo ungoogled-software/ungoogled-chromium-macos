@@ -13,3 +13,4 @@ ungoogled-chromium/macos/set-rustc-nightly-capability.patch
 ungoogled-chromium/macos/disable-unsupported-llvm-flags.patch
 ungoogled-chromium/macos/revert-v8-sanitizer-changes.patch
 ungoogled-chromium/macos/fix-nasm-build-config.patch
+ungoogled-chromium/macos/fix-anyappleos-availability.patch
