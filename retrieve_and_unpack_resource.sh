@@ -105,4 +105,25 @@ if $retrieve_arch_specific; then
     _llvm_bin_dir="$_llvm_dir/bin"
 
     ln -s "$_llvm_bin_dir/llvm-install-name-tool" "$_llvm_bin_dir/install_name_tool"
+
+    # Dawn invokes Go from its DEPS toolchain path when generating Tint sources.
+    # Match the system-tooling setup used by other distributions after pruning
+    # the bundled toolchain.
+    case "$(uname -m)" in
+        arm64)
+            _dawn_go_platform="mac-arm64"
+            ;;
+        x86_64)
+            _dawn_go_platform="mac-amd64"
+            ;;
+        *)
+            echo "Unsupported macOS host architecture: $(uname -m)" >&2
+            exit 1
+            ;;
+    esac
+
+    _go_binary="$(command -v go)"
+    _dawn_go_bin_dir="$_src_dir/third_party/dawn/tools/golang/$_dawn_go_platform/bin"
+    mkdir -p "$_dawn_go_bin_dir"
+    ln -sfn "$_go_binary" "$_dawn_go_bin_dir/go"
 fi

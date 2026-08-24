@@ -9,7 +9,6 @@ _root_dir="$(dirname "$(greadlink -f "$0")")"
 _download_cache="$_root_dir/build/download_cache"
 _src_dir="$_root_dir/build/src"
 _main_repo="$_root_dir/ungoogled-chromium"
-_cipd="$_src_dir/third_party/depot_tools/cipd"
 
 # Clone to get the Chromium Source
 clone=true
@@ -58,26 +57,6 @@ mkdir -p "$_src_dir/third_party/llvm-build/Release+Asserts"
 mkdir -p "$_src_dir/third_party/rust-toolchain/bin"
 
 "$_root_dir/retrieve_and_unpack_resource.sh" -p $_arch
-
-# Dawn's Tint source generator uses a DEPS-pinned Go toolchain. It is not part
-# of the downloadable source archive and must be restored after binary pruning.
-case "$(uname -m)" in
-  arm64)
-    _dawn_go_platform="mac-arm64"
-    ;;
-  x86_64)
-    _dawn_go_platform="mac-amd64"
-    ;;
-  *)
-    echo "Unsupported macOS host architecture: $(uname -m)" >&2
-    exit 1
-    ;;
-esac
-printf 'infra/3pp/tools/go/%s version:3@1.25.0\n' "$_dawn_go_platform" |
-  "$_cipd" ensure \
-    -cache-dir "$_download_cache/cipd" \
-    -root "$_src_dir/third_party/dawn/tools/golang/$_dawn_go_platform" \
-    -ensure-file -
 
 cd "$_src_dir"
 
