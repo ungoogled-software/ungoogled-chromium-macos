@@ -1,3 +1,7 @@
+#!/usr/bin/env bash
+
+set -eo pipefail
+
 _root_dir="$(dirname "$(greadlink -f "$0")")"
 
 # For packaging
@@ -20,6 +24,7 @@ codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier web_a
 codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libEGL out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libEGL.dylib
 codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libGLESv2 out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libGLESv2.dylib
 codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libvk_swiftshader out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libvk_swiftshader.dylib
+codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libvulkan out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libvulkan.dylib
 codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.framework out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework
 codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements $_root_dir/entitlements/app-entitlements.plist --requirements '=designated => identifier "io.ungoogled-software.ungoogled-chromium" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */' out/Default/Chromium.app
 
@@ -31,8 +36,29 @@ ditto -c -k --keepParent "out/Default/Chromium.app" "notarize.zip"
 
 # Notarize the app
 xcrun notarytool store-credentials "notarytool-profile" --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" --password "$PROD_MACOS_NOTARIZATION_PWD"
-xcrun notarytool submit "notarize.zip" --keychain-profile "notarytool-profile" --wait
-xcrun stapler staple "out/Default/Chromium.app"
+notary_submit_output="$(xcrun notarytool submit "notarize.zip" --keychain-profile "notarytool-profile" --wait --output-format json)"
+notary_status="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("status",""))' <<< "$notary_submit_output")"
+notary_submission_id="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("id",""))' <<< "$notary_submit_output")"
+
+if [[ "$notary_status" != "Accepted" ]]; then
+  echo "Notarization submission was not accepted (status: ${notary_status:-unknown})."
+  if [[ -n "$notary_submission_id" ]]; then
+    echo "Fetching notarization log for submission $notary_submission_id..."
+    xcrun notarytool log "$notary_submission_id" --keychain-profile "notarytool-profile" || true
+  fi
+  exit 1
+fi
+
+if ! xcrun stapler staple "out/Default/Chromium.app"; then
+  echo "Stapling failed."
+  if [[ -n "$notary_submission_id" ]]; then
+    echo "Fetching notarization log for submission $notary_submission_id..."
+    xcrun notarytool log "$notary_submission_id" --keychain-profile "notarytool-profile" || true
+  fi
+  exit 1
+fi
+
+xcrun stapler validate "out/Default/Chromium.app"
 
 # If you do not have an Apple Developer account to notarize the app, or you do not want to notarize the app
 # comment the lines above and uncomment the following line to use ad-hoc signing.
