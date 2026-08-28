@@ -67,4 +67,4 @@ cd "$_src_dir"
 
 ninja -C out/Default chrome chromedriver
 
-"$_root_dir/sign_and_package_app.sh"
+CHROMIUM_SRC_DIR="$_src_dir" "$_root_dir/sign_and_package_app.sh"

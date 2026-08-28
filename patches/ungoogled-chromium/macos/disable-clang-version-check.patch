@@ -1,6 +1,6 @@
 --- a/build/config/compiler/BUILD.gn
 +++ b/build/config/compiler/BUILD.gn
-@@ -1464,8 +1464,7 @@ config("compiler_deterministic") {
+@@ -1466,8 +1466,7 @@ config("compiler_deterministic") {
  }
  
  config("clang_revision") {
@@ -12,11 +12,16 @@
        _head_revision_stamp_path = "//third_party/llvm-build/force_head_revision"
 --- a/build/toolchain/toolchain.gni
 +++ b/build/toolchain/toolchain.gni
-@@ -41,7 +41,7 @@ declare_args() {
+@@ -41,12 +41,7 @@ declare_args() {
  }
  
  declare_args() {
--  clang_version = "23"
+-  if (llvm_force_head_revision) {
+-    clang_version = "24"
+-  } else {
+-    # TODO(crbug.com/534655507): Remove in the next Clang roll.
+-    clang_version = "23"
+-  }
 +  clang_version = "22"
  }
  

@@ -1,72 +1,165 @@
 #!/usr/bin/env bash
 
-set -eo pipefail
+set -euo pipefail
 
 _root_dir="$(dirname "$(greadlink -f "$0")")"
+_src_dir="${CHROMIUM_SRC_DIR:-$_root_dir/build/src}"
+_app="$_src_dir/out/Default/Chromium.app"
+_framework="$_app/Contents/Frameworks/Chromium Framework.framework"
+_helpers="$_framework/Helpers"
+_libraries="$_framework/Libraries"
+_pkg_dmg="$_src_dir/chrome/installer/mac/pkg-dmg"
 
-# For packaging
-_chromium_version=$(cat "$_root_dir"/ungoogled-chromium/chromium_version.txt)
-_ungoogled_revision=$(cat "$_root_dir"/ungoogled-chromium/revision.txt)
-_package_revision=$(cat "$_root_dir"/revision.txt)
+_ad_hoc="${MACOS_AD_HOC_SIGNING:-0}"
+_target_dmg="${1:-}"
+if [[ -z "$_target_dmg" ]]; then
+  _chromium_version="$(cat "$_root_dir/ungoogled-chromium/chromium_version.txt")"
+  _ungoogled_revision="$(cat "$_root_dir/ungoogled-chromium/revision.txt")"
+  _package_revision="$(cat "$_root_dir/revision.txt")"
+  _target_dmg="$_root_dir/build/ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg"
+fi
+
+sign() {
+  if (( _ad_hoc )); then
+    codesign --sign - --force "$@"
+  else
+    codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp "$@"
+  fi
+}
+
+error() {
+  printf '::error::%s\n' "$*" >&2
+}
+
+warning() {
+  printf '::warning::%s\n' "$*" >&2
+}
 
 # Fix issue where macOS requests permission for incoming network connections
 # See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/17
-xattr -cs out/Default/Chromium.app
+xattr -cs "$_app"
 
 # Sign the binary
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier chrome_crashpad_handler --options=restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/chrome_crashpad_handler
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper.app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements $_root_dir/entitlements/helper-renderer-entitlements.plist out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(Renderer\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements $_root_dir/entitlements/helper-gpu-entitlements.plist out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(GPU\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/Chromium\ Helper\ \(Alerts\).app
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier app_mode_loader --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/app_mode_loader
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier web_app_shortcut_copier --options restrict,library,runtime,kill out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Helpers/web_app_shortcut_copier
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libEGL out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libEGL.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libGLESv2 out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libGLESv2.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libvk_swiftshader out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libvk_swiftshader.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier libvulkan out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework/Libraries/libvulkan.dylib
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium.framework out/Default/Chromium.app/Contents/Frameworks/Chromium\ Framework.framework
-codesign --sign "$MACOS_CERTIFICATE_NAME" --force --timestamp --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements $_root_dir/entitlements/app-entitlements.plist --requirements '=designated => identifier "io.ungoogled-software.ungoogled-chromium" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */' out/Default/Chromium.app
+sign --identifier chrome_crashpad_handler --options=restrict,library,runtime,kill "$_helpers/chrome_crashpad_handler"
+sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill "$_helpers/Chromium Helper.app"
+sign --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Renderer).app"
+sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (GPU).app"
+sign --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Alerts).app"
+sign --identifier app_mode_loader --options restrict,library,runtime,kill "$_helpers/app_mode_loader"
+sign --identifier web_app_shortcut_copier --options restrict,library,runtime,kill "$_helpers/web_app_shortcut_copier"
+
+# The dylibs bundled by Chromium vary by release. Sign the files that are
+# actually present instead of maintaining a version-dependent hard-coded list.
+for _dylib in "$_libraries"/*.dylib; do
+  [[ -e "$_dylib" ]] || continue
+  _dylib_name="$(basename "$_dylib" .dylib)"
+  sign --identifier "$_dylib_name" "$_dylib"
+done
+
+sign --identifier io.ungoogled-software.ungoogled-chromium.framework "$_framework"
+if (( _ad_hoc )); then
+  sign --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" "$_app"
+else
+  sign --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" --requirements '=designated => identifier "io.ungoogled-software.ungoogled-chromium" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */' "$_app"
+fi
 
 # Verify the binary signature
-codesign --verify --deep --verbose=4 out/Default/Chromium.app
+verify_dylib() {
+  local dylib="$1"
+  local signature_info
 
-# Pepare app notarization
-ditto -c -k --keepParent "out/Default/Chromium.app" "notarize.zip"
+  codesign --verify --strict --verbose=4 "$dylib"
 
-# Notarize the app
-xcrun notarytool store-credentials "notarytool-profile" --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID" --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID" --password "$PROD_MACOS_NOTARIZATION_PWD"
-notary_submit_output="$(xcrun notarytool submit "notarize.zip" --keychain-profile "notarytool-profile" --wait --output-format json)"
-notary_status="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("status",""))' <<< "$notary_submit_output")"
-notary_submission_id="$(python3 -c 'import json,sys; print(json.load(sys.stdin).get("id",""))' <<< "$notary_submit_output")"
-
-if [[ "$notary_status" != "Accepted" ]]; then
-  echo "Notarization submission was not accepted (status: ${notary_status:-unknown})."
-  if [[ -n "$notary_submission_id" ]]; then
-    echo "Fetching notarization log for submission $notary_submission_id..."
-    xcrun notarytool log "$notary_submission_id" --keychain-profile "notarytool-profile" || true
+  if (( _ad_hoc )); then
+    return
   fi
-  exit 1
-fi
 
-if ! xcrun stapler staple "out/Default/Chromium.app"; then
-  echo "Stapling failed."
-  if [[ -n "$notary_submission_id" ]]; then
-    echo "Fetching notarization log for submission $notary_submission_id..."
-    xcrun notarytool log "$notary_submission_id" --keychain-profile "notarytool-profile" || true
+  signature_info="$(codesign -dvvv "$dylib" 2>&1)"
+  printf '%s\n' "$signature_info"
+
+  if ! grep -q '^Authority=Developer ID Application:' <<< "$signature_info"; then
+    error "${dylib} is not signed with a Developer ID Application certificate"
+    return 1
   fi
-  exit 1
+
+  if ! grep -q '^Timestamp=' <<< "$signature_info"; then
+    error "${dylib} does not have a secure signing timestamp"
+    return 1
+  fi
+}
+
+# Check all framework dylibs to catch signing omissions in future releases.
+for _framework_dylib in "$_libraries"/*.dylib; do
+  verify_dylib "$_framework_dylib"
+done
+
+codesign --verify --deep --strict --verbose=4 "$_app"
+
+notarize_app() {
+  local archive="$TMPDIR/notarize.zip"
+  local result="$TMPDIR/notary-result.json"
+  local log="$TMPDIR/notary-log.json"
+  local status submission_id
+  local submit_exit=0
+  local credentials=(
+    --apple-id "$PROD_MACOS_NOTARIZATION_APPLE_ID"
+    --team-id "$PROD_MACOS_NOTARIZATION_TEAM_ID"
+    --password "$PROD_MACOS_NOTARIZATION_PWD"
+  )
+
+  ditto -c -k --keepParent "$_app" "$archive"
+
+  xcrun notarytool submit --wait --output-format json "${credentials[@]}" "$archive" \
+    > "$result" || submit_exit=$?
+
+  cat "$result"
+
+  status="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("status", ""))' "$result" 2>/dev/null)" || status=""
+  submission_id="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1])).get("id", ""))' "$result" 2>/dev/null)" || submission_id=""
+
+  if [[ -n "$submission_id" ]]; then
+    if xcrun notarytool log "${credentials[@]}" "$submission_id" > "$log"; then
+      cat "$log"
+    else
+      warning "Could not retrieve Apple's notarization log for submission $submission_id"
+      [[ ! -s "$log" ]] || cat "$log" || true
+    fi
+  fi
+
+  if [[ "$status" != "Accepted" ]]; then
+    if [[ -n "$status" ]]; then
+      error "Apple notarization failed with status: $status"
+    elif (( submit_exit != 0 )); then
+      error "notarytool submit failed with exit status $submit_exit"
+    else
+      error "Apple notarization returned no status"
+    fi
+    return 1
+  fi
+
+  if (( submit_exit != 0 )); then
+    error "notarytool submit exited with status $submit_exit despite reporting Accepted"
+    return "$submit_exit"
+  fi
+
+  if [[ -z "$submission_id" ]]; then
+    error "Apple notarization returned Accepted without a submission ID"
+    return 1
+  fi
+
+  xcrun stapler staple "$_app"
+  xcrun stapler validate "$_app"
+}
+
+if (( _ad_hoc )); then
+  printf 'Ad-hoc signing enabled; skipping notarization and stapling.\n'
+else
+  notarize_app
 fi
-
-xcrun stapler validate "out/Default/Chromium.app"
-
-# If you do not have an Apple Developer account to notarize the app, or you do not want to notarize the app
-# comment the lines above and uncomment the following line to use ad-hoc signing.
-# codesign --force --deep --sign - out/Default/Chromium.app
 
 # Package the app
-chrome/installer/mac/pkg-dmg \
-  --sourcefile --source out/Default/Chromium.app \
-  --target "$_root_dir/build/ungoogled-chromium_${_chromium_version}-${_ungoogled_revision}.${_package_revision}_macos.dmg" \
+"$_pkg_dmg" \
+  --sourcefile --source "$_app" \
+  --target "$_target_dmg" \
   --volname Chromium --symlink /Applications:/Applications \
   --format UDBZ --verbosity 2
