@@ -125,10 +125,26 @@ The resulting build is not notarized. The same environment variable can be used 
 
 Once it's complete, a `.dmg` should appear in `build/`.
 
+If compilation completed and only signing, notarization, or DMG creation failed,
+restart packaging from the repository root without rebuilding Chromium:
+
+```sh
+./sign_and_package_app.sh
+```
+
+For an ad-hoc signed package, use:
+
+```sh
+MACOS_AD_HOC_SIGNING=1 ./sign_and_package_app.sh
+```
+
+The regular signing and notarization environment variables listed above must
+still be set when creating a notarized package.
+
 **NOTE**: If the build fails, you must take additional steps before re-running the build:
 
 * If the build fails while downloading the Chromium source code, it can be fixed by removing `build/downloads_cache` and re-running the build instructions.
-* If the build fails at any other point after downloading, it can be fixed by removing `build/src` and re-running the build instructions.
+* If the build fails during source preparation or compilation, it can be fixed by removing `build/src` and re-running the build instructions.
 
 ## Developer info
 

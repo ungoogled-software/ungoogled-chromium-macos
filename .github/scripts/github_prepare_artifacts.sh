@@ -5,7 +5,8 @@ set -euo pipefail
 
 _target_cpu="${1:-x86_64}"
 
-_root_dir="$(dirname "$(greadlink -f "$0")")"
+_script_dir="$(dirname "$(greadlink -f "$0")")"
+_root_dir="$(greadlink -f "$_script_dir/../..")"
 _src_dir="$_root_dir/build/src"
 
 # If build finished successfully

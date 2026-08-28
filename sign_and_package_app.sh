@@ -3,10 +3,12 @@
 set -euo pipefail
 
 _root_dir="$(dirname "$(greadlink -f "$0")")"
-_app="out/Default/Chromium.app"
+_src_dir="${CHROMIUM_SRC_DIR:-$_root_dir/build/src}"
+_app="$_src_dir/out/Default/Chromium.app"
 _framework="$_app/Contents/Frameworks/Chromium Framework.framework"
 _helpers="$_framework/Helpers"
 _libraries="$_framework/Libraries"
+_pkg_dmg="$_src_dir/chrome/installer/mac/pkg-dmg"
 
 _ad_hoc="${MACOS_AD_HOC_SIGNING:-0}"
 _target_dmg="${1:-}"
@@ -45,10 +47,15 @@ sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options rest
 sign --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Alerts).app"
 sign --identifier app_mode_loader --options restrict,library,runtime,kill "$_helpers/app_mode_loader"
 sign --identifier web_app_shortcut_copier --options restrict,library,runtime,kill "$_helpers/web_app_shortcut_copier"
-sign --identifier libEGL "$_libraries/libEGL.dylib"
-sign --identifier libGLESv2 "$_libraries/libGLESv2.dylib"
-sign --identifier libvk_swiftshader "$_libraries/libvk_swiftshader.dylib"
-sign --identifier libvulkan "$_libraries/libvulkan.dylib"
+
+# The dylibs bundled by Chromium vary by release. Sign the files that are
+# actually present instead of maintaining a version-dependent hard-coded list.
+for _dylib in "$_libraries"/*.dylib; do
+  [[ -e "$_dylib" ]] || continue
+  _dylib_name="$(basename "$_dylib" .dylib)"
+  sign --identifier "$_dylib_name" "$_dylib"
+done
+
 sign --identifier io.ungoogled-software.ungoogled-chromium.framework "$_framework"
 if (( _ad_hoc )); then
   sign --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" "$_app"
@@ -151,7 +158,7 @@ else
 fi
 
 # Package the app
-chrome/installer/mac/pkg-dmg \
+"$_pkg_dmg" \
   --sourcefile --source "$_app" \
   --target "$_target_dmg" \
   --volname Chromium --symlink /Applications:/Applications \
