@@ -6,7 +6,8 @@ set -euo pipefail
 _target_cpu="${1:-x86_64}"
 
 _script_dir="$(dirname "$(greadlink -f "$0")")"
-_root_dir="$(greadlink -f "$_script_dir/../..")"
+_root_dir="${GITHUB_WORKSPACE:-$(git -C "$_script_dir" rev-parse --show-toplevel)}"
+_root_dir="$(greadlink -f "$_root_dir")"
 _src_dir="$_root_dir/build/src"
 
 # If build finished successfully
