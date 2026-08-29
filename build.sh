@@ -31,9 +31,9 @@ rm -rf "$_src_dir/out" || true
 mkdir -p "$_download_cache"
 
 if $clone; then
-  "$_root_dir/retrieve_and_unpack_resource.sh" -g $_arch
+  "$_root_dir/retrieve_and_unpack_resource.py" -g $_arch
 else
-  "$_root_dir/retrieve_and_unpack_resource.sh" -d -g $_arch
+  "$_root_dir/retrieve_and_unpack_resource.py" -d -g $_arch
 fi
 
 mkdir -p "$_src_dir/out/Default"
@@ -56,7 +56,7 @@ fi
 mkdir -p "$_src_dir/third_party/llvm-build/Release+Asserts"
 mkdir -p "$_src_dir/third_party/rust-toolchain/bin"
 
-"$_root_dir/retrieve_and_unpack_resource.sh" -p $_arch
+"$_root_dir/retrieve_and_unpack_resource.py" -p $_arch
 
 cd "$_src_dir"
 

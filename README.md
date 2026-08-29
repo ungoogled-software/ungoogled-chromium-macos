@@ -161,11 +161,13 @@ still be set when creating a notarized package.
 
     ```sh
     mkdir -p build/{src,download_cache}
-    ./retrieve_and_unpack_resource.sh -g arm64  # For Apple Silicon Macs
-    ./retrieve_and_unpack_resource.sh -p arm64  # For Apple Silicon Macs
-    ./retrieve_and_unpack_resource.sh -g x86_64  # For Intel Chip Macs
-    ./retrieve_and_unpack_resource.sh -p x86_64  # For Intel Chip Macs
+    ./retrieve_and_unpack_resource.py --all arm64  # For Apple Silicon Macs
+    ./retrieve_and_unpack_resource.py --all x86_64  # For Intel Chip Macs
     ```
+
+    `--all` retrieves both the generic Chromium source and platform-specific
+    resources. Use `-g` or `-p` to run only the generic or platform-specific
+    phase, respectively.
 
 3. Update Rust toolchain (if necessary)
     1. Check the `RUST_REVISION` constant in file `src/tools/rust/update_rust.py` in build root.
