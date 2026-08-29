@@ -22,7 +22,7 @@
 -    # TODO(crbug.com/534655507): Remove in the next Clang roll.
 -    clang_version = "23"
 -  }
-+  clang_version = "22"
++  clang_version = "23"
  }
  
  # Extension for shared library files (including leading dot).
