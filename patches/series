@@ -15,3 +15,4 @@ ungoogled-chromium/macos/fix-nasm-build-config.patch
 ungoogled-chromium/macos/fix-anyappleos-availability.patch
 ungoogled-chromium/macos/fix-build-without-crubit.patch
 ungoogled-chromium/macos/use-system-python.patch
+ungoogled-chromium/macos/fix-disable-verification-token.patch
