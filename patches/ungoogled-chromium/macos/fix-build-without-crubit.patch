@@ -9,7 +9,7 @@
  }
  
  component("cbor") {
-@@ -37,7 +37,7 @@ component("cbor") {
+@@ -35,7 +35,7 @@ component("cbor") {
      "//base",
    ]
  
@@ -18,7 +18,7 @@
      public_deps = [
        "//build/rust/crubit",
        "//components/cbor/rust:cbor_rust_bindings",
-@@ -63,7 +63,7 @@ source_set("unit_tests") {
+@@ -62,7 +62,7 @@ source_set("unit_tests") {
      "//testing/gtest",
      "//third_party/fuzztest",
    ]
