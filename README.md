@@ -79,6 +79,7 @@ Note that these sponsorship accounts are under the name of `Qubik65536`. All spo
 5. Install GNU coreutils and readline via Homebrew: `brew install coreutils readline`
 6. Unlink binutils to use the one provided with Xcode: `brew unlink binutils`
 7. Install Node.js via Homebrew: `brew install node`
+8. Install esbuild and tsc via Homebrew: `brew install esbuild typescript`
 8. Restart your terminal.
 
 ### Build

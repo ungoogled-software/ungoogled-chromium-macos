@@ -45,6 +45,12 @@ sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options rest
 sign --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Renderer).app"
 sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (GPU).app"
 sign --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Alerts).app"
+if [[ -d "$_helpers/Chromium Helper (Aperitif).app" ]]; then
+  sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Aperitif).app"
+  sign --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Aperitif Renderer).app"
+  sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (Aperitif GPU).app"
+  sign --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Aperitif Alerts).app"
+fi
 sign --identifier app_mode_loader --options restrict,library,runtime,kill "$_helpers/app_mode_loader"
 sign --identifier web_app_shortcut_copier --options restrict,library,runtime,kill "$_helpers/web_app_shortcut_copier"
 

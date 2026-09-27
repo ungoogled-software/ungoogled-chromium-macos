@@ -6,3 +6,6 @@ brew install go ninja coreutils --overwrite
 
 # Install PySocks and httplib2 for Python from PyPI
 pip3 install PySocks httplib2 --break-system-packages
+
+# Install ESBuild and TypeScript from Homebrew
+brew install esbuild typescript
