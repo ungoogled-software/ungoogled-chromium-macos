@@ -19,3 +19,4 @@ ungoogled-chromium/macos/fix-disable-verification-token.patch
 ungoogled-chromium/macos/fix-esbuild.patch
 ungoogled-chromium/macos/fix-typescript.patch
 ungoogled-chromium/macos/fix-gn-compatibility.patch
+ungoogled-chromium/macos/fix-typescript-isolated-declarations.patch
