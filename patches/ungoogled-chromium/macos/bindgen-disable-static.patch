@@ -1,6 +1,6 @@
 --- a/tools/rust/build_bindgen.py
 +++ b/tools/rust/build_bindgen.py
-@@ -236,12 +236,11 @@ def main():
+@@ -232,12 +232,11 @@ def main():
          ]
          + cargo_shared_args
      )

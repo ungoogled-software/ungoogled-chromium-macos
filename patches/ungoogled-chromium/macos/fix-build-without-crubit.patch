@@ -24,9 +24,9 @@
    ]
 -  if (!is_cronet_build) {
 +  if (enable_cpp_api_from_rust) {
-     deps += [ "//components/cbor/rust:cbor_rust_unittests" ]
-   }
- 
+     deps += [
+       "//components/cbor/rust:cbor_rust_bindings",
+       "//components/cbor/rust:cbor_rust_unittests",
 --- a/components/web_package/BUILD.gn
 +++ b/components/web_package/BUILD.gn
 @@ -40,7 +40,6 @@ static_library("web_package") {
@@ -591,46 +591,34 @@
  rust_static_library("rustfft_ffi") {
    allow_unsafe = true  # Needed for FFI that underpins the `cxx` crate.
    crate_root = "audio/rustfft_ffi.rs"
-@@ -1794,7 +1806,6 @@ component("platform") {
+@@ -712,8 +724,6 @@ component("platform") {
+     "fonts/generic_font_family_settings.cc",
+     "fonts/generic_font_family_settings.h",
+     "fonts/glyph_metrics_map.h",
+-    "fonts/ift/ift_patcher.cc",
+-    "fonts/ift/ift_patcher.h",
+     "fonts/opentype/color_table_lookup.cc",
+     "fonts/opentype/color_table_lookup.h",
+     "fonts/opentype/font_format_check.cc",
+@@ -1794,7 +1804,6 @@ component("platform") {
      ":allow_discouraged_type",
      ":blink_platform_public_deps",
      ":platform_export",
 -    "//build/rust/crubit",
+     "//components/language_detection/core",
      "//gpu/command_buffer/client:raster_interface",
      "//media/capture:capture_lib",
-     "//mojo/public/cpp/base",
-@@ -1821,8 +1832,8 @@ component("platform") {
+@@ -1821,9 +1830,8 @@ component("platform") {
      "//ui/native_theme/features",
    ]
    deps = [
 +    ":font_format_check",
      ":rustfft_ffi",
 -    "fonts:font_format_bindings",
+-    "fonts:ift_patcher_bindings",
      "//base:base_static",
      "//base/allocator:buildflags",
      "//build:chromecast_buildflags",
---- a/third_party/blink/renderer/platform/fonts/BUILD.gn
-+++ /dev/null
-@@ -1,19 +0,0 @@
--# Copyright 2026 The Chromium Authors
--# Use of this source code is governed by a BSD-style license that can be
--# found in the LICENSE file.
--
--import("//build/rust/rust_static_library.gni")
--
--rust_static_library("font_format") {
--  crate_root = "opentype/format_check.rs"
--  sources = [ crate_root ]
--  cpp_api_from_rust = {
--    target_name = "font_format_bindings"
--    cpp_namespace = "font_format"
--  }
--  deps = [
--    "//third_party/rust/font_types/v0_12:lib",
--    "//third_party/rust/read_fonts/v0_43:lib",
--    "//third_party/rust/skrifa/v0_46:lib",
--  ]
--}
 --- a/third_party/blink/renderer/platform/fonts/opentype/font_format_check.cc
 +++ b/third_party/blink/renderer/platform/fonts/opentype/font_format_check.cc
 @@ -7,6 +7,7 @@
@@ -725,96 +713,3 @@
  };
  
  }  // namespace blink
---- a/third_party/blink/renderer/platform/fonts/opentype/format_check.rs
-+++ b/third_party/blink/renderer/platform/fonts/opentype/format_check.rs
-@@ -23,7 +23,7 @@ pub struct FontFormatInfo {
-     format_flags: Option<FontFormatFlags>,
- }
- 
--pub fn get_font_format_info(font_bytes: &[u8]) -> FontFormatInfo {
-+pub fn get_font_format_info(font_bytes: &[u8]) -> Box<FontFormatInfo> {
-     let file_ref = make_font_ref_internal(font_bytes, 0);
- 
-     match file_ref {
-@@ -32,11 +32,11 @@ pub fn get_font_format_info(font_bytes:
-                 font.table_directory().table_records().iter().map(|e| e.tag()).collect();
-             let color_version = get_colr_version(&font);
-             let avar_version = get_avar_version(&font);
--            FontFormatInfo {
-+            Box::new(FontFormatInfo {
-                 format_flags: Some(FontFormatFlags { table_tags, color_version, avar_version }),
--            }
-+            })
-         }
--        _ => FontFormatInfo::default(),
-+        _ => Box::new(FontFormatInfo::default()),
-     }
- }
- 
-@@ -44,10 +44,10 @@ fn get_colr_version(font_ref: &FontRef)
-     Some(font_ref.colr().ok()?.version())
- }
- 
--pub fn is_colrv1(format_info: &FontFormatInfo) -> bool {
-+fn is_colrv1(format_info: &FontFormatInfo) -> bool {
-     matches!(&format_info.format_flags, Some(FontFormatFlags { color_version: Some(1), .. }),)
- }
--pub fn is_colrv0(format_info: &FontFormatInfo) -> bool {
-+fn is_colrv0(format_info: &FontFormatInfo) -> bool {
-     matches!(&format_info.format_flags, Some(FontFormatFlags { color_version: Some(0), .. }),)
- }
- 
-@@ -56,7 +56,7 @@ fn get_avar_version(font_ref: &FontRef)
-     Some((version.major, version.minor))
- }
- 
--pub fn is_avar2(format_info: &FontFormatInfo) -> bool {
-+fn is_avar2(format_info: &FontFormatInfo) -> bool {
-     matches!(&format_info.format_flags, Some(FontFormatFlags { avar_version: Some((2, _)), .. }),)
- }
- 
-@@ -69,22 +69,39 @@ fn has_tags(format_info: &FontFormatInfo
-     }
- }
- 
--pub fn is_variable(format_info: &FontFormatInfo) -> bool {
-+fn is_variable(format_info: &FontFormatInfo) -> bool {
-     has_tags(format_info, &[Tag::new(b"fvar")])
- }
- 
--pub fn is_sbix(format_info: &FontFormatInfo) -> bool {
-+fn is_sbix(format_info: &FontFormatInfo) -> bool {
-     has_tags(format_info, &[Tag::new(b"sbix")])
- }
- 
--pub fn is_cbdt_cblc(format_info: &FontFormatInfo) -> bool {
-+fn is_cbdt_cblc(format_info: &FontFormatInfo) -> bool {
-     has_tags(format_info, &[Tag::new(b"CBDT"), Tag::new(b"CBLC")])
- }
- 
--pub fn is_ebdt_eblc(format_info: &FontFormatInfo) -> bool {
-+fn is_ebdt_eblc(format_info: &FontFormatInfo) -> bool {
-     has_tags(format_info, &[Tag::new(b"EBDT"), Tag::new(b"EBLC")])
- }
- 
--pub fn is_cff2(format_info: &FontFormatInfo) -> bool {
-+fn is_cff2(format_info: &FontFormatInfo) -> bool {
-     has_tags(format_info, &[Tag::new(b"CFF2")])
- }
-+
-+#[cxx::bridge(namespace = "font_format_check")]
-+pub mod ffi {
-+    extern "Rust" {
-+        type FontFormatInfo;
-+
-+        fn get_font_format_info(font_bytes: &[u8]) -> Box<FontFormatInfo>;
-+        fn is_colrv1(format_info: &FontFormatInfo) -> bool;
-+        fn is_colrv0(format_info: &FontFormatInfo) -> bool;
-+        fn is_cbdt_cblc(format_info: &FontFormatInfo) -> bool;
-+        fn is_ebdt_eblc(format_info: &FontFormatInfo) -> bool;
-+        fn is_variable(format_info: &FontFormatInfo) -> bool;
-+        fn is_sbix(format_info: &FontFormatInfo) -> bool;
-+        fn is_cff2(format_info: &FontFormatInfo) -> bool;
-+        fn is_avar2(format_info: &FontFormatInfo) -> bool;
-+    }
-+}
