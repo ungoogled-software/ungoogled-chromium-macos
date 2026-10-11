@@ -18,3 +18,4 @@ ungoogled-chromium/macos/use-system-python.patch
 ungoogled-chromium/macos/fix-disable-verification-token.patch
 ungoogled-chromium/macos/fix-esbuild.patch
 ungoogled-chromium/macos/fix-typescript.patch
+ungoogled-chromium/macos/fix-gn-compatibility.patch
