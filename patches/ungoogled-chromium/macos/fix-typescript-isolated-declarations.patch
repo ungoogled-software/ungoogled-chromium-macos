@@ -1,14 +1,3 @@
---- a/third_party/devtools-frontend/src/front_end/core/host/DispatchHttpRequestClient.ts
-+++ b/third_party/devtools-frontend/src/front_end/core/host/DispatchHttpRequestClient.ts
-@@ -14,7 +14,7 @@ export enum ErrorType {
- }
- 
- export class DispatchHttpRequestError extends Error {
--  constructor(readonly type: ErrorType, readonly response?: DispatchHttpRequestResult, options?: ErrorOptions) {
-+  constructor(readonly type: ErrorType, readonly response?: DispatchHttpRequestResult | undefined, options?: ErrorOptions) {
-     super(undefined, options);
-   }
- }
 --- a/third_party/devtools-frontend/src/front_end/ui/legacy/ARIAUtils.ts
 +++ b/third_party/devtools-frontend/src/front_end/ui/legacy/ARIAUtils.ts
 @@ -420,7 +420,7 @@ export class LiveAnnouncer {
