@@ -14,3 +14,5 @@ proprietary_codecs=true
 symbol_level=1
 use_thin_lto=true
 use_sysroot=false
+# Use Torque instance types without requiring matching libclang Python bindings.
+v8_use_metagen_instance_types=false
