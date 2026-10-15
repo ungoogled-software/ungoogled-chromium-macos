@@ -2,10 +2,10 @@
 
 --- a/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
 +++ b/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
-@@ -139,62 +139,7 @@ class HandlerStarter final : public Noti
-       const std::vector<std::string>& arguments,
+@@ -142,69 +142,7 @@ class HandlerStarter final : public Noti
        bool restartable,
-       const std::vector<base::FilePath>& attachments) {
+       const std::vector<base::FilePath>& attachments,
+       const std::set<FileHandle>& preserve_file_handles) {
 -    base::apple::ScopedMachReceiveRight receive_right(
 -        NewMachPort(MACH_PORT_RIGHT_RECEIVE));
 -    if (!receive_right.is_valid()) {
@@ -47,13 +47,20 @@
 -                     std::move(receive_right),
 -                     handler_restarter.get(),
 -                     false,
--                     attachments)) {
+-                     attachments,
+-                     preserve_file_handles)) {
 -      return base::apple::ScopedMachSendRight();
 -    }
 -
--    if (handler_restarter && handler_restarter->StartRestartThread(
--                                 handler, database, metrics_dir, url,
--                                 annotations, arguments, attachments)) {
+-    if (handler_restarter &&
+-        handler_restarter->StartRestartThread(handler,
+-                                              database,
+-                                              metrics_dir,
+-                                              url,
+-                                              annotations,
+-                                              arguments,
+-                                              attachments,
+-                                              preserve_file_handles)) {
 -      // The thread owns the object now.
 -      std::ignore = handler_restarter.release();
 -    }
@@ -62,14 +69,14 @@
 -    // handler_restarter will be released when this function returns.
 -
 -    return send_right;
-+    return base::apple::ScopedMachSendRight();
++    return base::apple::ScopedMachSendRight();    
    }
  
    // NotifyServer::DefaultInterface:
-@@ -470,25 +415,7 @@ bool CrashpadClient::StartHandler(
-     bool restartable,
+@@ -486,26 +424,7 @@ bool CrashpadClient::StartHandler(
      bool asynchronous_start,
-     const std::vector<base::FilePath>& attachments) {
+     const std::vector<base::FilePath>& attachments,
+     const std::set<FileHandle>& preserve_file_handles) {
 -  // The “restartable” behavior can only be selected on OS X 10.10 and later. In
 -  // previous OS versions, if the initial client were to crash while attempting
 -  // to restart the handler, it would become an unkillable process.
@@ -82,7 +89,8 @@
 -      arguments,
 -      restartable && (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10 ||
 -                      MacOSVersionNumber() >= 10'10'00),
--      attachments));
+-      attachments,
+-      preserve_file_handles));
 -  if (!exception_port.is_valid()) {
 -    return false;
 -  }

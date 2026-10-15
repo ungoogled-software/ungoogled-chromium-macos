@@ -1,6 +1,6 @@
 --- a/v8/BUILD.gn
 +++ b/v8/BUILD.gn
-@@ -2000,6 +2000,32 @@ config("always_turbofanimize") {
+@@ -2020,6 +2020,32 @@ config("always_turbofanimize") {
    }
  }
  

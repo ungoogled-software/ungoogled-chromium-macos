@@ -12,6 +12,7 @@ import platform
 import shutil
 import subprocess
 import sys
+import tempfile
 from pathlib import Path
 
 
@@ -152,6 +153,7 @@ def _clone_recipe_hash() -> str:
     """Hash inputs that affect the source preparation performed by clone.py."""
     hasher = hashlib.sha256()
     for path in (
+        Path(__file__),
         UTILS_DIR / "clone.py",
         UTILS_DIR / "depot_tools.patch",
         UTILS_DIR / "gsutil.patch",
@@ -159,6 +161,42 @@ def _clone_recipe_hash() -> str:
         hasher.update(path.name.encode())
         hasher.update(path.read_bytes())
     return hasher.hexdigest()
+
+
+def _clone_source(pgo_profile: str) -> None:
+    """Run upstream cloning with a local compatibility fix for GN args paths."""
+    patch = (UTILS_DIR / "depot_tools.patch").read_text()
+    old = (
+        '+        if self._gn_args_file and self._gn_args_file[0:3] == "src":\n'
+        '+            self._gn_args_file = r"UC_OUT"+self._gn_args_file[3:]\n'
+    )
+    if patch.count(old) != 1:
+        raise RuntimeError("Upstream depot_tools patch changed; review the GN args compatibility fix")
+    patch = patch.replace(old, (
+        '+        if self._gn_args_file and not local_scope.get("use_relative_paths", False) and self._gn_args_file.startswith("src/"):\n'
+        '+            self._gn_args_file = self._gn_args_file[4:]\n'
+    ))
+    patch += (
+        '\n--- a/gclient.py\n+++ b/gclient.py\n'
+        '@@ -1631,6 +1631,8 @@\n'
+        '         path_prefix = self.root.root_dir\n'
+        '         if self._use_relative_paths:\n'
+        '             path_prefix = os.path.join(path_prefix, self.name)\n'
+        '+        else:\n'
+        '+            path_prefix = r"UC_OUT"\n'
+        '\n'
+        '         if not gclient_eval.IsSafeGNArgsPath(self._gn_args_file):\n'
+        '             raise gclient_utils.Error(\n'
+    )
+    with tempfile.TemporaryDirectory(prefix="chromium-clone-") as temporary:
+        root = Path(temporary)
+        utils = root / "utils"
+        utils.mkdir()
+        for name in ("clone.py", "_common.py", "gsutil.patch"):
+            shutil.copy2(UTILS_DIR / name, utils / name)
+        shutil.copy2(MAIN_REPO / "chromium_version.txt", root / "chromium_version.txt")
+        (utils / "depot_tools.patch").write_text(patch)
+        _run(sys.executable, utils / "clone.py", "-p", pgo_profile, "-o", SRC_DIR)
 
 
 def _git_bytes(*args: str) -> bytes | None:
@@ -302,8 +340,7 @@ def _retrieve_generic(target_cpu: str, clone: bool) -> None:
             return
 
         _remove(CLONE_STATE)
-        _run(sys.executable, MAIN_REPO / "utils" / "clone.py", "-p", pgo_profile,
-             "-o", SRC_DIR)
+        _clone_source(pgo_profile)
         _write_clone_state(pgo_profile)
     else:
         _remove(CLONE_STATE)

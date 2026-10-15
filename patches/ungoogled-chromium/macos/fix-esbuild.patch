@@ -27,30 +27,18 @@
  // This needs to be after the ESBUILD_BINARY_PATH is set
 --- a/third_party/devtools-frontend/src/scripts/build/ninja/bundle.gni
 +++ b/third_party/devtools-frontend/src/scripts/build/ninja/bundle.gni
-@@ -35,7 +35,7 @@ template("bundle") {
-       devtools_location_prepend + "scripts/devtools_paths.js",
-     ]
+@@ -58,7 +58,7 @@ template("bundle") {
+       inputs += [ _entrypoints_file ]
+     }
  
 -    _esbuild = devtools_location_prepend + "third_party/esbuild/esbuild"
 +    _esbuild = "/opt/homebrew/bin/esbuild"
      if (host_os == "win") {
        inputs += [ _esbuild + ".exe" ]
      } else {
---- a/third_party/devtools-frontend/src/scripts/build/typescript/typescript.gni
-+++ b/third_party/devtools-frontend/src/scripts/build/typescript/typescript.gni
-@@ -190,7 +190,7 @@ template("legacy_ts_library") {
- 
-     if (devtools_skip_typecheck) {
-       args += [ "--use-esbuild" ]
--      _esbuild = devtools_location_prepend + "third_party/esbuild/esbuild"
-+      _esbuild = "/opt/homebrew/bin/esbuild"
-       if (host_os == "win") {
-         inputs += [ _esbuild + ".exe" ]
-       } else {
 --- a/third_party/devtools-frontend/src/scripts/devtools_paths.py
 +++ b/third_party/devtools-frontend/src/scripts/devtools_paths.py
-@@ -54,10 +54,10 @@ def node_modules_path():
-     return path.join(devtools_root_path(), 'node_modules')
+@@ -55,7 +55,7 @@ def node_modules_path():
  
  
  def esbuild_path():
@@ -59,5 +47,3 @@
  
  
  def license_checker_path():
-     return path.join(node_modules_path(), 'license-checker', 'bin',
-                      'license-checker')
