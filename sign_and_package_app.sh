@@ -10,6 +10,12 @@ _helpers="$_framework/Helpers"
 _libraries="$_framework/Libraries"
 _pkg_dmg="$_src_dir/chrome/installer/mac/pkg-dmg"
 
+# Sign every bundle with its own bundle identifier. If the code signing
+# identifier differs from CFBundleIdentifier, macOS privacy permissions such as
+# Local Network access do not take effect.
+# See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/361
+_bundle_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$_app/Contents/Info.plist")"
+
 _ad_hoc="${MACOS_AD_HOC_SIGNING:-0}"
 _target_dmg="${1:-}"
 if [[ -z "$_target_dmg" ]]; then
@@ -41,15 +47,15 @@ xattr -cs "$_app"
 
 # Sign the binary
 sign --identifier chrome_crashpad_handler --options=restrict,library,runtime,kill "$_helpers/chrome_crashpad_handler"
-sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill "$_helpers/Chromium Helper.app"
-sign --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Renderer).app"
-sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (GPU).app"
-sign --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Alerts).app"
+sign --identifier "$_bundle_id.helper" --options restrict,library,runtime,kill "$_helpers/Chromium Helper.app"
+sign --identifier "$_bundle_id.helper.renderer" --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Renderer).app"
+sign --identifier "$_bundle_id.helper" --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (GPU).app"
+sign --identifier "$_bundle_id.framework.AlertNotificationService" --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Alerts).app"
 if [[ -d "$_helpers/Chromium Helper (Aperitif).app" ]]; then
-  sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Aperitif).app"
-  sign --identifier io.ungoogled-software.ungoogled-chromium.helper.renderer --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Aperitif Renderer).app"
-  sign --identifier io.ungoogled-software.ungoogled-chromium.helper --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (Aperitif GPU).app"
-  sign --identifier io.ungoogled-software.ungoogled-chromium.framework.AlertNotificationService --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Aperitif Alerts).app"
+  sign --identifier "$_bundle_id.helper" --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Aperitif).app"
+  sign --identifier "$_bundle_id.helper.renderer" --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-renderer-entitlements.plist" "$_helpers/Chromium Helper (Aperitif Renderer).app"
+  sign --identifier "$_bundle_id.helper" --options restrict,kill,runtime --entitlements "$_root_dir/entitlements/helper-gpu-entitlements.plist" "$_helpers/Chromium Helper (Aperitif GPU).app"
+  sign --identifier "$_bundle_id.framework.AlertNotificationService" --options restrict,library,runtime,kill "$_helpers/Chromium Helper (Aperitif Alerts).app"
 fi
 sign --identifier app_mode_loader --options restrict,library,runtime,kill "$_helpers/app_mode_loader"
 sign --identifier web_app_shortcut_copier --options restrict,library,runtime,kill "$_helpers/web_app_shortcut_copier"
@@ -62,11 +68,11 @@ for _dylib in "$_libraries"/*.dylib; do
   sign --identifier "$_dylib_name" "$_dylib"
 done
 
-sign --identifier io.ungoogled-software.ungoogled-chromium.framework "$_framework"
+sign --identifier "$_bundle_id.framework" "$_framework"
 if (( _ad_hoc )); then
-  sign --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" "$_app"
+  sign --identifier "$_bundle_id" --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" "$_app"
 else
-  sign --identifier io.ungoogled-software.ungoogled-chromium --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" --requirements '=designated => identifier "io.ungoogled-software.ungoogled-chromium" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */' "$_app"
+  sign --identifier "$_bundle_id" --options restrict,library,runtime,kill --entitlements "$_root_dir/entitlements/app-entitlements.plist" --requirements "=designated => identifier \"$_bundle_id\" and anchor apple generic and certificate 1[field.1.2.840.113635.100.6.2.6] /* exists */ and certificate leaf[field.1.2.840.113635.100.6.1.13] /* exists */" "$_app"
 fi
 
 # Verify the binary signature
@@ -100,6 +106,26 @@ for _framework_dylib in "$_libraries"/*.dylib; do
 done
 
 codesign --verify --deep --strict --verbose=4 "$_app"
+
+# Check that every bundle is signed with its own bundle identifier
+verify_identifier() {
+  local bundle="$1"
+  local info_plist="$2"
+  local bundle_id signing_id
+
+  bundle_id="$(/usr/libexec/PlistBuddy -c 'Print :CFBundleIdentifier' "$info_plist")"
+  signing_id="$(codesign -dv "$bundle" 2>&1 | sed -n 's/^Identifier=//p')"
+
+  if [[ "$signing_id" != "$bundle_id" ]]; then
+    error "${bundle} is signed as ${signing_id} but its bundle identifier is ${bundle_id}"
+    return 1
+  fi
+}
+
+for _bundle in "$_app" "$_helpers"/*.app; do
+  verify_identifier "$_bundle" "$_bundle/Contents/Info.plist"
+done
+verify_identifier "$_framework" "$_framework/Resources/Info.plist"
 
 notarize_app() {
   local archive="$TMPDIR/notarize.zip"

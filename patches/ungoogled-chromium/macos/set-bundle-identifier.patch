@@ -1,0 +1,35 @@
+# Use io.ungoogled-software.ungoogled-chromium as the macOS bundle identifier.
+#
+# The release builds are signed with this identifier, while the bundle
+# identifier was org.chromium.Chromium. macOS stores privacy permissions such
+# as Local Network access under the bundle identifier, so with two different
+# identifiers the permission never takes effect. It also avoids signing the
+# app under the org.chromium namespace.
+#
+# tweak_info_plist.py only adds the "chromium" URL scheme for known bundle
+# identifiers, so the new one is added there as well.
+#
+# See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/361
+
+--- a/chrome/app/theme/chromium/BRANDING
++++ b/chrome/app/theme/chromium/BRANDING
+@@ -5,6 +5,6 @@
+ PRODUCT_INSTALLER_FULLNAME=Chromium Installer
+ PRODUCT_INSTALLER_SHORTNAME=Chromium Installer
+ COPYRIGHT=Copyright @LASTCHANGE_YEAR@ The Chromium Authors. All rights reserved.
+-MAC_BUNDLE_ID=org.chromium.Chromium
++MAC_BUNDLE_ID=io.ungoogled-software.ungoogled-chromium
+ MAC_CREATOR_CODE=Cr24
+ MAC_TEAM_ID=
+--- a/build/apple/tweak_info_plist.py
++++ b/build/apple/tweak_info_plist.py
+@@ -296,7 +296,8 @@
+         # in chrome/browser/shell_integration_mac.mm.
+         # Note: chrome/installer/mac/signing/modification.py handles removing
+         # this scheme for non-stable channels during signing.
+-    elif bundle_identifier == 'org.chromium.Chromium':
++    elif bundle_identifier in ('org.chromium.Chromium',
++                               'io.ungoogled-software.ungoogled-chromium'):
+         scheme = 'chromium'
+ 
+     url_types = plist.get('CFBundleURLTypes')
