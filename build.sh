@@ -12,10 +12,29 @@ _main_repo="$_root_dir/ungoogled-chromium"
 
 # Clone to get the Chromium Source
 clone=true
-while getopts 'd' OPTION; do
+_sdk_path=""
+while getopts ':ds:h' OPTION; do
   case "$OPTION" in
     d)
       clone=false
+      ;;
+    s)
+      _sdk_path=$OPTARG
+      if [[ ! -d "$_sdk_path" || ! -f "$_sdk_path/SDKSettings.json" ]]; then
+        echo "Invalid macOS SDK directory: $_sdk_path" >&2
+        exit 1
+      fi
+      _sdk_path="$(greadlink -f "$_sdk_path")"
+      ;;
+    h)
+      echo "Usage: $0 [-d] [-s SDK_PATH] [arm64|x86_64]"
+      echo "  -d             Reuse downloaded source archives"
+      echo "  -s SDK_PATH    Use this macOS SDK for Chromium and bindgen (default: automatic)"
+      exit 0
+      ;;
+    *)
+      echo "Usage: $0 [-d] [-s SDK_PATH] [arm64|x86_64]" >&2
+      exit 1
       ;;
   esac
 done
@@ -23,6 +42,11 @@ done
 shift "$(($OPTIND -1))"
 
 _arch=${1:-arm64}
+
+if [[ -n "$_sdk_path" ]]; then
+  # build_bindgen.py asks xcrun for the SDK; SDKROOT controls that selection.
+  export SDKROOT="$_sdk_path"
+fi
 
 # Add local clang and build tools to PATH
 # export PATH="$PATH:$_src_dir/third_party/llvm-build/Release+Asserts/bin"
@@ -45,6 +69,13 @@ python3 "$_main_repo/utils/patches.py" apply "$_src_dir" "$_main_repo/patches" "
 python3 "$_main_repo/utils/domain_substitution.py" apply -r "$_main_repo/domain_regex.list" -f "$_main_repo/domain_substitution.list" "$_src_dir"
 # Set build flags
 cat "$_main_repo/flags.gn" "$_root_dir/flags.macos.gn" > "$_src_dir/out/Default/args.gn"
+
+if [[ -n "$_sdk_path" ]]; then
+  # Chromium's sdk_inputs action requires its SDK path inside root_build_dir.
+  mkdir -p "$_src_dir/out/Default/sdk"
+  ln -s "$_sdk_path" "$_src_dir/out/Default/sdk/selected_macos_sdk"
+  echo 'mac_sdk_path = "//out/Default/sdk/selected_macos_sdk"' >> "$_src_dir/out/Default/args.gn"
+fi
 
 # Set target_cpu to the corresponding architecture
 if [[ $_arch == "arm64" ]]; then

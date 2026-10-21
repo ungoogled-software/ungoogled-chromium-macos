@@ -116,6 +116,17 @@ or, if you want to build for x86_64 on an Apple Silicon Mac:
 ./build.sh x86_64
 ```
 
+To select a specific macOS SDK, pass `-s` before the architecture:
+
+```sh
+./build.sh -s /Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk arm64
+```
+
+Without `-s`, Chromium selects the SDK automatically. The option overrides
+`mac_sdk_path` from the flags files and exports `SDKROOT` so bindgen uses the same
+SDK for that invocation. It does not change the minimum supported macOS version.
+Run `./build.sh -h` for available options.
+
 If you don't have an Apple Developer ID, you can create an ad-hoc signed build by setting `MACOS_AD_HOC_SIGNING=1`:
 
 ```sh
