@@ -28,13 +28,16 @@
          if (strict_deps) {
 --- a/third_party/devtools-frontend/src/front_end/models/ai_assistance/skills/BUILD.gn
 +++ b/third_party/devtools-frontend/src/front_end/models/ai_assistance/skills/BUILD.gn
-@@ -53,7 +53,4 @@ action_foreach("_generate_skills") {
+@@ -56,10 +56,4 @@ action_foreach("_generate_skills") {
  
  group("generate_skills") {
    public_deps = [ ":_generate_skills" ]
 -  public_inputs =
 -      process_file_template(_skill_sources,
--                            [ "$target_gen_dir/{{source_name_part}}.skill.js" ])
+-                            [
+-                              "$target_gen_dir/{{source_name_part}}.skill.js",
+-                              "$target_gen_dir/{{source_name_part}}.skill.d.ts",
+-                            ])
  }
 --- a/third_party/devtools-frontend/src/scripts/build/ninja/copy.gni
 +++ b/third_party/devtools-frontend/src/scripts/build/ninja/copy.gni
@@ -71,7 +74,7 @@
        public_deps += invoker.public_deps
 --- a/third_party/devtools-frontend/src/scripts/build/typescript/typescript.gni
 +++ b/third_party/devtools-frontend/src/scripts/build/typescript/typescript.gni
-@@ -229,12 +229,8 @@ template("ts_library") {
+@@ -224,12 +224,8 @@ template("ts_library") {
                                      ])
  
    _has_handwritten_dts = _handwritten_dts != []
@@ -84,7 +87,7 @@
  
      copy(_copy_dts_target) {
        if (defined(invoker.testonly)) {
-@@ -319,9 +315,6 @@ template("ts_library") {
+@@ -314,9 +310,6 @@ template("ts_library") {
      _ref_sources += invoker.additional_type_definitions
    }
    _compiled_sources = rebase_path(_ref_sources, target_gen_dir)
@@ -94,7 +97,7 @@
  
    # Sub-target 2: Generate tsconfig.ref.json for downstream consumers.
    # Downstream dependents point to this tsconfig.ref.json as a project
-@@ -359,10 +352,6 @@ template("ts_library") {
+@@ -354,10 +347,6 @@ template("ts_library") {
      if (defined(invoker.testonly)) {
        testonly = invoker.testonly
      }
@@ -105,7 +108,7 @@
      public_deps = _non_ts_deps + _sources_deps
    }
  
-@@ -394,9 +383,6 @@ template("ts_library") {
+@@ -389,9 +378,6 @@ template("ts_library") {
        inputs += invoker.inputs
      }
  
@@ -115,7 +118,7 @@
  
      if (_test_only) {
        inputs += typescript_test_types_inputs
-@@ -453,8 +439,6 @@ template("ts_library") {
+@@ -448,8 +434,6 @@ template("ts_library") {
      if (_has_handwritten_dts) {
        public_deps += [ ":$_copy_dts_target" ]
      }
