@@ -2,7 +2,7 @@
 
 --- a/chrome/browser/extensions/BUILD.gn
 +++ b/chrome/browser/extensions/BUILD.gn
-@@ -878,9 +878,6 @@ source_set("extensions") {
+@@ -884,9 +884,6 @@ source_set("extensions") {
        # TODO(crbug.com/346472679): Remove this circular dependency.
        "//chrome/browser/web_applications/extensions",
  
@@ -12,7 +12,7 @@
        # TODO(crbug.com/343037853): Remove this circular dependency.
        "//chrome/browser/themes",
  
-@@ -908,7 +905,6 @@ source_set("extensions") {
+@@ -914,7 +911,6 @@ source_set("extensions") {
        "//chrome/common",
        "//chrome/common/extensions/api",
        "//components/omnibox/browser",
@@ -22,7 +22,7 @@
        "//content/public/browser",
 --- a/chrome/browser/ui/BUILD.gn
 +++ b/chrome/browser/ui/BUILD.gn
-@@ -1043,7 +1043,6 @@ static_library("ui") {
+@@ -1801,7 +1801,6 @@ static_library("ui") {
      "//components/policy/core/browser",
      "//components/qr_code_generator:bitmap_generator",
      "//components/resources",
@@ -30,7 +30,7 @@
      "//components/search_engines",
      "//components/security_interstitials/content:security_interstitial_page",
      "//components/signin/public/identity_manager",
-@@ -3804,7 +3803,6 @@ group("ui_public_dependencies") {
+@@ -4705,7 +4704,6 @@ group("ui_public_dependencies") {
      "//components/dom_distiller/core",
      "//components/enterprise/buildflags",
      "//components/paint_preview/buildflags",
@@ -53,7 +53,7 @@
        "obfuscated_archive_analysis_delegate.cc",
 --- a/chrome/browser/policy/configuration_policy_handler_list_factory.cc
 +++ b/chrome/browser/policy/configuration_policy_handler_list_factory.cc
-@@ -2456,22 +2456,6 @@ const PolicyToPreferenceMapEntry kSimple
+@@ -2451,22 +2451,6 @@ const PolicyToPreferenceMapEntry kSimple
      base::Value::Type::BOOLEAN },
  #endif
  
@@ -78,7 +78,7 @@
      ash::prefs::kAuthenticationFlowAutoReloadInterval,
 --- a/chrome/test/BUILD.gn
 +++ b/chrome/test/BUILD.gn
-@@ -5724,8 +5724,6 @@ test("unit_tests") {
+@@ -5744,8 +5744,6 @@ test("unit_tests") {
        "//chrome/browser/ui/cocoa:unit_tests",
        "//chrome/browser/ui/cocoa/test:unit_tests",
        "//chrome/common/notifications",
@@ -89,7 +89,7 @@
        "//chrome/utility/safe_browsing",
 --- a/chrome/browser/chrome_content_browser_client.cc
 +++ b/chrome/browser/chrome_content_browser_client.cc
-@@ -8389,33 +8389,6 @@ bool ChromeContentBrowserClient::SetupEm
+@@ -8528,33 +8528,6 @@ bool ChromeContentBrowserClient::SetupEm
      CHECK(!soda_language_pack_path.empty());
      CHECK(serializer->SetParameter(sandbox::policy::kParamSodaLanguagePackPath,
                                     soda_language_pack_path.value()));
