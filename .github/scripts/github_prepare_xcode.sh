@@ -3,7 +3,7 @@
 set -euo pipefail
 shopt -s extglob
 
-BASE_XCODE_PATH=/Applications/Xcode_26.0.app
+BASE_XCODE_PATH=/Applications/Xcode_26.5.app
 
 if [ ! -e "$BASE_XCODE_PATH" ]; then
   echo "Failed to find a suitable version of Xcode"
