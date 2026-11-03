@@ -1,0 +1,28 @@
+# Declare why Chromium accesses the local network in the app and helper bundles.
+# The shared helper plist covers the network service, renderer, and other helpers.
+# Keep this in the build templates so it is present before code signing.
+#
+# See https://github.com/ungoogled-software/ungoogled-chromium-macos/issues/361
+
+--- a/chrome/app/app-Info.plist
++++ b/chrome/app/app-Info.plist
+@@ -217,6 +217,8 @@
+ 	<true/>
+ 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
+ 	<false/>
++	<key>NSLocalNetworkUsageDescription</key>
++	<string>Chromium uses your local network to access websites and devices on your network.</string>
+ 	<key>NSPrincipalClass</key>
+ 	<string>BrowserCrApplication</string>
+ 	<key>NSSupportsAutomaticGraphicsSwitching</key>
+--- a/chrome/app/helper-Info.plist
++++ b/chrome/app/helper-Info.plist
+@@ -31,6 +31,8 @@
+ 	<string>1</string>
+ 	<key>NSCameraReactionEffectGesturesEnabledDefault</key>
+ 	<false/>
++	<key>NSLocalNetworkUsageDescription</key>
++	<string>Chromium uses your local network to access websites and devices on your network.</string>
+ 	<key>NSSupportsAutomaticGraphicsSwitching</key>
+ 	<true/>
+ 	<key>NSCameraUseContinuityCameraDeviceType</key>
