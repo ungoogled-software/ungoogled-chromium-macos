@@ -31,6 +31,6 @@
    # TODO(crbug.com/423789047): Remove this flag once fully committed to v7.
 -  use_typescript_go = true
 +  use_typescript_go = false
- }
  
- if (enable_cast_receiver || is_cast_android || is_castos) {
+   # Enable the WebUI tab strip new tab button
+   # (chrome://tabstrip-ntb.top-chrome).

@@ -13,7 +13,7 @@
 
 --- a/chrome/app/theme/chromium/BRANDING
 +++ b/chrome/app/theme/chromium/BRANDING
-@@ -5,6 +5,6 @@
+@@ -5,6 +5,6 @@ PRODUCT_SHORTNAME=Chromium
  PRODUCT_INSTALLER_FULLNAME=Chromium Installer
  PRODUCT_INSTALLER_SHORTNAME=Chromium Installer
  COPYRIGHT=Copyright @LASTCHANGE_YEAR@ The Chromium Authors. All rights reserved.
@@ -23,7 +23,7 @@
  MAC_TEAM_ID=
 --- a/build/apple/tweak_info_plist.py
 +++ b/build/apple/tweak_info_plist.py
-@@ -296,7 +296,8 @@
+@@ -295,7 +295,8 @@ def _SetDirectLaunchUrlScheme(plist, bun
          # in chrome/browser/shell_integration_mac.mm.
          # Note: chrome/installer/mac/signing/modification.py handles removing
          # this scheme for non-stable channels during signing.
