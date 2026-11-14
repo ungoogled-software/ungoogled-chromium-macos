@@ -187,13 +187,14 @@ still be set when creating a notarized package.
     2. Get date for nightly Rust build from Rust's GitHub repository.
         * The page URL for our example is `https://github.com/rust-lang/rust/commit/22be76b7e259f27bf3e55eb931f354cd8b69d55f`
             1. In this case, the corresponding nightly build date is `2025-06-23`.
-            2. Adapt the version number in `downloads-{arm64,x86-64}{,-rustlib}.ini` accordingly.
+            2. Adapt the version number in `downloads-{arm64,x86-64}{,-rustlib}.ini` accordingly (including the `[rustc-dev]` sections).
     3. Get the information of the latest nightly build and adapt configurations accordingly.
        1. Download the latest nightly build from the Rust website.
             * For our example, the download URL for Apple Silicon Macs is `https://static.rust-lang.org/dist/2025-06-23/rust-nightly-aarch64-apple-darwin.tar.gz`
             * For our example, the download URL for Intel Chip Macs is `https://static.rust-lang.org/dist/2025-06-23/rust-nightly-x86_64-apple-darwin.tar.gz`
        2. Extract the archive.
        3. Adapt the content of `patches/ungoogled-chromium/macos/fix-build-with-rust.patch` with the output of `rustc/bin/rustc -V | tr -dc '[:alnum:]'`
+    4. Check the `CRUBIT_REVISION` constant in file `src/tools/rust/update_rust.py` and adapt the version and `sha512` of the `[crubit]` sections in `downloads-{arm64,x86-64}.ini` accordingly.
 4. Switch to src directory
 
     ```sh
