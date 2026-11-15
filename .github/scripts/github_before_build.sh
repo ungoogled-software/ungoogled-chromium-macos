@@ -31,7 +31,8 @@ if [[ ! -f "$_esbuild_module/package.json" ]] || \
   npm install --prefix "$_root_dir/build/esbuild-node" --no-save --package-lock=false --no-bin-links --ignore-scripts --omit=optional --no-audit --no-fund "esbuild@$_esbuild_version"
 fi
 rm -rf third_party/devtools-frontend/src/node_modules/esbuild
-ln -s "$_esbuild_module" third_party/devtools-frontend/src/node_modules/esbuild
+# Copy instead of symlinking, as only build/src is archived between CI jobs
+cp -R "$_esbuild_module" third_party/devtools-frontend/src/node_modules/esbuild
 
 ./tools/gn/bootstrap/bootstrap.py -o out/Default/gn --skip-generate-buildfiles
 ./tools/rust/build_bindgen.py --skip-test
