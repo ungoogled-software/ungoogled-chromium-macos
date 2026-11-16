@@ -1,6 +1,6 @@
 --- a/tools/rust/build_bindgen.py
 +++ b/tools/rust/build_bindgen.py
-@@ -235,12 +235,11 @@ def main():
+@@ -161,12 +161,11 @@ def main():
          ]
          + cargo_shared_args
      )
@@ -8,9 +8,9 @@
      cargo_args = [
          'build',
          f'--target={rust_target}',
-         f'--no-default-features',
--        f'--features=logging' + static_feature,
-+        f'--features=logging',
+         '--no-default-features',
+-        '--features=logging' + static_feature,
++        '--features=logging',
          '--release',
          '--bin',
          'bindgen',

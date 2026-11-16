@@ -363,6 +363,9 @@ def _retrieve_platform_specific(target_cpu: str) -> None:
     _remove(SRC_DIR / "third_party" / "node" / "mac_arm64")
     (SRC_DIR / "third_party" / "llvm-build" / "Release+Asserts").mkdir(
         parents=True, exist_ok=True)
+    # The extractor only creates the last component of an output path.
+    (SRC_DIR / "third_party" / "rust-toolchain" / "crubit" / "lib" / "third_party").mkdir(
+        parents=True, exist_ok=True)
 
     if host_arch == "arm64":
         node_dir = SRC_DIR / "third_party" / "node" / "mac_arm64" / "node-darwin-arm64"
@@ -391,6 +394,19 @@ def _retrieve_platform_specific(target_cpu: str) -> None:
         rust_dir / "rustfmt-preview" / "bin" / "rustfmt")
     rustc_lib_dir.symlink_to(rust_lib_dir)
     (rust_dir / "rustfmt-preview" / "lib").symlink_to(rust_dir / "rustc" / "lib")
+    # Crubit uses rust_sysroot (i.e. the root of the Rust toolchain) as sysroot.
+    (rust_dir / "lib" / "rustlib").symlink_to(rust_dir / "rustc" / "lib" / "rustlib")
+
+    # Add the rustc_private crates from rustc-dev to the host sysroot, so that
+    # Crubit's cc_bindings_from_rs can be built.
+    rustc_dev_lib_dir = rust_dir / "rustc-dev" / "lib" / "rustlib" / rust_name / "lib"
+    for rustc_dev_lib in rustc_dev_lib_dir.iterdir():
+        rustc_dev_lib.rename(rust_lib_dir / rustc_dev_lib.name)
+
+    # Install libLLVM to the host sysroot like the llvm-tools component does.
+    # It is linked by rustc_private crates, and loaded by rust-objcopy.
+    (rust_dir / "llvm-tools-preview" / "lib" / "rustlib" / rust_name / "lib" /
+     "libLLVM.dylib").rename(rust_lib_dir / "libLLVM.dylib")
 
     llvm_bin_dir = SRC_DIR / "third_party" / "llvm-build" / "Release+Asserts" / "bin"
     (llvm_bin_dir / "install_name_tool").symlink_to(

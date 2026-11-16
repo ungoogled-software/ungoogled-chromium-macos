@@ -1,8 +1,8 @@
 --- a/tools/rust/build_bindgen.py
 +++ b/tools/rust/build_bindgen.py
-@@ -45,10 +45,7 @@
+@@ -45,10 +45,7 @@ from build import (
  from update import RmTree
-
+ 
  BINDGEN_GIT_VERSION = BINDGEN_REVISION
 -BINDGEN_GIT_REPO = (
 -    'https://chromium.googlesource.com/external/'
@@ -12,11 +12,10 @@
  
  BINDGEN_SRC_DIR = os.path.join(
      THIRD_PARTY_DIR, 'rust-toolchain-intermediate', 'bindgen-src'
-@@ -117,17 +114,10 @@ def RunCargo(cargo_args):
-         )
-         sys.exit(1)
+@@ -93,16 +90,7 @@ def RunCargo(cargo_args):
+     if sys.platform.startswith('linux'):
+         ncursesw_dir = FetchNcurseswLibrary()
  
--    clang_bins_dir = os.path.join(RUST_HOST_LLVM_INSTALL_DIR, 'bin')
 -    llvm_dir = RUST_HOST_LLVM_INSTALL_DIR
 -
 -    if not os.path.exists(os.path.join(llvm_dir, 'bin', f'llvm-config{EXE}')):
@@ -27,14 +26,11 @@
 -            f'are needed here.'
 -        )
 -        sys.exit(1)
-+    clang_bins_dir = os.path.join(
-+        THIRD_PARTY_DIR, 'llvm-build', 'Release+Asserts', 'bin'
-+    )
 +    llvm_dir = os.path.join(THIRD_PARTY_DIR, 'llvm-build', 'Release+Asserts')
  
-     env = collections.defaultdict(str, os.environ)
-     # Cargo normally stores files in $HOME. Override this.
-@@ -252,7 +242,7 @@ def main():
+     env = GetHostCargoEnv()
+ 
+@@ -180,7 +168,7 @@ def main():
      install_dir = os.path.join(RUST_TOOLCHAIN_OUT_DIR)
      print(f'Installing bindgen to {install_dir} ...')
  
@@ -43,3 +39,22 @@
      shutil.copy(
          os.path.join(build_dir, RustTargetTriple(), 'release', f'bindgen{EXE}'),
          os.path.join(install_dir, 'bin'),
+--- a/tools/rust/host_tools.py
++++ b/tools/rust/host_tools.py
+@@ -23,10 +23,14 @@ import sys
+ from build_rust import (
+     CARGO_HOME_DIR,
+     GetMacSdkPath,
+-    RUST_HOST_LLVM_INSTALL_DIR,
+     RustTargetTriple,
+ )
+-from update_rust import RUST_TOOLCHAIN_OUT_DIR
++from update_rust import RUST_TOOLCHAIN_OUT_DIR, THIRD_PARTY_DIR
++
++# Use the prebuilt LLVM toolchain instead of the one built by build_rust.py.
++RUST_HOST_LLVM_INSTALL_DIR = os.path.join(
++    THIRD_PARTY_DIR, 'llvm-build', 'Release+Asserts'
++)
+ 
+ # Get variables and helpers from Clang update script
+ sys.path.append(

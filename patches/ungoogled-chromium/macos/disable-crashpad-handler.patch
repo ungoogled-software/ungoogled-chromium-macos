@@ -2,10 +2,10 @@
 
 --- a/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
 +++ b/third_party/crashpad/crashpad/client/crashpad_client_mac.cc
-@@ -142,69 +142,7 @@ class HandlerStarter final : public Noti
-       bool restartable,
+@@ -143,70 +143,7 @@ class HandlerStarter final : public Noti
        const std::vector<base::FilePath>& attachments,
-       const std::set<FileHandle>& preserve_file_handles) {
+       const std::set<FileHandle>& preserve_file_handles,
+       base::apple::ScopedMachReceiveRight embedder_port) {
 -    base::apple::ScopedMachReceiveRight receive_right(
 -        NewMachPort(MACH_PORT_RIGHT_RECEIVE));
 -    if (!receive_right.is_valid()) {
@@ -48,7 +48,8 @@
 -                     handler_restarter.get(),
 -                     false,
 -                     attachments,
--                     preserve_file_handles)) {
+-                     preserve_file_handles,
+-                     std::move(embedder_port))) {
 -      return base::apple::ScopedMachSendRight();
 -    }
 -
@@ -73,10 +74,10 @@
    }
  
    // NotifyServer::DefaultInterface:
-@@ -486,26 +424,7 @@ bool CrashpadClient::StartHandler(
-     bool asynchronous_start,
+@@ -495,27 +432,7 @@ bool CrashpadClient::StartHandler(
      const std::vector<base::FilePath>& attachments,
-     const std::set<FileHandle>& preserve_file_handles) {
+     const std::set<FileHandle>& preserve_file_handles,
+     base::apple::ScopedMachReceiveRight embedder_port) {
 -  // The “restartable” behavior can only be selected on OS X 10.10 and later. In
 -  // previous OS versions, if the initial client were to crash while attempting
 -  // to restart the handler, it would become an unkillable process.
@@ -90,7 +91,8 @@
 -      restartable && (__MAC_OS_X_VERSION_MIN_REQUIRED >= __MAC_10_10 ||
 -                      MacOSVersionNumber() >= 10'10'00),
 -      attachments,
--      preserve_file_handles));
+-      preserve_file_handles,
+-      std::move(embedder_port)));
 -  if (!exception_port.is_valid()) {
 -    return false;
 -  }

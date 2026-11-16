@@ -11,8 +11,9 @@ is_clang=true
 is_debug=false
 is_official_build=true
 proprietary_codecs=true
+rust_crubit_root="//third_party/rust-toolchain/crubit"
 symbol_level=1
 use_thin_lto=true
 use_sysroot=false
 # Use Torque instance types without requiring matching libclang Python bindings.
-v8_use_metagen_instance_types=false
+v8_use_metagen=false
